@@ -8,9 +8,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Shippori+Mincho+B1:wght@500;800&family=Noto+Serif+JP:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#f6f2e8;
-    --paper-2:#efe7d5;
-    --paper-3:#e6dcc4;
+    --paper:#f2ecdb;
+    --paper-2:#eae0c8;
+    --paper-3:#e0d4b8;
     --ink:#1c1a16;
     --ink-soft:#6e6553;
     --ink-faint:#a89f8c;
@@ -47,23 +47,23 @@
   header.site{
     display:flex; justify-content:space-between; align-items:center;
     padding:22px 6vw;
-    border-bottom:1px solid var(--line);
-    position:sticky; top:0; background:rgba(246,242,232,0.9);
-    backdrop-filter:blur(8px);
+    background:var(--ink);
+    position:sticky; top:0;
     z-index:10;
+    box-shadow:0 1px 0 rgba(0,0,0,0.15);
   }
-  header.site .brand{ display:flex; align-items:center; gap:12px; color:var(--ink); }
-  header.site .brand .en{ font-size:0.9rem; letter-spacing:0.2em; font-weight:600; color:var(--ink); }
+  header.site .brand{ display:flex; align-items:center; gap:12px; color:var(--paper); }
+  header.site .brand .en{ font-size:0.9rem; letter-spacing:0.2em; font-weight:600; color:var(--paper); }
   header.site nav{ display:flex; gap:32px; }
   header.site nav a{
-    font-family:'Cinzel', serif; font-size:0.66rem; letter-spacing:0.1em; color:var(--ink-soft);
-    position:relative; padding-bottom:4px;
+    font-family:'Cinzel', serif; font-size:0.66rem; letter-spacing:0.1em; color:var(--paper-3);
+    position:relative; padding-bottom:4px; opacity:0.85;
   }
   header.site nav a::after{
     content:""; position:absolute; left:0; bottom:0; width:0; height:1px;
-    background:var(--gold); transition:width 0.3s ease;
+    background:var(--gold-bright); transition:width 0.3s ease;
   }
-  header.site nav a:hover{ color:var(--ink); }
+  header.site nav a:hover{ color:var(--paper); opacity:1; }
   header.site nav a:hover::after{ width:100%; }
 
   .wrap{ max-width:1120px; margin:0 auto; padding:0 6vw; }
@@ -102,7 +102,13 @@
 
   /* ===== announcement strip ===== */
   .strip{
-    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    background:var(--paper-2);
+    border-bottom:1px solid var(--line);
+  }
+  .strip-item .date{
+    font-family:'Cinzel', serif; font-size:0.58rem; color:var(--paper);
+    background:var(--gold-deep); padding:2px 8px; border-radius:1px;
+    white-space:nowrap; align-self:flex-start; margin-top:1px;
   }
   .strip-inner{
     display:flex; justify-content:space-between; align-items:center;
@@ -114,10 +120,9 @@
   .strip a.more{ font-family:'Cinzel', serif; font-size:0.64rem; letter-spacing:0.08em; color:var(--ink-soft); }
   .strip-items{ padding:0 0 22px; }
   .strip-item{
-    display:flex; gap:22px; padding:11px 0; border-top:1px dashed var(--line);
+    display:flex; align-items:baseline; gap:22px; padding:11px 0; border-top:1px dashed var(--line);
     font-size:0.82rem; color:var(--ink-soft);
   }
-  .strip-item .date{ font-family:'Cinzel', serif; font-size:0.62rem; color:var(--ink-faint); white-space:nowrap; padding-top:2px; }
 
   /* ===== Section shell ===== */
   section{ border-bottom:1px solid var(--line); padding:86px 0; }
@@ -207,7 +212,8 @@
   }
   .contact-grid a.btn:hover{ background:var(--ink); color:var(--paper); }
 
-  footer{ padding:44px 0 70px; display:flex; justify-content:space-between; align-items:center; font-family:'Cinzel', serif; font-size:0.58rem; color:var(--ink-faint); letter-spacing:0.08em; }
+  .footer-band{ background:var(--ink); }
+  footer{ padding:36px 0; display:flex; justify-content:space-between; align-items:center; font-family:'Cinzel', serif; font-size:0.58rem; color:var(--paper-3); letter-spacing:0.08em; opacity:0.85; }
 
   @media (max-width:780px){
     header.site nav{ display:none; }
@@ -225,7 +231,7 @@
 
   <header class="site">
     <div class="brand">
-      <svg class="tree-mark" width="20" height="28" viewBox="0 0 100 150" style="color:var(--ink);">
+      <svg class="tree-mark" width="20" height="28" viewBox="0 0 100 150" style="color:var(--gold-bright);">
         <g class="path-line">
           <line x1="50" y1="10" x2="72" y2="30"/><line x1="50" y1="10" x2="28" y2="30"/><line x1="50" y1="10" x2="50" y2="75"/>
           <line x1="72" y1="30" x2="28" y2="30"/><line x1="72" y1="30" x2="72" y2="60"/><line x1="72" y1="30" x2="50" y2="75"/>
@@ -448,11 +454,13 @@
     </div>
   </section>
 
-  <div class="wrap">
-    <footer>
-      <span>THE FIXER ASSOCIATION</span>
-      <span>LONDON, EST.</span>
-    </footer>
+  <div class="footer-band">
+    <div class="wrap">
+      <footer>
+        <span>THE FIXER ASSOCIATION</span>
+        <span>LONDON, EST.</span>
+      </footer>
+    </div>
   </div>
 
 </body>
