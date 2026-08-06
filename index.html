@@ -148,7 +148,8 @@
     letter-spacing:0.1em; padding-bottom:14px; border-bottom:1px solid var(--ink);
     margin-bottom:6px;
   }
-  .kv-col .row{ display:flex; gap:16px; padding:13px 0; border-top:1px solid var(--line); font-size:0.87rem; color:var(--ink-soft); }
+  .kv-col .row{ display:flex; gap:16px; padding:13px 0; border-top:1px solid var(--line); font-size:0.87rem; color:var(--ink-soft); transition:background 0.2s ease; }
+  .kv-col .row:hover{ background:var(--paper-2); }
   .kv-col .row .dot{ color:var(--gold); flex-shrink:0; }
 
   /* ===== Rank ledger ===== */
@@ -157,7 +158,8 @@
     font-family:'Cinzel', serif; text-align:left; font-weight:600; font-size:0.6rem;
     color:var(--ink-faint); letter-spacing:0.14em; padding:0 18px 14px 0; border-bottom:1px solid var(--ink);
   }
-  table.ledger td{ padding:18px 18px 18px 0; border-bottom:1px solid var(--line); vertical-align:top; color:var(--ink-soft); }
+  table.ledger td{ padding:18px 18px 18px 0; border-bottom:1px solid var(--line); vertical-align:top; color:var(--ink-soft); transition:background 0.2s ease; }
+  table.ledger tr:hover td{ background:var(--paper-2); }
   .rank-mark{ font-family:'Cinzel', serif; font-weight:600; display:flex; align-items:baseline; gap:10px; }
   .rank-mark .letter{ font-size:1rem; width:1.2em; }
   .rank-mark .bar{ height:1px; width:30px; }
@@ -169,20 +171,31 @@
   tr.rk-S .letter{ color:var(--burgundy); font-size:1.2rem; } tr.rk-S .bar{ background:var(--burgundy); }
 
   /* ===== S-rank directory ===== */
-  .tarot-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(148px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); }
-  .tarot-card{ perspective:1000px; height:204px; background:var(--paper); }
+  .tarot-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(108px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); }
+  .tarot-card{ perspective:1000px; height:148px; background:var(--paper); }
+  .tarot-card.tarot-link{ display:block; color:inherit; text-decoration:none; cursor:pointer; }
   .tarot-card .inner{ position:relative; width:100%; height:100%; transform-style:preserve-3d; transition:transform 0.7s cubic-bezier(.3,.7,.3,1); }
   .tarot-card:hover .inner{ transform:rotateY(180deg); }
-  .tarot-face{ position:absolute; inset:0; backface-visibility:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:16px; text-align:center; }
+  .tarot-face{ position:absolute; inset:0; backface-visibility:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:10px; text-align:center; }
   .tarot-front{ background:var(--paper); }
-  .tarot-front .num{ font-family:'Cinzel', serif; font-size:1.25rem; color:var(--gold-deep); font-weight:600; }
-  .tarot-front .arcana{ font-family:'Cinzel', serif; font-size:0.54rem; letter-spacing:0.1em; color:var(--ink-faint); margin-top:12px; text-transform:uppercase; }
+  .tarot-front .glyph{ font-size:1.05rem; color:var(--gold); line-height:1; margin-bottom:6px; }
+  .tarot-front .glyph img{ height:34px; width:auto; display:block; margin:0 auto; }
+  .tarot-front .num{ font-family:'Cinzel', serif; font-size:1rem; color:var(--gold-deep); font-weight:600; }
+  .tarot-front .arcana{ font-family:'Cinzel', serif; font-size:0.46rem; letter-spacing:0.08em; color:var(--ink-faint); margin-top:8px; text-transform:uppercase; }
   .tarot-back{ background:var(--ink); color:var(--paper); transform:rotateY(180deg); }
-  .tarot-back .name{ font-family:'Shippori Mincho B1', serif; font-size:0.88rem; font-weight:800; letter-spacing:0.03em; }
-  .tarot-back .meaning{ font-size:0.64rem; margin-top:12px; color:var(--paper-3); }
+  .tarot-back .name{ font-family:'Shippori Mincho B1', serif; font-size:0.74rem; font-weight:800; letter-spacing:0.02em; line-height:1.3; }
+  .tarot-back .meaning{ font-size:0.56rem; margin-top:8px; color:var(--paper-3); }
   .tarot-vacant .tarot-front .num{ color:var(--ink-faint); }
+  .tarot-vacant .tarot-front .glyph{ color:var(--ink-faint); opacity:0.6; }
+  .tarot-vacant .tarot-front .glyph img{ opacity:0.55; }
   .tarot-vacant .tarot-back{ background:var(--paper-2); color:var(--ink-soft); }
-  .tarot-vacant .tarot-back .name{ color:var(--ink-soft); font-size:0.76rem; }
+  .tarot-vacant .tarot-back .name{ color:var(--ink-soft); font-size:0.66rem; }
+  .tarot-back .demoted{ margin-top:6px; font-size:0.54rem; color:var(--burgundy); font-family:'JetBrains Mono', monospace; }
+  .tarot-removed .tarot-front .num{ color:#8a8a8a; }
+  .tarot-removed .tarot-front .glyph{ color:#8a8a8a; }
+  .tarot-removed .tarot-front .arcana{ color:#8a8a8a; }
+  .tarot-removed .tarot-back{ background:#2a2a2a; }
+  .tarot-removed .tarot-back .name{ color:#bdbdbd; text-decoration:line-through; font-size:0.7rem; }
   .grid-note{ margin-top:24px; font-size:0.64rem; color:var(--ink-faint); }
 
   /* ===== Four suits — left-aligned list, not centered grid ===== */
@@ -190,8 +203,10 @@
   .suit-row{
     display:grid; grid-template-columns:56px 1fr auto; align-items:center; gap:26px;
     padding:22px 0; border-top:1px solid var(--line);
+    transition:background 0.2s ease;
   }
   .suit-row:last-child{ border-bottom:1px solid var(--line); }
+  .suit-row:hover{ background:var(--paper-2); }
   .suit-row .glyph{ font-size:1.7rem; color:var(--gold-deep); }
   .suit-row .sname{ font-family:'Cinzel', serif; font-size:0.85rem; letter-spacing:0.12em; color:var(--ink); font-weight:600; }
   .suit-row .cap{ font-size:0.78rem; color:var(--ink-faint); text-align:right; }
@@ -199,8 +214,9 @@
   /* ===== Office comparison ===== */
   table.compare{ width:100%; border-collapse:collapse; font-size:0.85rem; }
   table.compare th{ font-family:'Cinzel', serif; font-size:0.6rem; letter-spacing:0.08em; font-weight:600; color:var(--ink-faint); text-align:left; padding:0 14px 14px 0; border-bottom:1px solid var(--ink); }
-  table.compare td{ padding:16px 14px 16px 0; border-bottom:1px solid var(--line); font-size:0.84rem; color:var(--ink-soft); }
+  table.compare td{ padding:16px 14px 16px 0; border-bottom:1px solid var(--line); font-size:0.84rem; color:var(--ink-soft); transition:background 0.2s ease; }
   table.compare tr:last-child td{ border-bottom:none; }
+  table.compare tr:hover td{ background:var(--paper-2); }
 
   /* ===== Contact — split, not boxed & centered ===== */
   .contact-grid{ display:grid; grid-template-columns:1.3fr auto; align-items:end; gap:40px; }
@@ -378,39 +394,99 @@
       </p>
       <div class="tarot-grid">
         <div class="tarot-card scroll-stagger"><div class="inner">
-          <div class="tarot-face tarot-front"><div class="num">0</div><div class="arcana">The Fool</div></div>
+          <div class="tarot-face tarot-front"><div class="glyph"><img src="arcana-0-fool.png" alt=""></div><div class="num">0</div><div class="arcana">The Fool</div></div>
           <div class="tarot-face tarot-back"><div class="name">THE FOOL GUN</div><div class="meaning">始まりと無限の可能性</div></div>
         </div></div>
         <div class="tarot-card scroll-stagger"><div class="inner">
-          <div class="tarot-face tarot-front"><div class="num">Ⅰ</div><div class="arcana">The Magician</div></div>
+          <div class="tarot-face tarot-front"><div class="glyph"><img src="arcana-1-magician.png" alt=""></div><div class="num">Ⅰ</div><div class="arcana">The Magician</div></div>
           <div class="tarot-face tarot-back"><div class="name">MAGICIAN'S ALDEBARAN</div><div class="meaning">あらゆる術理を操る者</div></div>
         </div></div>
         <div class="tarot-card scroll-stagger"><div class="inner">
-          <div class="tarot-face tarot-front"><div class="num">Ⅱ</div><div class="arcana">High Priestess</div></div>
+          <div class="tarot-face tarot-front"><div class="glyph"><img src="arcana-2-highpriestess.png" alt=""></div><div class="num">Ⅱ</div><div class="arcana">High Priestess</div></div>
           <div class="tarot-face tarot-back"><div class="name">BENEVOLENT HIGH PRIESTESS</div><div class="meaning">秘匿された叡智</div></div>
         </div></div>
         <div class="tarot-card tarot-vacant scroll-stagger"><div class="inner">
-          <div class="tarot-face tarot-front"><div class="num">Ⅲ</div><div class="arcana">The Empress</div></div>
+          <div class="tarot-face tarot-front"><div class="glyph"><img src="arcana-3-empress.png" alt=""></div><div class="num">Ⅲ</div><div class="arcana">The Empress</div></div>
           <div class="tarot-face tarot-back"><div class="name">就任予定</div></div>
         </div></div>
         <div class="tarot-card scroll-stagger"><div class="inner">
-          <div class="tarot-face tarot-front"><div class="num">Ⅳ</div><div class="arcana">The Emperor</div></div>
+          <div class="tarot-face tarot-front"><div class="glyph"><img src="arcana-4-emperor.png" alt=""></div><div class="num">Ⅳ</div><div class="arcana">The Emperor</div></div>
           <div class="tarot-face tarot-back"><div class="name">HOWITZER THE EMPEROR</div><div class="meaning">支配と絶対的秩序</div></div>
         </div></div>
+        <div class="tarot-card tarot-vacant scroll-stagger"><div class="inner">
+          <div class="tarot-face tarot-front"><div class="glyph"><img src="arcana-5-hierophant.png" alt=""></div><div class="num">Ⅴ</div><div class="arcana">The Hierophant</div></div>
+          <div class="tarot-face tarot-back"><div class="name">就任予定</div></div>
+        </div></div>
         <div class="tarot-card scroll-stagger"><div class="inner">
-          <div class="tarot-face tarot-front"><div class="num">Ⅶ</div><div class="arcana">The Chariot</div></div>
+          <div class="tarot-face tarot-front"><div class="glyph"><img src="arcana-6-lovers.png" alt=""></div><div class="num">Ⅵ</div><div class="arcana">The Lovers</div></div>
+          <div class="tarot-face tarot-back"><div class="name">ESME THE LOVERS</div><div class="meaning">選択と結びつき</div></div>
+        </div></div>
+        <div class="tarot-card scroll-stagger"><div class="inner">
+          <div class="tarot-face tarot-front"><div class="glyph"><img src="arcana-7-chariot.png" alt=""></div><div class="num">Ⅶ</div><div class="arcana">The Chariot</div></div>
           <div class="tarot-face tarot-back"><div class="name">ADRIAN THE CHARIOT</div><div class="meaning">猛進と勝利への意志</div></div>
         </div></div>
         <div class="tarot-card scroll-stagger"><div class="inner">
-          <div class="tarot-face tarot-front"><div class="num">Ⅸ</div><div class="arcana">The Hermit</div></div>
+          <div class="tarot-face tarot-front"><div class="glyph"><img src="arcana-8-strength.png" alt=""></div><div class="num">Ⅷ</div><div class="arcana">Strength</div></div>
+          <div class="tarot-face tarot-back"><div class="name">STRENGTH OF NEO</div><div class="meaning">制御された力と忍耐</div></div>
+        </div></div>
+        <div class="tarot-card scroll-stagger"><div class="inner">
+          <div class="tarot-face tarot-front"><div class="glyph"><img src="arcana-9-hermit.png" alt=""></div><div class="num">Ⅸ</div><div class="arcana">The Hermit</div></div>
           <div class="tarot-face tarot-back"><div class="name">LYCUS THE HERMIT</div><div class="meaning">孤独に灯す内省の光</div></div>
         </div></div>
         <div class="tarot-card scroll-stagger"><div class="inner">
-          <div class="tarot-face tarot-front"><div class="num">ⅩⅩⅠ</div><div class="arcana">The World</div></div>
+          <div class="tarot-face tarot-front"><div class="glyph"><img src="arcana-10-wheel.png" alt=""></div><div class="num">Ⅹ</div><div class="arcana">Wheel of Fortune</div></div>
+          <div class="tarot-face tarot-back"><div class="name">MOIRA THE WHEEL</div><div class="meaning">巡り、絡み合う運命</div></div>
+        </div></div>
+        <div class="tarot-card scroll-stagger"><div class="inner">
+          <div class="tarot-face tarot-front"><div class="glyph"><img src="arcana-11-justice.png" alt=""></div><div class="num">Ⅺ</div><div class="arcana">Justice</div></div>
+          <div class="tarot-face tarot-back"><div class="name">Oz THE JUSTICE</div><div class="meaning">天秤にかけられる正義</div></div>
+        </div></div>
+        <div class="tarot-card tarot-vacant scroll-stagger"><div class="inner">
+          <div class="tarot-face tarot-front"><div class="glyph"><img src="arcana-12-hangedman.png" alt=""></div><div class="num">ⅩⅡ</div><div class="arcana">The Hanged Man</div></div>
+          <div class="tarot-face tarot-back"><div class="name">就任予定</div></div>
+        </div></div>
+        <a href="grimm-nameless.html" class="tarot-card scroll-stagger tarot-link"><div class="inner">
+          <div class="tarot-face tarot-front"><div class="glyph">&nbsp;</div><div class="num">ⅩⅢ</div><div class="arcana">&nbsp;</div></div>
+          <div class="tarot-face tarot-back"><div class="name">GRIM OF THE DEAD</div><div class="meaning">終焉と再生</div></div>
+        </div></a>
+        <div class="tarot-card scroll-stagger"><div class="inner">
+          <div class="tarot-face tarot-front"><div class="glyph"><img src="arcana-14-temperance.png" alt=""></div><div class="num">ⅩⅣ</div><div class="arcana">Temperance</div></div>
+          <div class="tarot-face tarot-back"><div class="name">KLINE</div><div class="meaning">調和と均衡</div></div>
+        </div></div>
+        <div class="tarot-card scroll-stagger"><div class="inner">
+          <div class="tarot-face tarot-front"><div class="glyph"><img src="arcana-15-devil.png" alt=""></div><div class="num">ⅩⅤ</div><div class="arcana">The Devil</div></div>
+          <div class="tarot-face tarot-back"><div class="name">LORELEY IS DEVIL</div><div class="meaning">誘惑と束縛</div></div>
+        </div></div>
+        <div class="tarot-card scroll-stagger"><div class="inner">
+          <div class="tarot-face tarot-front"><div class="glyph"><img src="arcana-16-tower.png" alt=""></div><div class="num">ⅩⅥ</div><div class="arcana">The Tower</div></div>
+          <div class="tarot-face tarot-back"><div class="name">TTT (TONE THE TOWER), BABEL</div><div class="meaning">崩壊がもたらす啓示</div></div>
+        </div></div>
+        <div class="tarot-card scroll-stagger"><div class="inner">
+          <div class="tarot-face tarot-front"><div class="glyph"><img src="arcana-17-star.png" alt=""></div><div class="num">ⅩⅦ</div><div class="arcana">The Star</div></div>
+          <div class="tarot-face tarot-back"><div class="name">THE STAR GAZER</div><div class="meaning">絶望の後に瞬く希望</div></div>
+        </div></div>
+        <div class="tarot-card scroll-stagger"><div class="inner">
+          <div class="tarot-face tarot-front"><div class="glyph"><img src="arcana-18-moon.png" alt=""></div><div class="num">ⅩⅧ</div><div class="arcana">The Moon</div></div>
+          <div class="tarot-face tarot-back"><div class="name">LUDWIG OF MOON</div><div class="meaning">幻惑と不確かな真実</div><div class="demoted">※D級に降格済み</div></div>
+        </div></div>
+        <div class="tarot-card tarot-vacant scroll-stagger"><div class="inner">
+          <div class="tarot-face tarot-front"><div class="glyph"><img src="arcana-19-sun.png" alt=""></div><div class="num">ⅩⅨ</div><div class="arcana">The Sun</div></div>
+          <div class="tarot-face tarot-back"><div class="name">就任予定</div></div>
+        </div></div>
+        <div class="tarot-card scroll-stagger"><div class="inner">
+          <div class="tarot-face tarot-front"><div class="glyph"><img src="arcana-20-judgement.png" alt=""></div><div class="num">ⅩⅩ</div><div class="arcana">Judgement</div></div>
+          <div class="tarot-face tarot-back"><div class="name">RAFEL THE JUDGEMENT</div><div class="meaning">裁きと魂の目覚め</div></div>
+        </div></div>
+        <div class="tarot-card scroll-stagger"><div class="inner">
+          <div class="tarot-face tarot-front"><div class="glyph"><img src="arcana-21-world.png" alt=""></div><div class="num">ⅩⅩⅠ</div><div class="arcana">The World</div></div>
           <div class="tarot-face tarot-back"><div class="name">CHRISTOPHER THE WORLD</div><div class="meaning">完成と統合</div></div>
         </div></div>
+        <div class="tarot-card tarot-removed scroll-stagger"><div class="inner">
+          <div class="tarot-face tarot-front"><div class="glyph">⊘</div><div class="num">×</div><div class="arcana">Removed</div></div>
+          <div class="tarot-face tarot-back"><div class="name">SWORD</div><div class="meaning" style="color:var(--burgundy);">除名済み ― 協会名簿より抹消</div></div>
+        </div></div>
       </div>
-      <p class="grid-note">一部のみ掲載しています。全メンバーの詳細は所属者名簿ページをご覧ください。</p>
+      <p class="grid-note">大アルカナに準えた22の議席と、除名済みの1席を含む全ての記録です。</p>
     </div>
   </section>
 
