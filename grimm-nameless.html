@@ -218,26 +218,20 @@
   .restricted-content .ability-box .a-body{ color:var(--paper-3); }
   .restricted-content .ability-box .a-body b{ color:var(--paper); }
 
-  /* ===== ability sigil — the emblem art, made to glow against the dark zone ===== */
-  .sigil{
-    position:relative; width:min(58vw, 240px); margin:0 auto 8px;
-    display:flex; align-items:center; justify-content:center;
+  /* ===== ability sigil — a giant watermark bleeding behind the text, not a standalone image ===== */
+  .ability-wrap{ position:relative; }
+  .sigil-bg{
+    position:absolute; z-index:0; pointer-events:none;
+    width:min(58vw, 460px);
+    bottom:-70px; right:-50px;
+    opacity:0.16;
   }
-  .sigil::before{
-    content:""; position:absolute; inset:-15%;
-    background:radial-gradient(circle, rgba(143,124,158,0.32), transparent 68%);
-    filter:blur(8px); z-index:0;
-  }
-  .sigil img{
-    position:relative; z-index:1; width:100%; display:block;
-    filter:invert(1) brightness(0.96);
+  .sigil-bg img{
+    width:100%; display:block;
+    filter:invert(1) brightness(0.92);
     mix-blend-mode:screen;
   }
-  .sigil-cap{
-    text-align:center; margin:14px 0 40px;
-    font-family:'JetBrains Mono', monospace; font-size:0.62rem;
-    color:var(--paper-3); opacity:0.6; letter-spacing:0.08em;
-  }
+  .ability-box{ position:relative; z-index:1; }
 
   @media (max-width:780px){
     .ph-grid{ grid-template-columns:1fr; }
@@ -416,10 +410,9 @@
     <div class="wrap">
       <div class="sec-head"><span class="sec-num">Ⅳ</span><span class="sec-title display">異能</span></div>
 
-      <div class="sigil"><img src="grimm-sigil.png" alt="骸は死を以て死せず ― 異能紋章"></div>
-      <div class="sigil-cap">アンコラプス・コープス — 紋章記録</div>
-
-      <div class="ability-box">
+      <div class="ability-wrap">
+        <div class="sigil-bg"><img src="grimm-sigil.png" alt=""></div>
+        <div class="ability-box">
         <div class="a-name"><ruby>骸は死を以て死せず<rt>アンコラプス・コープス</rt></ruby></div>
         <div class="a-body">
           <b>死と生の摂理を越える異能。</b>この異能の力によって、グリムの身体は常に生命活動を
@@ -430,6 +423,7 @@
           その身体を跡形もなく消し去ってしまえば<b>意識を持続する事が出来ずに本当に死ぬ</b>
           とされている。
         </div>
+      </div>
       </div>
     </div>
   </section>
