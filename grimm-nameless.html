@@ -19,6 +19,8 @@
     --accent-deep:#6c5c7c;
     --accent-pale:#e9e2ee;
     --danger:#a5433a;
+    --dark-zone:#211c28;
+    --gate-bg:#131019;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   html{ scroll-behavior:smooth; }
@@ -111,7 +113,7 @@
   .ability-box .a-body b{ color:var(--ink); }
 
   /* ===== classified gate ===== */
-  .gate{ background:var(--ink); color:var(--paper-3); padding:88px 0; }
+  .gate{ background:var(--gate-bg); color:var(--paper-3); padding:88px 0; }
   .gate .wrap{ max-width:680px; text-align:center; }
   .gate .code{ font-family:'JetBrains Mono', monospace; font-size:0.72rem; color:var(--ink-faint); line-height:2; }
   .gate hr{ border:none; border-top:1px solid rgba(242,236,219,0.15); margin:32px 0; }
@@ -200,7 +202,7 @@
   .restricted-content.unlocked{ max-height:4000px; opacity:1; }
 
   /* darker zone for the clearance-gated content */
-  .restricted-content{ background:var(--ink); }
+  .restricted-content{ background:var(--dark-zone); }
   .restricted-content section{ border-top-color:rgba(242,236,219,0.12); }
   .restricted-content .sec-num{ color:var(--accent); }
   .restricted-content .sec-title{ color:var(--paper); }
@@ -213,23 +215,20 @@
   .restricted-content .equip-card h4{ color:var(--accent); }
   .restricted-content .equip-card p{ color:var(--paper-3); }
   .restricted-content .equip-card .origin{ color:var(--danger); opacity:0.85; }
-  .restricted-content .ability-box{ border-color:var(--accent); background:linear-gradient(180deg, rgba(143,124,158,0.16), transparent 65%); }
+  .restricted-content .ability-box{ border-color:var(--accent); background:rgba(33,28,40,0.9); }
   .restricted-content .ability-box .a-name{ color:var(--accent); }
   .restricted-content .ability-box .a-body{ color:var(--paper-3); }
   .restricted-content .ability-box .a-body b{ color:var(--paper); }
 
-  /* ===== ability sigil — a giant watermark bleeding behind the text, not a standalone image ===== */
+  /* ===== ability sigil — a giant emblem behind the text (pre-composited transparent PNG) ===== */
   .ability-wrap{ position:relative; }
   .sigil-bg{
     position:absolute; z-index:0; pointer-events:none;
-    height:300px; width:auto;
-    bottom:-46px; right:-30px;
+    top:50%; left:50%;
+    width:min(150vw, 1100px);
+    transform:translate(-50%, -50%);
   }
-  .sigil-bg img{
-    height:100%; width:auto; display:block;
-    filter:invert(1) brightness(0.55);
-    mix-blend-mode:screen;
-  }
+  .sigil-bg img{ width:100%; display:block; }
   .ability-box{ position:relative; z-index:1; }
 
   @media (max-width:780px){
@@ -410,7 +409,7 @@
       <div class="sec-head"><span class="sec-num">Ⅳ</span><span class="sec-title display">異能</span></div>
 
       <div class="ability-wrap">
-        <div class="sigil-bg"><img src="grimm-sigil.png" alt=""></div>
+        <div class="sigil-bg"><img src="grimm-sigil-glow.png" alt=""></div>
         <div class="ability-box">
         <div class="a-name"><ruby>骸は死を以て死せず<rt>アンコラプス・コープス</rt></ruby></div>
         <div class="a-body">
