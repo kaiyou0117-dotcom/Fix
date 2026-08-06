@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>■■■■■ ― 破損データ復元記録</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Shippori+Mincho+B1:wght@500;800&family=Noto+Serif+JP:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#0a0808;
+    --void-2:#161010;
+    --void-3:#1f1616;
+    --bone:#dcd5ca;
+    --bone-dim:#8f8378;
+    --blood:#c81e2e;
+    --blood-deep:#7a1015;
+    --blood-glow:#ff3d3d;
+    --line:rgba(220,213,202,0.12);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{ scroll-behavior:smooth; }
+  body{ background:var(--void); color:var(--bone); font-family:'Noto Serif JP', serif; line-height:1.95; }
+  .en{ font-family:'Cinzel', serif; }
+  .display{ font-family:'Shippori Mincho B1', serif; }
+  .mono{ font-family:'JetBrains Mono', monospace; letter-spacing:0.03em; }
+  a{ color:inherit; }
+  ruby rt{ font-size:0.55em; color:var(--bone-dim); letter-spacing:0; }
+  .wrap{ max-width:880px; margin:0 auto; padding:0 6vw; }
+
+  /* corner status marker — replaces the association header entirely */
+  .corner-status{
+    position:fixed; top:18px; left:22px; z-index:30;
+    font-family:'JetBrains Mono', monospace; font-size:0.62rem; color:var(--blood);
+    display:flex; align-items:center; gap:8px; letter-spacing:0.06em;
+  }
+  .corner-status .dot{ width:6px; height:6px; border-radius:50%; background:var(--blood); animation:blink 1.4s infinite; }
+  @keyframes blink{ 0%,100%{opacity:1;} 50%{opacity:0.25;} }
+
+  /* ===== decrypt overlay ===== */
+  .decrypt{
+    position:fixed; inset:0; z-index:9999; background:var(--void);
+    display:flex; align-items:center; justify-content:center;
+    transition:opacity 0.5s ease, visibility 0.5s ease;
+  }
+  .decrypt.hide{ opacity:0; visibility:hidden; pointer-events:none; }
+  .decrypt-inner{ text-align:center; }
+  .decrypt-title{
+    font-family:'Cinzel', serif; font-size:0.86rem; letter-spacing:0.3em; color:var(--blood-glow);
+    text-shadow:0 0 14px rgba(255,61,61,0.55);
+  }
+  .decrypt-bar{ width:220px; height:2px; background:rgba(220,213,202,0.12); margin:26px auto 16px; overflow:hidden; }
+  .decrypt-bar-fill{ height:100%; width:0%; background:var(--blood); transition:width 0.4s steps(6); }
+  .decrypt-status{ font-family:'JetBrains Mono', monospace; font-size:0.7rem; color:var(--bone-dim); min-height:1.4em; }
+
+  /* ===== glitch title ===== */
+  .glitch{
+    color:var(--bone);
+    text-shadow:2px 0 var(--blood-glow), -2px 0 #2fd0d6;
+    animation:glitchShift 3.2s infinite steps(1);
+  }
+  @keyframes glitchShift{
+    0%,100%{ text-shadow:2px 0 var(--blood-glow), -2px 0 #2fd0d6; }
+    22%{ text-shadow:-3px 1px var(--blood-glow), 3px -1px #2fd0d6; }
+    46%{ text-shadow:1px -2px var(--blood-glow), -1px 2px #2fd0d6; }
+    68%{ text-shadow:-2px 2px var(--blood-glow), 2px -2px #2fd0d6; }
+    85%{ text-shadow:3px 0 var(--blood-glow), -3px 0 #2fd0d6; }
+  }
+
+  /* ===== corrupted header text (used inside the cutscene) ===== */
+  .corrupt-name{
+    font-family:'JetBrains Mono', monospace; font-weight:700; font-size:clamp(0.9rem,2.4vw,1.3rem);
+    letter-spacing:0.02em; word-break:break-all; line-height:1.6; color:var(--bone);
+  }
+  .corrupt-sub{
+    font-family:'Shippori Mincho B1', serif; font-weight:800;
+    font-size:clamp(1.4rem,4vw,2rem); color:var(--bone); letter-spacing:0.1em;
+  }
+
+  /* ===== system log panels ===== */
+  .syslog-panel{ padding:22px 24px; border:1px solid var(--line); background:var(--void-2); text-align:center; }
+  .syslog-panel p{ font-family:'JetBrains Mono', monospace; font-size:0.74rem; color:var(--bone-dim); line-height:1.9; }
+  .syslog-panel p.strong{ color:var(--bone); font-weight:700; }
+  .syslog-panel p.danger{ color:var(--blood-glow); }
+  .syslog-panel p.red-tag{ color:var(--blood); font-weight:700; }
+
+  /* ===== reveal text (used inside the cutscene) ===== */
+  .reveal-title{ font-family:'Cinzel', serif; font-weight:700; font-size:clamp(2.2rem,6.5vw,3.8rem); color:var(--blood-glow); letter-spacing:0.06em; text-shadow:0 0 30px rgba(200,30,46,0.45); }
+  .reveal-sub{ font-family:'Shippori Mincho B1', serif; font-weight:800; font-size:1.1rem; letter-spacing:0.16em; color:var(--bone-dim); }
+  .reveal-sub b{ color:var(--blood); }
+
+  .portrait-wrap{ max-width:280px; margin:0 auto; border:1px solid var(--blood-deep); }
+  .portrait-wrap img{ width:100%; display:block; filter:contrast(1.06) saturate(0.9); }
+  .quote{
+    max-width:520px; margin:0 auto; font-family:'Shippori Mincho B1', serif; font-weight:800;
+    font-size:1.15rem; color:var(--blood-glow); line-height:1.8;
+  }
+
+  /* ===== stat table (red/black) ===== */
+  .stat-table{ max-width:520px; margin:60px auto 0; border:1px solid var(--blood-deep); }
+  .stat-row{ display:grid; grid-template-columns:150px 1fr; border-bottom:1px solid rgba(200,30,46,0.25); }
+  .stat-row:last-child{ border-bottom:none; }
+  .stat-row .sk{ font-family:'JetBrains Mono', monospace; font-size:0.68rem; color:var(--blood-glow); padding:13px 16px; background:var(--void-3); border-right:1px solid rgba(200,30,46,0.25); }
+  .stat-row .sv{ font-family:'JetBrains Mono', monospace; font-size:0.76rem; color:var(--bone); padding:13px 16px; }
+
+  .identity-plate{ max-width:520px; margin:1px auto 0; background:var(--void-3); border:1px solid var(--blood-deep); border-top:none; padding:26px 16px; text-align:center; }
+  .identity-plate .ip-label{ font-family:'JetBrains Mono', monospace; font-size:0.62rem; color:var(--blood); letter-spacing:0.15em; margin-bottom:10px; }
+  .identity-plate .ip-name{ font-family:'Shippori Mincho B1', serif; font-weight:800; font-size:1.5rem; color:var(--blood-glow); letter-spacing:0.06em; }
+
+  /* ===== sections ===== */
+  section{ border-top:1px solid var(--line); padding:70px 0; }
+  .sec-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:30px; }
+  .sec-num{ font-family:'Cinzel', serif; font-size:1.05rem; color:var(--blood); }
+  .sec-title{ font-family:'Shippori Mincho B1', serif; font-size:1.25rem; font-weight:800; letter-spacing:0.04em; color:var(--bone); }
+  .body-text{ max-width:660px; font-size:0.9rem; color:var(--bone-dim); }
+  .body-text + .body-text{ margin-top:16px; }
+  .body-text b{ color:var(--bone); }
+
+  .big-line{
+    margin:30px 0; font-family:'Shippori Mincho B1', serif; font-weight:800;
+    font-size:clamp(1.9rem,5vw,2.9rem); color:var(--blood-glow); line-height:1.25;
+  }
+
+  .concealment{ margin-top:20px; font-size:0.86rem; color:var(--bone-dim); }
+  .concealment li{ list-style:none; padding-left:18px; position:relative; margin-top:6px; }
+  .concealment li::before{ content:"―"; position:absolute; left:0; color:var(--blood); }
+
+  .danger-note{ margin-top:24px; padding:18px 22px; border-left:3px solid var(--blood); background:var(--void-2); font-size:0.85rem; color:var(--bone-dim); }
+  .danger-note b{ color:var(--blood-glow); }
+
+  /* ===== coffins ===== */
+  .coffin-grid{ margin-top:44px; display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); }
+  .coffin-card{ background:var(--void-2); padding:26px 22px; position:relative; }
+  .coffin-card.primary{ background:var(--void-3); }
+  .coffin-no{ font-family:'JetBrains Mono', monospace; font-size:0.6rem; color:var(--blood); letter-spacing:0.08em; margin-bottom:10px; }
+  .coffin-badge{ position:absolute; top:22px; right:22px; font-family:'JetBrains Mono', monospace; font-size:0.56rem; color:var(--blood-glow); border:1px solid var(--blood-deep); padding:2px 7px; }
+  .coffin-name{ font-family:'Shippori Mincho B1', serif; font-weight:800; font-size:1rem; color:var(--bone); }
+  .coffin-epigraph{ margin-top:10px; font-family:'Shippori Mincho B1', serif; font-style:italic; font-size:0.76rem; color:var(--blood-glow); opacity:0.85; }
+  .coffin-desc{ margin-top:14px; font-size:0.82rem; color:var(--bone-dim); }
+
+  footer{ padding:40px 0 90px; text-align:center; font-family:'JetBrains Mono', monospace; font-size:0.64rem; color:var(--bone-dim); }
+
+  /* persistent warning strip */
+  .track-warning{
+    position:fixed; left:0; right:0; bottom:0; z-index:20;
+    background:var(--blood-deep); color:var(--bone);
+    text-align:center; padding:8px 0;
+    font-family:'JetBrains Mono', monospace; font-size:0.66rem; letter-spacing:0.1em;
+    opacity:0; transform:translateY(100%); transition:opacity 0.6s ease, transform 0.6s ease;
+  }
+  .track-warning.show{ opacity:1; transform:translateY(0); }
+  .track-warning span{ animation:blink 2.2s infinite; }
+
+  /* ===== cutscene: the access-sequence, each beat appears then vanishes ===== */
+  .cutscene{
+    position:fixed; inset:0; z-index:9998; background:var(--void);
+    display:flex; align-items:center; justify-content:center;
+    padding:8vh 6vw; transition:opacity 0.9s ease, visibility 0.9s ease;
+  }
+  .cutscene.hide{ opacity:0; visibility:hidden; pointer-events:none; }
+  .cutscene-inner{ position:relative; width:100%; max-width:620px; min-height:40vh; }
+  .cs-item{
+    position:absolute; inset:0; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; text-align:center; gap:22px;
+    opacity:0; transform:translateY(10px);
+    pointer-events:none;
+  }
+  .cs-item.in{ opacity:1; transform:translateY(0); }
+  .cs-item.cs-quick{ transition:opacity 0.25s ease, transform 0.25s ease; }
+  .cs-item.cs-slow{ transition:opacity 1s ease, transform 1s ease; }
+
+  .syslog-divider{ width:36px; height:1px; background:var(--line); margin:14px auto; }
+
+  /* ===== identity reveal — appears once the cutscene ends, and stays ===== */
+  .identity-reveal{
+    padding:12vh 0 6vh; text-align:center;
+    opacity:0; transform:translateY(14px);
+    transition:opacity 1s ease, transform 1s ease;
+  }
+  .identity-reveal.in{ opacity:1; transform:translateY(0); }
+  .identity-reveal .portrait-wrap{ margin-bottom:34px; }
+
+  /* ===== glitch noise: static burst + screen shake, fired each time a beat appears ===== */
+  .static-overlay{
+    position:fixed; inset:0; z-index:10000; pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    mix-blend-mode:overlay;
+    opacity:0;
+  }
+  .static-overlay.burst{ animation:staticFlicker 0.5s steps(4,end) 1; }
+  @keyframes staticFlicker{
+    0%{ opacity:0; }
+    8%{ opacity:0.55; }
+    16%{ opacity:0.1; }
+    24%{ opacity:0.6; }
+    33%{ opacity:0.08; }
+    42%{ opacity:0.5; }
+    55%{ opacity:0.1; }
+    70%{ opacity:0.35; }
+    85%{ opacity:0.06; }
+    100%{ opacity:0; }
+  }
+  .cutscene.shake{ animation:glitchShake 0.45s linear 1; }
+  @keyframes glitchShake{
+    0%{ transform:translate(0,0) skewX(0deg); filter:none; }
+    8%{ transform:translate(-8px,4px) skewX(-1.2deg); filter:blur(0.5px); }
+    16%{ transform:translate(7px,-5px) skewX(0.8deg); filter:none; }
+    24%{ transform:translate(-6px,5px) skewX(-0.8deg); filter:blur(0.6px); }
+    32%{ transform:translate(8px,-2px) skewX(1.2deg); filter:none; }
+    40%{ transform:translate(-7px,4px) skewX(-0.6deg); filter:blur(0.4px); }
+    50%{ transform:translate(6px,-5px) skewX(0.8deg); filter:none; }
+    62%{ transform:translate(-4px,2px) skewX(-0.5deg); filter:none; }
+    75%{ transform:translate(4px,-3px) skewX(0.5deg); filter:none; }
+    88%{ transform:translate(-2px,1px) skewX(0deg); filter:none; }
+    100%{ transform:translate(0,0) skewX(0deg); filter:none; }
+  }
+  .cutscene-inner{ position:relative; }
+
+  @media (max-width:720px){
+    .coffin-grid{ grid-template-columns:1fr; }
+    .stat-row{ grid-template-columns:120px 1fr; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="corner-status mono">
+    <span class="dot"></span>SIGNAL: UNSTABLE
+  </div>
+
+  <div class="decrypt" id="decrypt">
+    <div class="decrypt-inner">
+      <div class="decrypt-title">DECRYPTING RESTRICTED FILE</div>
+      <div class="decrypt-bar"><div class="decrypt-bar-fill" id="decryptFill"></div></div>
+      <div class="decrypt-status mono" id="decryptStatus">不正アクセスを検知...</div>
+    </div>
+  </div>
+
+  <div class="static-overlay" id="staticOverlay"></div>
+
+  <div class="cutscene" id="cutscene">
+    <div class="cutscene-inner" id="cutsceneInner">
+
+      <div class="cs-item cs-quick" id="cs1">
+        <div class="corrupt-name mono">繧ｶ繝ｻ繝阪?繝?Ξ繧ｹ繝ｻ繧｢繝ｳ繝??繝?う繧ｫ繝ｼ</div>
+        <div class="corrupt-sub">■■■■■──終焉と再生</div>
+      </div>
+
+      <div class="cs-item cs-quick" id="cs2">
+        <div class="syslog-panel">
+          <p class="strong">【秘匿指定コード：CONFIDENTIAL — TYPE 13】</p>
+          <p>このデータベースへの許可無きアクセスは固く禁止されています</p>
+          <p>違反者は追跡、特定、■■されます</p>
+          <div class="syslog-divider"></div>
+          <p class="red-tag">■ 公認S級フィクサーライセンスの認証が確認されました ■</p>
+          <p>データを解凍中。しばらくお待ち下さい</p>
+          <div class="syslog-divider"></div>
+          <p class="strong">■以下の文書は印刷・スクリーンショット・外部送信を原則禁じます■</p>
+          <p class="danger">重大な違反が確認された場合は相応の処置を取らせて頂きます</p>
+        </div>
+      </div>
+
+      <div class="cs-item cs-slow" id="cs3">
+        <div class="reveal-title glitch" data-text="GRIM OF THE DEAD">GRIM OF THE DEAD</div>
+        <div class="reveal-sub"><b>DEATH</b>──死と再生の忌名</div>
+      </div>
+
+      <div class="cs-item cs-slow" id="cs4">
+        <p class="quote">「歓喜なさい。“死”が貴方を迎えに来たわ」</p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="identity-reveal" id="identityReveal">
+      <div class="portrait-wrap">
+        <img src="https://images-ng.pixai.art/gi/orig/5eefec83-4904-49ba-a1e7-5fae1a92b476" alt="">
+      </div>
+      <div class="stat-table">
+        <div class="stat-row"><span class="sk">正式名称</span><span class="sv">擬人生物型対恒久半敵性霊体「死神」</span></div>
+        <div class="stat-row"><span class="sk">体長</span><span class="sv">1m63cm</span></div>
+        <div class="stat-row"><span class="sk">種別</span><span class="sv">II型（生物種族）／半エネミー</span></div>
+        <div class="stat-row"><span class="sk">エネミーレベル</span><span class="sv">不明</span></div>
+      </div>
+        <div class="identity-plate">
+          <div class="ip-label">個体名</div>
+          <div class="ip-name">グリム・タナトフィリア</div>
+        </div>
+      </div>
+
+  </div>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">Ⅰ</span><span class="sec-title display">概要</span></div>
+      <p class="body-text">
+        神霊土体「敵界」のバグポイントのひとつ、完全封鎖都市<b>裏ロンドン</b>にて産声を上げた半エネミーにして───
+      </p>
+      <div class="big-line">死の近縁種そのもの。</div>
+      <p class="body-text">
+        かつて裏ロンドンに居たとある稀人が、戯れに死霊種と関係を持った事に起因して産み落とされた禁忌の落胤。
+        それが<b>【DEATH】</b>のアルカナを冠するS級フィクサー、グリム・ネームレス…もとい
+        <b>グリム・タナトフィリア</b>の正体である。
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">Ⅱ</span><span class="sec-title display">来歴</span></div>
+      <p class="body-text">
+        自分が生まれた理由すらも分からないままその身ひとつで裏ロンドンの街に放り出されることとなった
+        グリムには、<b>既に死体であることであらゆる病理や生命の危機に適応する</b>という埒外の力が宿っていたが、
+        だからといって死の街が彼女に優しい世界という訳ではない。
+      </p>
+      <p class="body-text">
+        <b>魔女の時間</b>外の裏ロンドンは、彼女にとって静か過ぎた。だからこそグリムは途方もない時間と労力を
+        かけてまで、裏エッフェル塔の番人といった強大な敵に向かう決意を固めた。外の世界を、裏ロンドンには
+        存在し得ない生の温もりを知りたかったからこそ。苦しんで、苦しんで、苦しみぬいた末に塔を制し………
+      </p>
+      <div class="big-line">表の世界へと脱出。</div>
+      <p class="body-text">
+        その後、裏ロンドンで拾った貴重な遺留品を売り払ったり、独自にエネミーを狩って生計を立てる中、
+        フィクサー協会に目を付けられることなり今に至る。
+      </p>
+      <p class="body-text">
+        ちなみにグリムがS級フィクサーである事は協会内でも周知の事実ではあるのだが、それが十三番目の
+        アルカナであることはいかなる資料にも<b>敢えて</b>記されていない。
+      </p>
+      <ul class="concealment">
+        <li>単純に不吉</li>
+        <li>マルセイユ版タロットの記名法則に基づいた</li>
+        <li>彼女の素性に常人が近づきすぎない為</li>
+      </ul>
+      <p class="body-text" style="margin-top:20px;">実際はそのどれもが当てはまっている。</p>
+      <div class="danger-note">
+        <b>人の身で死の真理に近づき過ぎる者に対し、命の保証は出来ないからだ。</b>
+        人である彼らには、過剰すぎる警戒が丁度いい。
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">Ⅲ</span><span class="sec-title display">性格</span></div>
+      <p class="body-text">
+        半分ほど人間の血が混じっているからか、彼女にはどの死の近縁種よりも<b>死生観が人間に寄っている傾向</b>
+        が見られる。少なくとも、無闇矢鱈に死を渇望するような真似をする人物ではない。
+      </p>
+      <p class="body-text">
+        彼女にとって、死とは生命循環サイクルの最終行程。理想の死とは今際の際に「いい人生だった」と
+        振り返られるような、家族や子孫に囲まれた円満な老衰である。人も、人以外の生物も…自然に振る舞って
+        いればいずれ死ぬ。それを理解しているからこそ、その生と死の境界は彼女の双眸に美しく映る。
+      </p>
+      <div class="danger-note">
+        故に、<b>“不自然”な死および不老不死に対しては何よりも唾棄し、嫌悪する</b>一面を持つ。
+        人類の味方ではあるが…彼女もまた死の崇拝者であるということは忘れてはいけない。
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">Ⅳ</span><span class="sec-title display">戦闘関連</span></div>
+      <p class="body-text">
+        基礎事項、及び異能に関して特筆すべき追記事項はないので割愛。彼女の齎す死の形は人智を超えた
+        摩訶不思議な力ではなく、裏ロンドンでの死闘の果てに自ずと体得した<b>純然たる暴力</b>。
+        人が最も想起しやすい生命の危機だからこそ、その様は敵対者により克明な恐怖を掻き立てるのだ。
+      </p>
+    </div>
+  </section>
+
+  <section style="border-bottom:none;">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">Ⅴ</span><span class="sec-title display"><ruby>虐殺棺具<rt>ジェノサイド・コフィンズ</rt></ruby></span></div>
+      <p class="body-text">
+        「死神」として戦いに赴く時のみ、グリムが取り扱う特殊異産群。計8つの薄い棺桶のような自律機動翼を
+        鎖で繋いだような本体の内部には、棺ごとに別種の異産が納められている。
+      </p>
+      <div class="danger-note">
+        各武具は裏ロンドン時代から愛用していたエネミーの欠片や異産をそのまま転用している為、
+        <b>常人が携行及び過度に使用し過ぎると裏ロンドンのような敵性異能粒子汚染現象を曝露する。</b>
+        加えて、いずれも現代考古学及び異能の力を以てしても解読不能な文字が記されている。唯一グリムのみが
+        その文を読み解く事が出来るようだが…それが死の近縁種だからなのかは不明。解読した文字にも特段
+        意味がある訳では無いようだ。
+      </div>
+
+      <div class="coffin-grid">
+        <div class="coffin-card primary">
+          <div class="coffin-badge">常用</div>
+          <div class="coffin-no mono">第一の棺</div>
+          <div class="coffin-name"><ruby>処刑人の剣<rt>エクスキューショナーズソード</rt></ruby></div>
+          <div class="coffin-epigraph">〜死は、最も普遍的な友人である〜</div>
+          <div class="coffin-desc">畏怖と権威に頂く処断の刃。刺突攻撃を放棄した幅広の刀身は、敵対する者のみに
+          作用する重みと斬れ味にて死を齎す。この武装のみ、他の虐殺棺具とは異なり平時も棺の外で保管している
+          普段使い用装備である。</div>
+        </div>
+        <div class="coffin-card">
+          <div class="coffin-no mono">第二の棺</div>
+          <div class="coffin-name"><ruby>静寂の孔<rt>ドレインホール</rt></ruby></div>
+          <div class="coffin-epigraph">〜死後の世界などない〜</div>
+          <div class="coffin-desc">敵を異能粒子ごと吸い込む孔。この武装自体に直接的な殺傷性は存在しないが、
+          その分妨害性能に特化している。</div>
+        </div>
+        <div class="coffin-card">
+          <div class="coffin-no mono">第三の棺</div>
+          <div class="coffin-name"><ruby>火葬の双銃<rt>ヘルファイア</rt></ruby></div>
+          <div class="coffin-epigraph">〜死せ。それが命のあるべき姿〜</div>
+          <div class="coffin-desc">骨で組まれた二丁の拳銃。鉄よりも耐熱性の高い骸骨で構成された砲身は、
+          高熱を吐いて完全なる死へと導く。</div>
+        </div>
+        <div class="coffin-card">
+          <div class="coffin-no mono">第四の棺</div>
+          <div class="coffin-name"><ruby>渡し守の呼び声<rt>ハルシネーション</rt></ruby></div>
+          <div class="coffin-epigraph">〜人智を超えた究極の神秘、それこそが死〜</div>
+          <div class="coffin-desc">観るものに幻聴を呼び起こす振り子。伸ばしてムチのように振るったり、敵の
+          拘束にも活用できるが…警戒して直視し続ければより精神を掻き乱されるだろう。</div>
+        </div>
+        <div class="coffin-card">
+          <div class="coffin-no mono">第五の棺</div>
+          <div class="coffin-name"><ruby>余命<rt>タイムリミット</rt></ruby></div>
+          <div class="coffin-epigraph">〜死の帳が、新たな世界の始まりを告げる〜</div>
+          <div class="coffin-desc">TTT機構にて他の棺の力を引き出す古時計。バフの種類は重量強化、脚力強化、
+          斬性強化の三つ。ただし同時使用機構は備えていない。</div>
+        </div>
+        <div class="coffin-card">
+          <div class="coffin-no mono">第六の棺</div>
+          <div class="coffin-name"><ruby>庇護の英雄譚<rt>サクリファイス</rt></ruby></div>
+          <div class="coffin-epigraph">〜死者の尊厳は、新たな生者へと委ねられる〜</div>
+          <div class="coffin-desc">内蔵された数枚の盾を展開・飛翔させる。盾は非常に堅牢だが、受けた衝撃と
+          ダメージは全て所有者のグリムにフィードバックされる。己を削ってでも他人を守る博愛の防壁。</div>
+        </div>
+        <div class="coffin-card">
+          <div class="coffin-no mono">第七の棺</div>
+          <div class="coffin-name"><ruby>復活祭卵<rt>イースターエッグ</rt></ruby></div>
+          <div class="coffin-epigraph">〜殻は破られた。ゆえに人は死を紡ぐ〜</div>
+          <div class="coffin-desc">自律的に転がるタマゴ型の爆弾。起爆スイッチは外殻の破壊。威力は低いが、
+          爆発後は何事も無かったかのように外殻を復元し即時再利用が可能。</div>
+        </div>
+        <div class="coffin-card">
+          <div class="coffin-no mono">第八の棺</div>
+          <div class="coffin-name"><ruby>死刑宣告<rt>デスセンテンス</rt></ruby></div>
+          <div class="coffin-epigraph">〜旧き愚者、等しく死すべし〜</div>
+          <div class="coffin-desc">死神の代名詞たる紫の大鎌。切断部位とその周辺の異能粒子に干渉し、
+          非活性化させることでその出力を削りながら敵を死へと誘う。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>最終更新：[REDACTED] ／ 文書番号：XXX-XXX-XXXX</footer>
+
+  <div class="track-warning mono" id="trackWarning">
+    <span>●</span>&nbsp; 警告：このページへのアクセスは記録されました &nbsp;<span>●</span>
+  </div>
+
+  <script>
+  (function(){
+    var overlay = document.getElementById('decrypt');
+    var fill = document.getElementById('decryptFill');
+    var status = document.getElementById('decryptStatus');
+    var warning = document.getElementById('trackWarning');
+    document.body.style.overflow = 'hidden';
+
+    var steps = [
+      { pct: 20, msg: '不正アクセスを検知...', delay: 300 },
+      { pct: 45, msg: '強制ロック解除プロトコル起動...', delay: 450 },
+      { pct: 72, msg: 'データを解凍中。しばらくお待ち下さい', delay: 550 },
+      { pct: 100, msg: '復元完了', delay: 450 }
+    ];
+    var elapsed = 0;
+    steps.forEach(function(step){
+      elapsed += step.delay;
+      setTimeout(function(){
+        fill.style.width = step.pct + '%';
+        status.textContent = step.msg;
+        if (step.pct === 100){
+          setTimeout(function(){
+            overlay.classList.add('hide');
+            runCutscene();
+          }, 400);
+        }
+      }, elapsed);
+    });
+
+    function runCutscene(){
+      var cutscene = document.getElementById('cutscene');
+      var reveal = document.getElementById('identityReveal');
+      var inner = document.getElementById('cutsceneInner');
+      var staticEl = document.getElementById('staticOverlay');
+
+      function triggerGlitch(){
+        cutscene.classList.remove('shake');
+        staticEl.classList.remove('burst');
+        void cutscene.offsetWidth; /* force reflow so the animation restarts */
+        cutscene.classList.add('shake');
+        staticEl.classList.add('burst');
+      }
+
+      var beats = [
+        { id:'cs1', hold:700  },
+        { id:'cs2', hold:1300 },
+        { id:'cs3', hold:2200 },
+        { id:'cs4', hold:2400 }
+      ];
+      var gap = 350;
+
+      var t = 0;
+      beats.forEach(function(beat){
+        var el = document.getElementById(beat.id);
+        setTimeout(function(){
+          triggerGlitch();
+          el.classList.add('in');
+        }, t);
+        t += beat.hold;
+        setTimeout(function(){ el.classList.remove('in'); }, t);
+        t += gap;
+      });
+
+      setTimeout(function(){
+        cutscene.classList.add('hide');
+        document.body.style.overflow = '';
+        reveal.classList.add('in');
+        setTimeout(function(){ warning.classList.add('show'); }, 500);
+      }, t);
+    }
+  })();
+  </script>
+
+</body>
+</html>
