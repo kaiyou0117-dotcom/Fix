@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>グリム・ネームレス ― フィクサー協会 構成員データベース</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,500;1,500;1,600&family=Shippori+Mincho+B1:wght@500;800&family=Noto+Serif+JP:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f2ecdb;
+    --paper-2:#eae0c8;
+    --paper-3:#e0d4b8;
+    --ink:#1c1a16;
+    --ink-soft:#5c5344;
+    --ink-faint:#a89f8c;
+    --line:rgba(28,26,22,0.14);
+    --accent:#8f7c9e;
+    --accent-deep:#6c5c7c;
+    --accent-pale:#e9e2ee;
+    --danger:#a5433a;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{ scroll-behavior:smooth; }
+  body{ background:var(--paper); color:var(--ink); font-family:'Noto Serif JP', serif; line-height:1.95; }
+  .en{ font-family:'Cinzel', serif; }
+  .display{ font-family:'Shippori Mincho B1', serif; }
+  .script{ font-family:'Cormorant Garamond', serif; font-style:italic; }
+  .mono{ font-family:'JetBrains Mono', monospace; letter-spacing:0.03em; }
+  a{ color:inherit; text-decoration:none; }
+  ruby rt{ font-size:0.55em; color:var(--ink-faint); letter-spacing:0; }
+  .wrap{ max-width:920px; margin:0 auto; padding:0 6vw; }
+
+  header.site{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:20px 6vw; background:var(--ink); position:sticky; top:0; z-index:20;
+  }
+  header.site .brand{ font-size:0.8rem; letter-spacing:0.18em; color:var(--paper); }
+  header.site .back{ font-family:'Cinzel', serif; font-size:0.64rem; letter-spacing:0.08em; color:var(--paper-3); opacity:0.85; }
+  header.site .back:hover{ opacity:1; color:var(--accent); }
+
+  /* slim classification line — a detail, not a wall */
+  .classline{
+    font-family:'JetBrains Mono', monospace; font-size:0.63rem; color:var(--ink-faint);
+    border-bottom:1px solid var(--line); letter-spacing:0.02em;
+  }
+  .classline .wrap{ display:flex; gap:24px; padding:9px 6vw; flex-wrap:wrap; }
+  .classline b{ color:var(--danger); font-weight:600; }
+
+  /* ===== profile hero ===== */
+  .profile-hero{ padding:8vh 0 6vh; }
+  .ph-grid{ display:grid; grid-template-columns:1.35fr 0.9fr; gap:56px; align-items:start; }
+  .ph-eyebrow{
+    font-family:'Cinzel', serif; font-size:0.62rem; letter-spacing:0.28em; color:var(--accent-deep);
+    display:flex; align-items:center; gap:10px;
+  }
+  .ph-eyebrow .card-no{ border:1px solid var(--accent-deep); padding:2px 8px; }
+  .name-redact{ margin-top:22px; display:flex; gap:8px; }
+  .name-redact span{ width:32px; height:32px; background:var(--ink); }
+  .ph-epithet{ margin-top:10px; font-family:'Shippori Mincho B1', serif; font-weight:800; font-size:1.02rem; color:var(--ink-soft); letter-spacing:0.06em; }
+  .ph-codename{ margin-top:20px; font-family:'Cinzel', serif; font-weight:700; font-size:clamp(1.8rem,4.2vw,2.7rem); color:var(--ink); letter-spacing:0.03em; }
+  .ph-quote-label{ margin-top:28px; font-family:'JetBrains Mono', monospace; font-size:0.6rem; color:var(--ink-faint); letter-spacing:0.06em; }
+  .ph-quote{ margin-top:8px; max-width:460px; font-size:1.15rem; color:var(--accent-deep); padding-left:18px; border-left:2px solid var(--accent); }
+
+  .ph-portrait{ position:relative; aspect-ratio:3/4; overflow:hidden; border:1px solid var(--line); background:var(--paper-2); }
+  .ph-portrait img{ width:100%; height:100%; object-fit:cover; display:block; filter:saturate(0.92) contrast(1.03); }
+  .ph-portrait::after{ content:""; position:absolute; inset:0; box-shadow:inset 0 0 60px rgba(28,26,22,0.25); pointer-events:none; }
+  .ph-portrait .tag{ position:absolute; left:10px; bottom:10px; font-family:'Cinzel', serif; font-size:0.56rem; letter-spacing:0.1em; color:var(--paper); background:rgba(28,26,22,0.72); padding:4px 9px; }
+
+  /* ===== section shell ===== */
+  section{ border-top:1px solid var(--line); padding:64px 0; }
+  .sec-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:32px; }
+  .sec-num{ font-family:'Cinzel', serif; font-size:1.1rem; color:var(--accent-deep); }
+  .sec-title{ font-family:'Shippori Mincho B1', serif; font-size:1.3rem; font-weight:800; letter-spacing:0.04em; }
+  .body-text{ max-width:660px; font-size:0.92rem; color:var(--ink-soft); }
+  .body-text + .body-text{ margin-top:16px; }
+  .note-box{ margin-top:22px; padding:15px 20px; border-left:3px solid var(--danger); background:var(--paper-2); font-size:0.85rem; color:var(--ink-soft); }
+  .note-box .nb-label{ font-family:'JetBrains Mono', monospace; font-size:0.6rem; color:var(--danger); margin-bottom:6px; letter-spacing:0.05em; }
+
+  /* ===== dossier — open list, not a bureaucratic grid ===== */
+  .dossier{ border-top:1px solid var(--ink); }
+  .d-row{ display:grid; grid-template-columns:120px 1fr; gap:16px; padding:8px 0; border-bottom:1px solid var(--line); font-size:0.76rem; }
+  .d-row .k{ font-family:'Cinzel', serif; font-size:0.54rem; letter-spacing:0.08em; color:var(--accent-deep); padding-top:2px; }
+  .d-row .v{ color:var(--ink-soft); }
+  .redact-block{ display:inline-block; background:var(--ink); color:var(--ink); border-radius:1px; padding:0 6px; font-size:0.9em; user-select:none; }
+  .d-row .v a.corrupt{ color:var(--danger); font-family:'JetBrains Mono', monospace; font-size:0.72rem; border-bottom:1px dashed var(--danger); }
+  .d-row .v a.corrupt:hover{ background:var(--danger); color:var(--paper); }
+  .d-row .v a.plain{ border-bottom:1px solid var(--accent); }
+
+  /* ===== profile split: dossier left, narrative right ===== */
+  .profile-split{ display:grid; grid-template-columns:300px 1fr; gap:56px; align-items:start; }
+  .narrative-col .sec-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:18px; }
+  .narrative-col .sec-head + .body-text{ margin-bottom:6px; }
+  .narrative-block + .narrative-block{ margin-top:44px; }
+
+  /* ===== dramatic reveal ===== */
+  .reveal-setup{ font-size:0.92rem; color:var(--ink-soft); max-width:600px; }
+  .reveal-big{ margin:24px 0 28px; font-family:'Shippori Mincho B1', serif; font-weight:800; font-size:clamp(2rem,5.2vw,3rem); color:var(--ink); line-height:1.2; }
+
+  /* ===== equipment — spec cards, not spreadsheet rows ===== */
+  .equip-grid{ margin-top:40px; display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); }
+  .equip-card{ background:var(--paper); padding:28px 24px; }
+  .equip-card h4{ font-family:'Shippori Mincho B1', serif; font-size:1rem; font-weight:800; margin-bottom:12px; color:var(--accent-deep); }
+  .equip-card p{ font-size:0.85rem; color:var(--ink-soft); }
+  .equip-card .origin{ margin-top:14px; font-family:'JetBrains Mono', monospace; font-size:0.68rem; color:var(--danger); opacity:0.9; }
+
+  /* ===== ability box — atmospheric again ===== */
+  .ability-box{ margin-top:14px; border:1px solid var(--accent); padding:34px 30px; background:linear-gradient(180deg, var(--accent-pale), transparent 65%); }
+  .ability-box .a-name{ font-family:'Shippori Mincho B1', serif; font-weight:800; font-size:1.12rem; color:var(--accent-deep); }
+  .ability-box .a-body{ margin-top:16px; font-size:0.89rem; color:var(--ink-soft); }
+  .ability-box .a-body b{ color:var(--ink); }
+
+  /* ===== classified gate ===== */
+  .gate{ background:var(--ink); color:var(--paper-3); padding:88px 0; }
+  .gate .wrap{ max-width:680px; text-align:center; }
+  .gate .code{ font-family:'JetBrains Mono', monospace; font-size:0.72rem; color:var(--ink-faint); line-height:2; }
+  .gate hr{ border:none; border-top:1px solid rgba(242,236,219,0.15); margin:32px 0; }
+  .gate .confirm{ font-family:'JetBrains Mono', monospace; font-size:0.82rem; color:var(--danger); letter-spacing:0.03em; line-height:2; }
+  .gate .prompt{ margin-top:48px; font-family:'Shippori Mincho B1', serif; font-size:1.5rem; font-weight:800; color:var(--paper); }
+  .gate .choices{ margin-top:28px; display:flex; justify-content:center; gap:16px; }
+  .gate .choices a{ font-family:'Cinzel', serif; font-size:0.7rem; letter-spacing:0.12em; padding:14px 38px; border:1px solid var(--paper-3); color:var(--paper); transition:background 0.25s, color 0.25s; }
+  .gate .choices a.yes:hover{ background:var(--danger); border-color:var(--danger); }
+  .gate .choices a.no:hover{ background:var(--paper); color:var(--ink); }
+
+  footer{ padding:28px 0 58px; text-align:center; font-family:'JetBrains Mono', monospace; font-size:0.64rem; color:var(--ink-faint); }
+
+  /* ===== license verification gate (loading overlay) ===== */
+  .lgate{
+    position:fixed; inset:0; z-index:9999; background:var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    transition:opacity 0.7s ease, visibility 0.7s ease;
+  }
+  .lgate.hide{ opacity:0; visibility:hidden; pointer-events:none; }
+  .lgate-inner{ text-align:center; }
+  .lgate-ring{ position:relative; width:92px; height:92px; margin:0 auto 30px; }
+  #ringProgress{ transition:stroke-dashoffset 0.5s ease; }
+  .lgate-percent{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-family:'Cinzel', serif; font-size:0.92rem; color:var(--paper); letter-spacing:0.04em;
+  }
+  .lgate.granted .lgate-percent{ color:var(--accent); font-size:1.3rem; }
+  .lgate-title{
+    font-family:'Cinzel', serif; font-size:0.64rem; letter-spacing:0.24em; color:var(--paper-3);
+    margin-bottom:14px; opacity:0.85;
+  }
+  .lgate-status{
+    font-family:'JetBrains Mono', monospace; font-size:0.72rem; color:var(--ink-faint);
+    min-height:1.4em; letter-spacing:0.02em;
+  }
+  .lgate-status.granted{ color:var(--accent); }
+
+  .lgate-prompt{
+    max-height:0; opacity:0; overflow:hidden;
+    transition:opacity 0.5s ease, max-height 0.6s ease;
+  }
+  .lgate-prompt.show{ max-height:220px; opacity:1; margin-top:30px; }
+  .lgate-prompt-text{ font-size:1.35rem; font-weight:800; color:var(--paper); margin-bottom:24px; }
+  .lgate-choices{ display:flex; gap:14px; justify-content:center; }
+  .lgate-choice{
+    font-family:'Cinzel', serif; font-size:0.7rem; letter-spacing:0.12em;
+    padding:12px 32px; border:1px solid var(--paper-3); color:var(--paper);
+    transition:background 0.25s, color 0.25s;
+  }
+  .lgate-choice.yes:hover{ background:var(--accent); border-color:var(--accent); color:var(--ink); }
+  .lgate-choice.no:hover{ background:var(--paper); color:var(--ink); }
+
+  /* ===== mid-page clearance gate (B-rank and above) ===== */
+  .clearance-gate{
+    max-width:520px; margin:0 auto; text-align:center;
+    padding:56px 30px; border:1px solid var(--line);
+    background:var(--paper-2);
+    transition:opacity 0.5s ease, max-height 0.6s ease, padding 0.6s ease, margin 0.6s ease;
+    overflow:hidden;
+  }
+  .clearance-gate.cg-hide{ opacity:0; max-height:0; padding-top:0; padding-bottom:0; margin-bottom:0; pointer-events:none; }
+  .cg-icon{ color:var(--accent-deep); margin-bottom:18px; display:flex; justify-content:center; }
+  .cg-title{ font-family:'Cinzel', serif; font-size:0.68rem; letter-spacing:0.2em; color:var(--ink); margin-bottom:14px; }
+  .cg-desc{ font-size:0.85rem; color:var(--ink-soft); max-width:380px; margin:0 auto 20px; }
+  .cg-level{ font-size:0.66rem; color:var(--ink-faint); margin-bottom:26px; letter-spacing:0.02em; }
+  .cg-level b{ color:var(--danger); font-weight:600; }
+  .cg-btn{
+    font-family:'Cinzel', serif; font-size:0.7rem; letter-spacing:0.1em;
+    padding:13px 34px; border:1px solid var(--ink); background:transparent; color:var(--ink);
+    cursor:pointer; transition:background 0.25s, color 0.25s;
+  }
+  .cg-btn:hover{ background:var(--ink); color:var(--paper); }
+  .cg-btn:disabled{ opacity:0.6; cursor:default; background:transparent; color:var(--ink); }
+
+  .cg-progress{ display:none; margin-top:26px; }
+  .cg-progress.show{ display:block; }
+  .cg-bar{ width:100%; height:3px; background:var(--line); overflow:hidden; margin-bottom:12px; }
+  .cg-bar-fill{ height:100%; width:0%; background:var(--accent-deep); transition:width 0.55s ease; }
+  .cg-progress-status{ font-size:0.66rem; color:var(--ink-faint); letter-spacing:0.02em; min-height:1.3em; }
+  .cg-progress-status.granted{ color:var(--accent-deep); }
+
+  .restricted-content{
+    max-height:0; opacity:0; overflow:hidden;
+    transition:opacity 0.7s ease 0.1s, max-height 0.9s ease;
+  }
+  .restricted-content.unlocked{ max-height:4000px; opacity:1; }
+
+  /* darker zone for the clearance-gated content */
+  .restricted-content{ background:var(--ink); }
+  .restricted-content section{ border-top-color:rgba(242,236,219,0.12); }
+  .restricted-content .sec-num{ color:var(--accent); }
+  .restricted-content .sec-title{ color:var(--paper); }
+  .restricted-content .body-text{ color:var(--paper-3); }
+  .restricted-content ruby rt{ color:var(--paper-3); opacity:0.65; }
+  .restricted-content .note-box{ background:rgba(242,236,219,0.06); color:var(--paper-3); }
+  .restricted-content .note-box .nb-label{ color:var(--danger); }
+  .restricted-content .equip-grid{ background:rgba(242,236,219,0.12); border-color:rgba(242,236,219,0.12); }
+  .restricted-content .equip-card{ background:var(--ink); }
+  .restricted-content .equip-card h4{ color:var(--accent); }
+  .restricted-content .equip-card p{ color:var(--paper-3); }
+  .restricted-content .equip-card .origin{ color:var(--danger); opacity:0.85; }
+  .restricted-content .ability-box{ border-color:var(--accent); background:linear-gradient(180deg, rgba(143,124,158,0.16), transparent 65%); }
+  .restricted-content .ability-box .a-name{ color:var(--accent); }
+  .restricted-content .ability-box .a-body{ color:var(--paper-3); }
+  .restricted-content .ability-box .a-body b{ color:var(--paper); }
+
+  /* ===== ability sigil — the emblem art, made to glow against the dark zone ===== */
+  .sigil{
+    position:relative; width:min(58vw, 240px); margin:0 auto 8px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .sigil::before{
+    content:""; position:absolute; inset:-15%;
+    background:radial-gradient(circle, rgba(143,124,158,0.32), transparent 68%);
+    filter:blur(8px); z-index:0;
+  }
+  .sigil img{
+    position:relative; z-index:1; width:100%; display:block;
+    filter:invert(1) brightness(0.96);
+    mix-blend-mode:screen;
+  }
+  .sigil-cap{
+    text-align:center; margin:14px 0 40px;
+    font-family:'JetBrains Mono', monospace; font-size:0.62rem;
+    color:var(--paper-3); opacity:0.6; letter-spacing:0.08em;
+  }
+
+  @media (max-width:780px){
+    .ph-grid{ grid-template-columns:1fr; }
+    .profile-split{ grid-template-columns:1fr; gap:36px; }
+    .equip-grid{ grid-template-columns:1fr; }
+    .gate .choices{ flex-direction:column; align-items:center; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="lgate" id="gate">
+    <div class="lgate-inner">
+      <div class="lgate-ring">
+        <svg width="92" height="92" viewBox="0 0 96 96">
+          <circle cx="48" cy="48" r="42" fill="none" stroke="rgba(242,236,219,0.15)" stroke-width="1.5"/>
+          <circle id="ringProgress" cx="48" cy="48" r="42" fill="none" stroke="var(--accent)" stroke-width="1.5" transform="rotate(-90 48 48)"/>
+        </svg>
+        <div class="lgate-percent" id="gatePercent">0%</div>
+      </div>
+      <div class="lgate-title">FIXER LICENSE VERIFICATION</div>
+      <div class="lgate-status mono" id="gateStatus">接続を確立しています...</div>
+
+      <div class="lgate-prompt" id="gatePrompt">
+        <div class="lgate-prompt-text display">閲覧しますか？</div>
+        <div class="lgate-choices">
+          <a href="#" id="gateYes" class="lgate-choice yes">YES</a>
+          <a href="access-denied.html" class="lgate-choice no">NO</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <header class="site">
+    <span class="en brand">THE FIXER ASSOCIATION</span>
+    <a class="back" href="index.html">← 構成員名簿へ戻る</a>
+  </header>
+
+  <div class="classline">
+    <div class="wrap">
+      <span>FILE NO. FA-013-XIII</span>
+      <span>CLASS: <b>RESTRICTED</b></span>
+      <span>ISSUED BY: 協会文書管理課</span>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="profile-hero">
+      <div class="ph-grid">
+        <div>
+          <div class="ph-eyebrow"><span class="card-no">ⅩⅢ</span>MAJOR ARCANA — DEATH</div>
+          <div class="name-redact"><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="ph-epithet">――終焉と再生</div>
+          <div class="ph-codename">THE NAMELESS UNDERTAKER</div>
+          <div class="ph-quote-label mono">SUBJECT STATEMENT — VERBATIM</div>
+          <p class="ph-quote script">「全ての死を白日に曝す。それが果たされるまで、死んでも死にきれないわ」</p>
+        </div>
+        <div class="ph-portrait">
+          <img src="https://images-ng.pixai.art/images/thumb/d33a5722-2268-443c-afa6-c372ea3b1493" alt="グリム・ネームレス 肖像">
+          <span class="tag mono">FILE PHOTO — UNVERIFIED</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <div class="wrap">
+      <div class="profile-split">
+        <div class="dossier">
+          <div class="d-row"><span class="k">名前</span><span class="v">グリム・ネームレス</span></div>
+          <div class="d-row"><span class="k">種族</span><span class="v"><span class="redact-block">████</span> 非公開</span></div>
+          <div class="d-row"><span class="k">性別</span><span class="v">女</span></div>
+          <div class="d-row"><span class="k">アライメント</span><span class="v">秩序・善</span></div>
+          <div class="d-row"><span class="k">年齢</span><span class="v"><span class="redact-block">████</span> 非公開</span></div>
+          <div class="d-row"><span class="k">誕生日 ／ 星座</span><span class="v">？月？日　／　？座</span></div>
+          <div class="d-row"><span class="k">身長 ／ 体重</span><span class="v">163cm　／　ふふっ、想像にお任せするわ</span></div>
+          <div class="d-row"><span class="k">血液型</span><span class="v">蛹也黄型</span></div>
+          <div class="d-row"><span class="k">異能力</span><span class="v"><ruby>骸は死を以て死せず<rt>アンコラプス・コープス</rt></ruby></span></div>
+          <div class="d-row"><span class="k">国籍</span><span class="v">イギリス</span></div>
+          <div class="d-row"><span class="k">職業</span><span class="v">エネミー狩り ／ <ruby>便利屋<rt>フィクサー</rt></ruby></span></div>
+          <div class="d-row"><span class="k">階級</span><span class="v">S級</span></div>
+          <div class="d-row"><span class="k">所属組織</span><span class="v"><a class="plain" href="index.html">フィクサー協会</a></span></div>
+          <div class="d-row"><span class="k">所属事務所</span><span class="v">葬送事務所（<ruby>名も無き葬儀屋<rt>ネームレス・アンダーテイカー</rt></ruby>）</span></div>
+          <div class="d-row"><span class="k">称号</span><span class="v"><a class="corrupt" href="access-denied.html">蜊∽ｸ臥分逶ｮ</a></span></div>
+        </div>
+
+        <div class="narrative-col">
+          <div class="narrative-block">
+            <div class="sec-head"><span class="sec-num">Ⅰ</span><span class="sec-title display">概要</span></div>
+            <p class="body-text">
+              ロンドンのフィクサー協会に所属する、フィクサー兼葬儀屋兼探偵。彼女が立ち上げ、
+              事務所長を務める葬送事務所は死というものに造詣が深く、エネミーの存在によって
+              ありふれたものとなってしまった人間の怪死事件を中心に取り扱っており、遍く不可解な
+              死を人知の死へと貶める事を目的として活動している。
+            </p>
+            <p class="body-text">
+              また、事務所は「名も無き葬儀屋」名義で葬儀屋事業も行っている。彼女自身棺師でもあり、
+              その筋ではそこそこ有名なんだとか。
+            </p>
+          </div>
+
+          <div class="narrative-block">
+            <div class="sec-head"><span class="sec-num">Ⅱ</span><span class="sec-title display">性格</span></div>
+            <p class="body-text">
+              面談および行動観察に基づく所見は以下の通り記録される。第一印象は、独特の言い回しと
+              振る舞いにより、神秘的かつ捉えどころのない人物という評価に偏りやすい。しかしこれは
+              短時間の接触に限られた傾向であり、継続的な観察によれば対象の思考様式は直情的で、
+              判断における詰めの甘さも散見される。単独行動時には対応力の低下が認められ、
+              補助者の同行が実務上望ましいとされる。
+            </p>
+            <div class="note-box">
+              <div class="nb-label">留意事項</div>
+              後述の異能が生存の前提となっているため、現場において自らの死体を増加させ、
+              事案処理を複雑化させた事例が複数報告されている。
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="clearance-gate" id="clearanceGate">
+      <div class="cg-icon">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+          <rect x="5" y="11" width="14" height="9" rx="1"/>
+          <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+        </svg>
+      </div>
+      <div class="cg-title">CLEARANCE REQUIRED</div>
+      <p class="cg-desc">以下の文書は協会における準A級機密事項です。<br>改ざん・無断アクセス等の行為は規約第17条により重大な違反行為とみなされます。</p>
+      <div class="cg-level mono">REQUIRED LEVEL: <b>B</b></div>
+      <button class="cg-btn" id="cgBtn">権限を認証する</button>
+
+      <div class="cg-progress" id="cgProgress">
+        <div class="cg-bar"><div class="cg-bar-fill" id="cgBarFill"></div></div>
+        <div class="cg-progress-status mono" id="cgProgressStatus">アクセス権限を照合中...</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="restricted-content" id="restrictedContent">
+
+    <section>
+      <div class="wrap">
+        <div class="sec-head"><span class="sec-num">Ⅲ</span><span class="sec-title display">戦闘関連</span></div>
+      <p class="body-text">
+        事務所を抱える上位フィクサーだけあって、その戦闘能力は圧倒的。並外れた身体能力と
+        体術、高い戦闘IQを駆使して数多くの異能犯罪者や敵対エネミーを鎮圧してきた実績を持つ。
+      </p>
+      <div class="note-box">
+        <div class="nb-label">弱点</div>
+        <ruby>簡易結界<rt>スフィア</rt></ruby>などの異能中和策という分かりやすすぎる弱点も抱えており、
+        対策されると途端に無能と化す。良くも悪くも極端な人物。
+      </div>
+
+      <div class="equip-grid">
+        <div class="equip-card">
+          <h4><ruby>処刑人の剣<rt>エクスキューショナーズソード</rt></ruby></h4>
+          <p>戦闘時に愛用する儀礼用片手剣の異産。切っ先の潰れた幅広の刀身には自重感覚軽減
+          の効果があり、彼女は軽々と振り回してのける。</p>
+          <div class="origin mono">出自不明 ― 刀身には違和感だらけで不気味な文字のようなものが記されている</div>
+        </div>
+        <div class="equip-card">
+          <h4>血涙のタリスマン</h4>
+          <p>胸に付けている赤い宝石。<ruby>簡易結界<rt>スフィア</rt></ruby>を発動する為の装置であり、
+          グリムの第二の生命線。非使用時に少しずつ空気中の異能粒子を溜め込んで発動用の
+          エネルギーにする仕組みのため、粒子切れを起こすと中和策への対抗手段を一切失う。</p>
+          <div class="origin mono">出自不明 ― 本人曰く「拾い物」</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="border-bottom:none;">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">Ⅳ</span><span class="sec-title display">異能</span></div>
+
+      <div class="sigil"><img src="grimm-sigil.png" alt="骸は死を以て死せず ― 異能紋章"></div>
+      <div class="sigil-cap">アンコラプス・コープス — 紋章記録</div>
+
+      <div class="ability-box">
+        <div class="a-name"><ruby>骸は死を以て死せず<rt>アンコラプス・コープス</rt></ruby></div>
+        <div class="a-body">
+          <b>死と生の摂理を越える異能。</b>この異能の力によって、グリムの身体は常に生命活動を
+          停止した状態を維持しながらも生き物のように振る舞い、活動する事が可能となっている。
+          グリムの死体がいくら損壊しようとも強制的に生命を維持する副次的効果があり、加えて
+          常人のような疑似代謝による損壊体組織の低速修復能力をも備えているため、致命傷の
+          大半が彼女にとって致命傷になり得ない。ただしグリム自身は普通に気絶もするし、
+          その身体を跡形もなく消し去ってしまえば<b>意識を持続する事が出来ずに本当に死ぬ</b>
+          とされている。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </div>
+
+  <div class="gate">
+    <div class="wrap">
+      <div class="code mono">
+        【秘匿指定コード：CONFIDENTIAL — TYPE ■■】<br>
+        このデータベースへの許可無きアクセスは固く禁止されています<br>
+        違反者は✕✕、※※、■■されます
+      </div>
+      <hr>
+      <div class="confirm mono">
+        ■ 公認S級フィクサーライセンスの認証が確認されました ■<br>
+        <span style="color:var(--ink-faint);">以下の文書を閲覧可能です</span>
+      </div>
+      <hr>
+      <div class="confirm mono" style="color:var(--paper-3);">
+        ■以下の文書は印刷・スクリーンショット・外部送信を原則禁じます■<br>
+        <span style="color:var(--danger);">重大な違反が確認された場合は相応の処置を取らせて頂きます</span>
+      </div>
+      <div class="prompt display">文書を閲覧しますか？</div>
+      <div class="choices">
+        <a class="yes" href="shinigami.html">YES ―「死神」</a>
+        <a class="no" href="access-denied.html">NO</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>最終更新：[REDACTED] ／ 文書番号：XXX-XXX-XXXX</footer>
+
+  <script>
+  (function(){
+    document.body.style.overflow = 'hidden';
+    var gate = document.getElementById('gate');
+    var ring = document.getElementById('ringProgress');
+    var percentEl = document.getElementById('gatePercent');
+    var statusEl = document.getElementById('gateStatus');
+    var circumference = 2 * Math.PI * 42;
+    ring.style.strokeDasharray = circumference;
+    ring.style.strokeDashoffset = circumference;
+
+    var steps = [
+      { pct: 12,  msg: '接続を確立しています...',           delay: 350 },
+      { pct: 38,  msg: 'フィクサーライセンスを照合中...',     delay: 650 },
+      { pct: 64,  msg: '生体データを確認しています...',       delay: 650 },
+      { pct: 87,  msg: '協会データベースへ接続中...',         delay: 600 },
+      { pct: 100, msg: '認証完了 ― ACCESS GRANTED',          delay: 550 }
+    ];
+
+    var elapsed = 0;
+    steps.forEach(function(step){
+      elapsed += step.delay;
+      setTimeout(function(){
+        ring.style.strokeDashoffset = circumference * (1 - step.pct / 100);
+        percentEl.textContent = step.pct + '%';
+        statusEl.textContent = step.msg;
+        if (step.pct === 100){
+          gate.classList.add('granted');
+          statusEl.classList.add('granted');
+          setTimeout(function(){
+            document.getElementById('gatePrompt').classList.add('show');
+          }, 600);
+        }
+      }, elapsed);
+    });
+
+    document.getElementById('gateYes').addEventListener('click', function(e){
+      e.preventDefault();
+      gate.classList.add('hide');
+      document.body.style.overflow = '';
+    });
+  })();
+
+  (function(){
+    var btn = document.getElementById('cgBtn');
+    var gateBox = document.getElementById('clearanceGate');
+    var content = document.getElementById('restrictedContent');
+    var progress = document.getElementById('cgProgress');
+    var barFill = document.getElementById('cgBarFill');
+    var statusEl = document.getElementById('cgProgressStatus');
+    if (!btn) return;
+
+    var steps = [
+      { pct: 12,  msg: 'アクセス権限を照合中...',       delay: 500 },
+      { pct: 34,  msg: '行動履歴データベースと照合...',  delay: 650 },
+      { pct: 58,  msg: '生体情報を認証...',              delay: 650 },
+      { pct: 80,  msg: '協会中央データベースと同期...',  delay: 650 },
+      { pct: 100, msg: '認証完了',                        delay: 550 }
+    ];
+
+    btn.addEventListener('click', function(){
+      btn.disabled = true;
+      btn.style.display = 'none';
+      progress.classList.add('show');
+
+      var elapsed = 0;
+      steps.forEach(function(step){
+        elapsed += step.delay;
+        setTimeout(function(){
+          barFill.style.width = step.pct + '%';
+          statusEl.textContent = step.msg;
+          if (step.pct === 100){
+            statusEl.classList.add('granted');
+            setTimeout(function(){
+              gateBox.classList.add('cg-hide');
+              content.classList.add('unlocked');
+            }, 650);
+          }
+        }, elapsed);
+      });
+    });
+  })();
+  </script>
+
+</body>
+</html>
