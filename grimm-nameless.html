@@ -100,8 +100,28 @@
   .reveal-big{ margin:24px 0 28px; font-family:'Shippori Mincho B1', serif; font-weight:800; font-size:clamp(2rem,5.2vw,3rem); color:var(--ink); line-height:1.2; }
 
   /* ===== equipment — spec cards, not spreadsheet rows ===== */
-  .equip-grid{ margin-top:40px; display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); }
-  .equip-card{ background:var(--paper); padding:28px 24px; }
+  /* ===== combat section: text+weakness on the left, equipment stacked on the right ===== */
+  .combat-split{ display:grid; grid-template-columns:1fr 1fr; gap:44px; align-items:start; }
+  .combat-left .body-text{ max-width:none; }
+
+  .equip-grid{ display:grid; grid-template-columns:1fr; gap:1px; background:var(--line); border:1px solid var(--line); }
+  .equip-card{ background:var(--paper); padding:24px 24px; }
+  .eq-toggle{
+    display:flex; align-items:center; justify-content:space-between; width:100%;
+    background:none; border:none; padding:0; margin:0; cursor:pointer; text-align:left;
+    font:inherit; color:inherit;
+  }
+  .eq-toggle h4{ margin-bottom:0; }
+  .eq-indicator{
+    font-family:'JetBrains Mono', monospace; font-size:1rem; color:var(--accent-deep);
+    flex-shrink:0; margin-left:16px; transition:transform 0.3s ease;
+  }
+  .equip-card.open .eq-indicator{ transform:rotate(45deg); }
+  .eq-body{
+    max-height:0; opacity:0; overflow:hidden; margin-top:0;
+    transition:max-height 0.45s ease, opacity 0.35s ease, margin-top 0.45s ease;
+  }
+  .equip-card.open .eq-body{ max-height:400px; opacity:1; margin-top:14px; }
   .equip-card h4{ font-family:'Shippori Mincho B1', serif; font-size:1rem; font-weight:800; margin-bottom:12px; color:var(--accent-deep); }
   .equip-card p{ font-size:0.85rem; color:var(--ink-soft); }
   .equip-card .origin{ margin-top:14px; font-family:'JetBrains Mono', monospace; font-size:0.68rem; color:var(--danger); opacity:0.9; }
@@ -113,7 +133,12 @@
   .ability-box .a-body b{ color:var(--ink); }
 
   /* ===== classified gate ===== */
-  .gate{ background:var(--gate-bg); color:var(--paper-3); padding:88px 0; }
+  .gate{
+    background:var(--gate-bg); color:var(--paper-3);
+    max-height:0; opacity:0; overflow:hidden; padding:0 0;
+    transition:opacity 0.7s ease, max-height 1s ease, padding 1s ease;
+  }
+  .gate.unlocked{ max-height:2400px; opacity:1; padding:88px 0; }
   .gate .wrap{ max-width:680px; text-align:center; }
   .gate .code{ font-family:'JetBrains Mono', monospace; font-size:0.72rem; color:var(--ink-faint); line-height:2; }
   .gate hr{ border:none; border-top:1px solid rgba(242,236,219,0.15); margin:32px 0; }
@@ -215,6 +240,7 @@
   .restricted-content .equip-card h4{ color:var(--accent); }
   .restricted-content .equip-card p{ color:var(--paper-3); }
   .restricted-content .equip-card .origin{ color:var(--danger); opacity:0.85; }
+  .restricted-content .eq-indicator{ color:var(--accent); }
   .restricted-content .ability-box{ border-color:var(--accent); background:rgba(33,28,40,0.9); }
   .restricted-content .ability-box .a-name{ color:var(--accent); }
   .restricted-content .ability-box .a-body{ color:var(--paper-3); }
@@ -235,6 +261,7 @@
     .ph-grid{ grid-template-columns:1fr; }
     .profile-split{ grid-template-columns:1fr; gap:36px; }
     .equip-grid{ grid-template-columns:1fr; }
+    .combat-split{ grid-template-columns:1fr; gap:28px; }
     .gate .choices{ flex-direction:column; align-items:center; }
   }
 </style>
@@ -376,29 +403,44 @@
     <section>
       <div class="wrap">
         <div class="sec-head"><span class="sec-num">Ⅲ</span><span class="sec-title display">戦闘関連</span></div>
-      <p class="body-text">
-        事務所を抱える上位フィクサーだけあって、その戦闘能力は圧倒的。並外れた身体能力と
-        体術、高い戦闘IQを駆使して数多くの異能犯罪者や敵対エネミーを鎮圧してきた実績を持つ。
-      </p>
-      <div class="note-box">
-        <div class="nb-label">弱点</div>
-        <ruby>簡易結界<rt>スフィア</rt></ruby>などの異能中和策という分かりやすすぎる弱点も抱えており、
-        対策されると途端に無能と化す。良くも悪くも極端な人物。
-      </div>
 
-      <div class="equip-grid">
-        <div class="equip-card">
-          <h4><ruby>処刑人の剣<rt>エクスキューショナーズソード</rt></ruby></h4>
-          <p>戦闘時に愛用する儀礼用片手剣の異産。切っ先の潰れた幅広の刀身には自重感覚軽減
-          の効果があり、彼女は軽々と振り回してのける。</p>
-          <div class="origin mono">出自不明 ― 刀身には違和感だらけで不気味な文字のようなものが記されている</div>
+      <div class="combat-split">
+        <div class="combat-left">
+          <p class="body-text">
+            事務所を抱える上位フィクサーだけあって、その戦闘能力は圧倒的。並外れた身体能力と
+            体術、高い戦闘IQを駆使して数多くの異能犯罪者や敵対エネミーを鎮圧してきた実績を持つ。
+          </p>
+          <div class="note-box">
+            <div class="nb-label">弱点</div>
+            <ruby>簡易結界<rt>スフィア</rt></ruby>などの異能中和策という分かりやすすぎる弱点も抱えており、
+            対策されると途端に無能と化す。良くも悪くも極端な人物。
+          </div>
         </div>
-        <div class="equip-card">
-          <h4>血涙のタリスマン</h4>
-          <p>胸に付けている赤い宝石。<ruby>簡易結界<rt>スフィア</rt></ruby>を発動する為の装置であり、
-          グリムの第二の生命線。非使用時に少しずつ空気中の異能粒子を溜め込んで発動用の
-          エネルギーにする仕組みのため、粒子切れを起こすと中和策への対抗手段を一切失う。</p>
-          <div class="origin mono">出自不明 ― 本人曰く「拾い物」</div>
+
+        <div class="equip-grid">
+          <div class="equip-card">
+            <button class="eq-toggle" type="button">
+              <h4><ruby>処刑人の剣<rt>エクスキューショナーズソード</rt></ruby></h4>
+              <span class="eq-indicator">+</span>
+            </button>
+            <div class="eq-body">
+              <p>戦闘時に愛用する儀礼用片手剣の異産。切っ先の潰れた幅広の刀身には自重感覚軽減
+              の効果があり、彼女は軽々と振り回してのける。</p>
+              <div class="origin mono">出自不明 ― 刀身には違和感だらけで不気味な文字のようなものが記されている</div>
+            </div>
+          </div>
+          <div class="equip-card">
+            <button class="eq-toggle" type="button">
+              <h4>血涙のタリスマン</h4>
+              <span class="eq-indicator">+</span>
+            </button>
+            <div class="eq-body">
+              <p>胸に付けている赤い宝石。<ruby>簡易結界<rt>スフィア</rt></ruby>を発動する為の装置であり、
+              グリムの第二の生命線。非使用時に少しずつ空気中の異能粒子を溜め込んで発動用の
+              エネルギーにする仕組みのため、粒子切れを起こすと中和策への対抗手段を一切失う。</p>
+              <div class="origin mono">出自不明 ― 本人曰く「拾い物」</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -428,7 +470,7 @@
 
   </div>
 
-  <div class="gate">
+  <div class="gate" id="finalGate">
     <div class="wrap">
       <div class="code mono">
         【秘匿指定コード：CONFIDENTIAL — TYPE ■■】<br>
@@ -447,7 +489,7 @@
       </div>
       <div class="prompt display">文書を閲覧しますか？</div>
       <div class="choices">
-        <a class="yes" href="shinigami.html">YES ―「死神」</a>
+        <a class="yes" href="shinigami.html">YES</a>
         <a class="no" href="access-denied.html">NO</a>
       </div>
     </div>
@@ -502,6 +544,7 @@
     var btn = document.getElementById('cgBtn');
     var gateBox = document.getElementById('clearanceGate');
     var content = document.getElementById('restrictedContent');
+    var finalGate = document.getElementById('finalGate');
     var progress = document.getElementById('cgProgress');
     var barFill = document.getElementById('cgBarFill');
     var statusEl = document.getElementById('cgProgressStatus');
@@ -531,9 +574,20 @@
             setTimeout(function(){
               gateBox.classList.add('cg-hide');
               content.classList.add('unlocked');
+              setTimeout(function(){
+                finalGate.classList.add('unlocked');
+              }, 500);
             }, 650);
           }
         }, elapsed);
+      });
+    });
+  })();
+
+  (function(){
+    document.querySelectorAll('.eq-toggle').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        btn.closest('.equip-card').classList.toggle('open');
       });
     });
   })();
