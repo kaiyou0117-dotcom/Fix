@@ -225,6 +225,18 @@
     .sec-header .aside-stat{ text-align:left; }
   }
   @media (prefers-reduced-motion: reduce){ .tarot-card .inner{ transition:none; } }
+
+  /* ===== scroll-triggered entrance ===== */
+  .scroll-in{
+    opacity:0; transform:translateY(26px);
+    transition:opacity 0.8s ease, transform 0.8s ease;
+  }
+  .scroll-in.show{ opacity:1; transform:translateY(0); }
+  .scroll-stagger{ opacity:0; transform:translateY(14px); transition:opacity 0.5s ease, transform 0.5s ease; }
+  .scroll-stagger.show{ opacity:1; transform:translateY(0); }
+  @media (prefers-reduced-motion: reduce){
+    .scroll-in, .scroll-stagger{ opacity:1; transform:none; transition:none; }
+  }
 </style>
 </head>
 <body>
@@ -267,7 +279,7 @@
   <div class="wrap">
     <div class="hero">
       <div class="hero-grid">
-        <div class="hero-left">
+        <div class="hero-left scroll-in">
           <span class="eyebrow">ESTABLISHED — LONDON</span>
           <h1 class="display">フィクサー協会</h1>
           <p class="lead">
@@ -277,9 +289,9 @@
           </p>
         </div>
         <div class="hero-div"></div>
-        <div class="hero-right">
-          <div class="stat-big"></div>
-          <div class="stat-cap"></div>
+        <div class="hero-right scroll-in">
+          <div class="stat-big">22</div>
+          <div class="stat-cap">S級フィクサー定員（大アルカナに準拠）</div>
           <div class="meta-list">
             <div class="meta-row"><span class="k">本部</span><span class="v">ロンドン</span></div>
             <div class="meta-row"><span class="k">等級制度</span><span class="v">E〜S / 全6段階</span></div>
@@ -307,7 +319,7 @@
     </div>
   </div>
 
-  <section id="overview">
+  <section id="overview" class="scroll-in">
     <div class="wrap">
       <div class="sec-header">
         <div><span class="eyebrow">OVERVIEW</span><h2 class="display">概要</h2></div>
@@ -335,11 +347,11 @@
     </div>
   </section>
 
-  <section id="ranks">
+  <section id="ranks" class="scroll-in">
     <div class="wrap">
       <div class="sec-header">
         <div><span class="eyebrow">FIXER RANKS</span><h2 class="display">等級制度</h2></div>
-        <div class="aside-stat"><div class="n"></div><div class="c">TIERS</div></div>
+        <div class="aside-stat"><div class="n">6</div><div class="c">TIERS</div></div>
       </div>
       <table class="ledger">
         <thead><tr><th>RANK</th><th>概要</th></tr></thead>
@@ -355,45 +367,45 @@
     </div>
   </section>
 
-  <section id="s-rank">
+  <section id="s-rank" class="scroll-in">
     <div class="wrap">
       <div class="sec-header">
         <div><span class="eyebrow">MAJOR ARCANA</span><h2 class="display">S級フィクサー</h2></div>
-        <div class="aside-stat"><div class="n"></div><div class="c">SEATS</div></div>
+        <div class="aside-stat"><div class="n">22</div><div class="c">SEATS</div></div>
       </div>
       <p class="section-lead">
         各S級フィクサーには、その資質にちなんだ異名が与えられています。カードにカーソルを合わせるとご覧いただけます。
       </p>
       <div class="tarot-grid">
-        <div class="tarot-card"><div class="inner">
+        <div class="tarot-card scroll-stagger"><div class="inner">
           <div class="tarot-face tarot-front"><div class="num">0</div><div class="arcana">The Fool</div></div>
           <div class="tarot-face tarot-back"><div class="name">THE FOOL GUN</div><div class="meaning">始まりと無限の可能性</div></div>
         </div></div>
-        <div class="tarot-card"><div class="inner">
+        <div class="tarot-card scroll-stagger"><div class="inner">
           <div class="tarot-face tarot-front"><div class="num">Ⅰ</div><div class="arcana">The Magician</div></div>
           <div class="tarot-face tarot-back"><div class="name">MAGICIAN'S ALDEBARAN</div><div class="meaning">あらゆる術理を操る者</div></div>
         </div></div>
-        <div class="tarot-card"><div class="inner">
+        <div class="tarot-card scroll-stagger"><div class="inner">
           <div class="tarot-face tarot-front"><div class="num">Ⅱ</div><div class="arcana">High Priestess</div></div>
           <div class="tarot-face tarot-back"><div class="name">BENEVOLENT HIGH PRIESTESS</div><div class="meaning">秘匿された叡智</div></div>
         </div></div>
-        <div class="tarot-card tarot-vacant"><div class="inner">
+        <div class="tarot-card tarot-vacant scroll-stagger"><div class="inner">
           <div class="tarot-face tarot-front"><div class="num">Ⅲ</div><div class="arcana">The Empress</div></div>
           <div class="tarot-face tarot-back"><div class="name">就任予定</div></div>
         </div></div>
-        <div class="tarot-card"><div class="inner">
+        <div class="tarot-card scroll-stagger"><div class="inner">
           <div class="tarot-face tarot-front"><div class="num">Ⅳ</div><div class="arcana">The Emperor</div></div>
           <div class="tarot-face tarot-back"><div class="name">HOWITZER THE EMPEROR</div><div class="meaning">支配と絶対的秩序</div></div>
         </div></div>
-        <div class="tarot-card"><div class="inner">
+        <div class="tarot-card scroll-stagger"><div class="inner">
           <div class="tarot-face tarot-front"><div class="num">Ⅶ</div><div class="arcana">The Chariot</div></div>
           <div class="tarot-face tarot-back"><div class="name">ADRIAN THE CHARIOT</div><div class="meaning">猛進と勝利への意志</div></div>
         </div></div>
-        <div class="tarot-card"><div class="inner">
+        <div class="tarot-card scroll-stagger"><div class="inner">
           <div class="tarot-face tarot-front"><div class="num">Ⅸ</div><div class="arcana">The Hermit</div></div>
           <div class="tarot-face tarot-back"><div class="name">LYCUS THE HERMIT</div><div class="meaning">孤独に灯す内省の光</div></div>
         </div></div>
-        <div class="tarot-card"><div class="inner">
+        <div class="tarot-card scroll-stagger"><div class="inner">
           <div class="tarot-face tarot-front"><div class="num">ⅩⅩⅠ</div><div class="arcana">The World</div></div>
           <div class="tarot-face tarot-back"><div class="name">CHRISTOPHER THE WORLD</div><div class="meaning">完成と統合</div></div>
         </div></div>
@@ -402,29 +414,29 @@
     </div>
   </section>
 
-  <section id="four-suits">
+  <section id="four-suits" class="scroll-in">
     <div class="wrap">
       <div class="sec-header">
         <div><span class="eyebrow">FOUR ACTIVE SQUADS</span><h2 class="display">シ紋（フォースーツ）</h2></div>
-        <div class="aside-stat"><div class="n"></div><div class="c">SQUADS</div></div>
+        <div class="aside-stat"><div class="n">4</div><div class="c">SQUADS</div></div>
       </div>
       <p class="section-lead">
         協会に所属する実働部隊です。4つの部隊が存在し、それぞれ隊長号を持っています。
       </p>
       <div class="suit-list">
-        <div class="suit-row"><span class="glyph">♣</span><span class="sname">CLUB</span><span class="cap">隊長号：賢者</span></div>
-        <div class="suit-row"><span class="glyph">♡</span><span class="sname">GRAIL</span><span class="cap">隊長号：司祭</span></div>
-        <div class="suit-row"><span class="glyph">♠</span><span class="sname">SWORD</span><span class="cap">隊長号：騎士</span></div>
-        <div class="suit-row"><span class="glyph">♦</span><span class="sname">DIAMOND</span><span class="cap">隊長号：商人</span></div>
+        <div class="suit-row scroll-stagger"><span class="glyph">♣</span><span class="sname">CLUB</span><span class="cap">隊長号：賢者</span></div>
+        <div class="suit-row scroll-stagger"><span class="glyph">♡</span><span class="sname">GRAIL</span><span class="cap">隊長号：司祭</span></div>
+        <div class="suit-row scroll-stagger"><span class="glyph">♠</span><span class="sname">SWORD</span><span class="cap">隊長号：騎士</span></div>
+        <div class="suit-row scroll-stagger"><span class="glyph">♦</span><span class="sname">DIAMOND</span><span class="cap">隊長号：商人</span></div>
       </div>
     </div>
   </section>
 
-  <section id="office">
+  <section id="office" class="scroll-in">
     <div class="wrap">
       <div class="sec-header">
         <div><span class="eyebrow">FIRM REGISTRATION</span><h2 class="display">事務所システム</h2></div>
-        <div class="aside-stat"><div class="n"></div><div class="c">MIN. MEMBERS</div></div>
+        <div class="aside-stat"><div class="n">3+</div><div class="c">MIN. MEMBERS</div></div>
       </div>
       <p class="section-lead">
         3人以上のフィクサーで構成された組織は、協会への登録申請により「事務所」として活動できます。
@@ -442,7 +454,7 @@
     </div>
   </section>
 
-  <section id="contact" style="border-bottom:none;">
+  <section id="contact" class="scroll-in" style="border-bottom:none;">
     <div class="wrap">
       <div class="sec-header">
         <div><span class="eyebrow">INQUIRIES</span><h2 class="display">お問い合わせ</h2></div>
@@ -462,6 +474,25 @@
       </footer>
     </div>
   </div>
+
+  <script>
+  (function(){
+    var targets = document.querySelectorAll('.scroll-in, .scroll-stagger');
+    if (!('IntersectionObserver' in window)){
+      targets.forEach(function(el){ el.classList.add('show'); });
+      return;
+    }
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add('show');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold:0.12, rootMargin:'0px 0px -60px 0px' });
+    targets.forEach(function(el){ obs.observe(el); });
+  })();
+  </script>
 
 </body>
 </html>

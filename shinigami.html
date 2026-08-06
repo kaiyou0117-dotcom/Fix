@@ -136,6 +136,16 @@
   .body-text{ max-width:660px; font-size:0.9rem; color:var(--bone-dim); }
   .body-text + .body-text{ margin-top:16px; }
   .body-text b{ color:var(--bone); }
+  .body-text .hl-red{ color:var(--blood-glow); font-weight:700; }
+
+  /* ===== scroll-triggered entrance ===== */
+  .scroll-in{
+    opacity:0; transform:translateY(28px);
+    transition:opacity 0.8s ease, transform 0.8s ease;
+  }
+  .scroll-in.show{ opacity:1; transform:translateY(0); }
+  .scroll-stagger{ opacity:0; transform:translateY(16px) scale(0.98); transition:opacity 0.55s ease, transform 0.55s ease; }
+  .scroll-stagger.show{ opacity:1; transform:translateY(0) scale(1); }
 
   .big-line{
     margin:16px 0; font-weight:700;
@@ -317,7 +327,7 @@
     <div class="decrypt-inner">
       <div class="decrypt-title">DECRYPTING RESTRICTED FILE</div>
       <div class="decrypt-bar"><div class="decrypt-bar-fill" id="decryptFill"></div></div>
-      <div class="decrypt-status mono" id="decryptStatus">深層データへのアクセスを検知...</div>
+      <div class="decrypt-status mono" id="decryptStatus">不正アクセスを検知...</div>
 
       <div class="decrypt-confirm" id="decryptConfirm">
         <div class="dc-title display">アクセスを確定</div>
@@ -397,14 +407,13 @@
 
   </div>
 
-  <section>
+  <section class="scroll-in">
     <div class="wrap">
       <div class="sec-head"><span class="sec-num">Ⅰ</span><span class="sec-title display">概要</span></div>
       <p class="body-text">
         本個体は、神霊土体「敵界」のバグポイントの一つとされる完全封鎖都市<b>裏ロンドン</b>において
-        出生が確認された半エネミーであり───
+        出生が確認された半エネミーであり、<span class="hl-red">死の近縁種そのものと分類される。</span>
       </p>
-      <div class="big-line">死の近縁種そのものと分類される。</div>
       <p class="body-text">
         出生の経緯は、かつて裏ロンドンに滞在していた稀人が死霊種と関係を持ったことに起因すると
         推定されており、当該個体は禁忌の落胤として記録されている。これが<b>【DEATH】</b>のアルカナを
@@ -413,7 +422,7 @@
     </div>
   </section>
 
-  <section>
+  <section class="scroll-in">
     <div class="wrap">
       <div class="sec-head"><span class="sec-num">Ⅱ</span><span class="sec-title display">来歴</span></div>
       <p class="body-text">
@@ -424,10 +433,8 @@
       <p class="body-text">
         <b>魔女の時間</b>の及ばない裏ロンドンの環境は、当該個体にとって過度に静穏であったと記録されている。
         この状況を打開するため、個体は長期にわたる準備の末、裏エッフェル塔の番人への接触を決行した。
-        目的は、裏ロンドンには存在し得ない生の実感を得ることにあったと推定される。苦難の末に塔を制圧し
-        ………
+        目的は、裏ロンドンには存在し得ない生の実感を得ることにあったと推定される。苦難の末に塔を制圧し<span class="hl-red">表の世界への脱出に成功。</span>
       </p>
-      <div class="big-line">表の世界への脱出に成功。</div>
       <p class="body-text">
         以降、裏ロンドンで得た遺留品の売却及び独自のエネミー討伐により生計を立てていたところ、
         フィクサー協会の関知するところとなり、現在に至る。
@@ -450,7 +457,7 @@
     </div>
   </section>
 
-  <section>
+  <section class="scroll-in">
     <div class="wrap">
       <div class="sec-head"><span class="sec-num">Ⅲ</span><span class="sec-title display">性格</span></div>
       <p class="body-text">
@@ -472,7 +479,7 @@
     </div>
   </section>
 
-  <section>
+  <section class="scroll-in">
     <div class="wrap">
       <div class="sec-head"><span class="sec-num">Ⅳ</span><span class="sec-title display">戦闘関連</span></div>
       <p class="body-text">
@@ -484,7 +491,7 @@
     </div>
   </section>
 
-  <section style="border-bottom:none;">
+  <section class="scroll-in" style="border-bottom:none;">
     <div class="wrap">
       <div class="sec-head"><span class="sec-num">Ⅴ</span><span class="sec-title display"><ruby>虐殺棺具<rt>ジェノサイド・コフィンズ</rt></ruby></span></div>
 
@@ -504,7 +511,7 @@
         </div>
 
         <div class="coffin-grid">
-          <div class="coffin-card primary">
+          <div class="coffin-card primary scroll-stagger">
             <div class="coffin-badge">常用</div>
             <button class="coffin-toggle" type="button">
               <div class="coffin-heading">
@@ -521,7 +528,7 @@
             </div>
           </div>
 
-          <div class="coffin-card">
+          <div class="coffin-card scroll-stagger">
             <button class="coffin-toggle" type="button">
               <div class="coffin-heading">
                 <div class="coffin-no mono">第二の棺</div>
@@ -536,7 +543,7 @@
             </div>
           </div>
 
-          <div class="coffin-card">
+          <div class="coffin-card scroll-stagger">
             <button class="coffin-toggle" type="button">
               <div class="coffin-heading">
                 <div class="coffin-no mono">第三の棺</div>
@@ -551,7 +558,7 @@
             </div>
           </div>
 
-          <div class="coffin-card">
+          <div class="coffin-card scroll-stagger">
             <button class="coffin-toggle" type="button">
               <div class="coffin-heading">
                 <div class="coffin-no mono">第四の棺</div>
@@ -566,7 +573,7 @@
             </div>
           </div>
 
-          <div class="coffin-card">
+          <div class="coffin-card scroll-stagger">
             <button class="coffin-toggle" type="button">
               <div class="coffin-heading">
                 <div class="coffin-no mono">第五の棺</div>
@@ -581,7 +588,7 @@
             </div>
           </div>
 
-          <div class="coffin-card">
+          <div class="coffin-card scroll-stagger">
             <button class="coffin-toggle" type="button">
               <div class="coffin-heading">
                 <div class="coffin-no mono">第六の棺</div>
@@ -596,7 +603,7 @@
             </div>
           </div>
 
-          <div class="coffin-card">
+          <div class="coffin-card scroll-stagger">
             <button class="coffin-toggle" type="button">
               <div class="coffin-heading">
                 <div class="coffin-no mono">第七の棺</div>
@@ -611,7 +618,7 @@
             </div>
           </div>
 
-          <div class="coffin-card">
+          <div class="coffin-card scroll-stagger">
             <button class="coffin-toggle" type="button">
               <div class="coffin-heading">
                 <div class="coffin-no mono">第八の棺</div>
@@ -726,6 +733,23 @@
         btn.closest('.coffin-card').classList.toggle('open');
       });
     });
+  })();
+
+  (function(){
+    var targets = document.querySelectorAll('.scroll-in, .scroll-stagger');
+    if (!('IntersectionObserver' in window)){
+      targets.forEach(function(el){ el.classList.add('show'); });
+      return;
+    }
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add('show');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold:0.12, rootMargin:'0px 0px -60px 0px' });
+    targets.forEach(function(el){ obs.observe(el); });
   })();
   </script>
 

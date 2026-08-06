@@ -246,6 +246,15 @@
   .restricted-content .ability-box .a-body{ color:var(--paper-3); }
   .restricted-content .ability-box .a-body b{ color:var(--paper); }
 
+  /* ===== scroll-triggered entrance ===== */
+  .scroll-in{
+    opacity:0; transform:translateY(26px);
+    transition:opacity 0.8s ease, transform 0.8s ease;
+  }
+  .scroll-in.show{ opacity:1; transform:translateY(0); }
+  .scroll-stagger{ opacity:0; transform:translateY(12px); transition:opacity 0.5s ease, transform 0.5s ease; }
+  .scroll-stagger.show{ opacity:1; transform:translateY(0); }
+
   /* ===== ability sigil — a giant emblem behind the text (pre-composited transparent PNG) ===== */
   .ability-wrap{ position:relative; }
   .sigil-bg{
@@ -304,7 +313,7 @@
   </div>
 
   <div class="wrap">
-    <div class="profile-hero">
+    <div class="profile-hero scroll-in">
       <div class="ph-grid">
         <div>
           <div class="ph-eyebrow"><span class="card-no">ⅩⅢ</span>MAJOR ARCANA — DEATH</div>
@@ -326,25 +335,25 @@
     <div class="wrap">
       <div class="profile-split">
         <div class="dossier">
-          <div class="d-row"><span class="k">名前</span><span class="v">グリム・ネームレス</span></div>
-          <div class="d-row"><span class="k">種族</span><span class="v"><span class="redact-block">████</span> 非公開</span></div>
-          <div class="d-row"><span class="k">性別</span><span class="v">女</span></div>
-          <div class="d-row"><span class="k">アライメント</span><span class="v">秩序・善</span></div>
-          <div class="d-row"><span class="k">年齢</span><span class="v"><span class="redact-block">████</span> 非公開</span></div>
-          <div class="d-row"><span class="k">誕生日 ／ 星座</span><span class="v">？月？日　／　？座</span></div>
-          <div class="d-row"><span class="k">身長 ／ 体重</span><span class="v">163cm　／　ふふっ、想像にお任せするわ</span></div>
-          <div class="d-row"><span class="k">血液型</span><span class="v">蛹也黄型</span></div>
-          <div class="d-row"><span class="k">異能力</span><span class="v"><ruby>骸は死を以て死せず<rt>アンコラプス・コープス</rt></ruby></span></div>
-          <div class="d-row"><span class="k">国籍</span><span class="v">イギリス</span></div>
-          <div class="d-row"><span class="k">職業</span><span class="v">エネミー狩り ／ <ruby>便利屋<rt>フィクサー</rt></ruby></span></div>
-          <div class="d-row"><span class="k">階級</span><span class="v">S級</span></div>
-          <div class="d-row"><span class="k">所属組織</span><span class="v"><a class="plain" href="index.html">フィクサー協会</a></span></div>
-          <div class="d-row"><span class="k">所属事務所</span><span class="v">葬送事務所（<ruby>名も無き葬儀屋<rt>ネームレス・アンダーテイカー</rt></ruby>）</span></div>
-          <div class="d-row"><span class="k">称号</span><span class="v"><a class="corrupt" href="access-denied.html">蜊∽ｸ臥分逶ｮ</a></span></div>
+          <div class="d-row scroll-stagger"><span class="k">名前</span><span class="v">グリム・ネームレス</span></div>
+          <div class="d-row scroll-stagger"><span class="k">種族</span><span class="v"><span class="redact-block">████</span> 非公開</span></div>
+          <div class="d-row scroll-stagger"><span class="k">性別</span><span class="v">女</span></div>
+          <div class="d-row scroll-stagger"><span class="k">アライメント</span><span class="v">秩序・善</span></div>
+          <div class="d-row scroll-stagger"><span class="k">年齢</span><span class="v"><span class="redact-block">████</span> 非公開</span></div>
+          <div class="d-row scroll-stagger"><span class="k">誕生日 ／ 星座</span><span class="v">？月？日　／　？座</span></div>
+          <div class="d-row scroll-stagger"><span class="k">身長 ／ 体重</span><span class="v">163cm　／　ふふっ、想像にお任せするわ</span></div>
+          <div class="d-row scroll-stagger"><span class="k">血液型</span><span class="v">蛹也黄型</span></div>
+          <div class="d-row scroll-stagger"><span class="k">異能力</span><span class="v"><ruby>骸は死を以て死せず<rt>アンコラプス・コープス</rt></ruby></span></div>
+          <div class="d-row scroll-stagger"><span class="k">国籍</span><span class="v">イギリス</span></div>
+          <div class="d-row scroll-stagger"><span class="k">職業</span><span class="v">エネミー狩り ／ <ruby>便利屋<rt>フィクサー</rt></ruby></span></div>
+          <div class="d-row scroll-stagger"><span class="k">階級</span><span class="v">S級</span></div>
+          <div class="d-row scroll-stagger"><span class="k">所属組織</span><span class="v"><a class="plain" href="index.html">フィクサー協会</a></span></div>
+          <div class="d-row scroll-stagger"><span class="k">所属事務所</span><span class="v">葬送事務所（<ruby>名も無き葬儀屋<rt>ネームレス・アンダーテイカー</rt></ruby>）</span></div>
+          <div class="d-row scroll-stagger"><span class="k">称号</span><span class="v"><a class="corrupt" href="access-denied.html">蜊∽ｸ臥分逶ｮ</a></span></div>
         </div>
 
         <div class="narrative-col">
-          <div class="narrative-block">
+          <div class="narrative-block scroll-in">
             <div class="sec-head"><span class="sec-num">Ⅰ</span><span class="sec-title display">概要</span></div>
             <p class="body-text">
               ロンドンのフィクサー協会に所属する、フィクサー兼葬儀屋兼探偵。彼女が立ち上げ、
@@ -358,7 +367,7 @@
             </p>
           </div>
 
-          <div class="narrative-block">
+          <div class="narrative-block scroll-in">
             <div class="sec-head"><span class="sec-num">Ⅱ</span><span class="sec-title display">性格</span></div>
             <p class="body-text">
               面談および行動観察に基づく所見は以下の通り記録される。第一印象は、独特の言い回しと
@@ -590,6 +599,23 @@
         btn.closest('.equip-card').classList.toggle('open');
       });
     });
+  })();
+
+  (function(){
+    var targets = document.querySelectorAll('.scroll-in, .scroll-stagger');
+    if (!('IntersectionObserver' in window)){
+      targets.forEach(function(el){ el.classList.add('show'); });
+      return;
+    }
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add('show');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold:0.12, rootMargin:'0px 0px -60px 0px' });
+    targets.forEach(function(el){ obs.observe(el); });
   })();
   </script>
 
