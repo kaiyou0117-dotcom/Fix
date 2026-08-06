@@ -183,22 +183,24 @@
   /* ===== glitch noise: static burst + screen shake, fired each time a beat appears ===== */
   .static-overlay{
     position:fixed; inset:0; z-index:10000; pointer-events:none;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-image:url('shinigami-noise.png');
+    background-size:220px 220px;
+    background-repeat:repeat;
     mix-blend-mode:overlay;
     opacity:0;
   }
   .static-overlay.burst{ animation:staticFlicker 0.5s steps(4,end) 1; }
   @keyframes staticFlicker{
-    0%{ opacity:0; }
-    8%{ opacity:0.55; }
-    16%{ opacity:0.1; }
-    24%{ opacity:0.6; }
-    33%{ opacity:0.08; }
-    42%{ opacity:0.5; }
-    55%{ opacity:0.1; }
-    70%{ opacity:0.35; }
-    85%{ opacity:0.06; }
-    100%{ opacity:0; }
+    0%{ opacity:0; background-position:0 0; }
+    8%{ opacity:0.6; background-position:37px 12px; }
+    16%{ opacity:0.12; background-position:5px 88px; }
+    24%{ opacity:0.65; background-position:120px 40px; }
+    33%{ opacity:0.1; background-position:60px 130px; }
+    42%{ opacity:0.55; background-position:150px 20px; }
+    55%{ opacity:0.12; background-position:20px 160px; }
+    70%{ opacity:0.4; background-position:90px 70px; }
+    85%{ opacity:0.08; background-position:10px 30px; }
+    100%{ opacity:0; background-position:0 0; }
   }
   .cutscene.shake{ animation:glitchShake 0.45s linear 1; }
   @keyframes glitchShake{
