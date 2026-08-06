@@ -26,7 +26,7 @@
   .mono{ font-family:'JetBrains Mono', monospace; letter-spacing:0.03em; }
   a{ color:inherit; }
   ruby rt{ font-size:0.55em; color:var(--bone-dim); letter-spacing:0; }
-  .wrap{ max-width:880px; margin:0 auto; padding:0 6vw; }
+  .wrap{ max-width:1100px; margin:0 auto; padding:0 6vw; }
 
   /* corner status marker — replaces the association header entirely */
   .corner-status{
@@ -52,6 +52,21 @@
   .decrypt-bar{ width:220px; height:2px; background:rgba(220,213,202,0.12); margin:26px auto 16px; overflow:hidden; }
   .decrypt-bar-fill{ height:100%; width:0%; background:var(--blood); transition:width 0.4s steps(6); }
   .decrypt-status{ font-family:'JetBrains Mono', monospace; font-size:0.7rem; color:var(--bone-dim); min-height:1.4em; }
+
+  .decrypt-confirm{
+    max-height:0; opacity:0; overflow:hidden;
+    transition:opacity 0.5s ease, max-height 0.6s ease;
+  }
+  .decrypt-confirm.show{ max-height:200px; opacity:1; margin-top:30px; }
+  .dc-title{ font-size:1.3rem; font-weight:800; color:var(--bone); margin-bottom:22px; }
+  .dc-choices{ display:flex; gap:14px; justify-content:center; }
+  .dc-choice{
+    font-family:'Cinzel', serif; font-size:0.7rem; letter-spacing:0.12em;
+    padding:12px 32px; border:1px solid var(--bone-dim); color:var(--bone);
+    transition:background 0.25s, color 0.25s, border-color 0.25s;
+  }
+  .dc-choice.yes:hover{ background:var(--blood); border-color:var(--blood); color:var(--bone); }
+  .dc-choice.no:hover{ background:var(--bone); color:var(--void); border-color:var(--bone); }
 
   /* ===== glitch title ===== */
   .glitch{
@@ -117,8 +132,9 @@
   .body-text b{ color:var(--bone); }
 
   .big-line{
-    margin:30px 0; font-family:'Shippori Mincho B1', serif; font-weight:800;
-    font-size:clamp(1.9rem,5vw,2.9rem); color:var(--blood-glow); line-height:1.25;
+    margin:16px 0; font-weight:700;
+    font-size:0.9rem; color:var(--blood-glow); line-height:1.95;
+    font-family:'Noto Serif JP', serif;
   }
 
   .concealment{ margin-top:20px; font-size:0.86rem; color:var(--bone-dim); }
@@ -128,15 +144,36 @@
   .danger-note{ margin-top:24px; padding:18px 22px; border-left:3px solid var(--blood); background:var(--void-2); font-size:0.85rem; color:var(--bone-dim); }
   .danger-note b{ color:var(--blood-glow); }
 
-  /* ===== coffins ===== */
-  .coffin-grid{ margin-top:44px; display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); }
-  .coffin-card{ background:var(--void-2); padding:26px 22px; position:relative; }
+  /* ===== coffins: intro text left, coffin cards right ===== */
+  .coffin-split{ display:grid; grid-template-columns:0.85fr 1.3fr; gap:48px; align-items:start; margin-top:30px; }
+  .coffin-left .body-text{ max-width:none; }
+
+  .coffin-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); }
+  .coffin-card{ background:var(--void-2); padding:22px 22px; position:relative; }
   .coffin-card.primary{ background:var(--void-3); }
-  .coffin-no{ font-family:'JetBrains Mono', monospace; font-size:0.6rem; color:var(--blood); letter-spacing:0.08em; margin-bottom:10px; }
-  .coffin-badge{ position:absolute; top:22px; right:22px; font-family:'JetBrains Mono', monospace; font-size:0.56rem; color:var(--blood-glow); border:1px solid var(--blood-deep); padding:2px 7px; }
-  .coffin-name{ font-family:'Shippori Mincho B1', serif; font-weight:800; font-size:1rem; color:var(--bone); }
-  .coffin-epigraph{ margin-top:10px; font-family:'Shippori Mincho B1', serif; font-style:italic; font-size:0.76rem; color:var(--blood-glow); opacity:0.85; }
-  .coffin-desc{ margin-top:14px; font-size:0.82rem; color:var(--bone-dim); }
+  .coffin-badge{ position:absolute; top:20px; right:20px; font-family:'JetBrains Mono', monospace; font-size:0.56rem; color:var(--blood-glow); border:1px solid var(--blood-deep); padding:2px 7px; }
+
+  .coffin-toggle{
+    display:flex; align-items:center; justify-content:space-between; width:100%;
+    background:none; border:none; padding:0; margin:0; cursor:pointer; text-align:left;
+    font:inherit; color:inherit;
+  }
+  .coffin-heading{ padding-right:20px; }
+  .coffin-no{ font-size:0.6rem; color:var(--blood); letter-spacing:0.08em; margin-bottom:6px; }
+  .coffin-name{ font-family:'Shippori Mincho B1', serif; font-weight:800; font-size:0.96rem; color:var(--bone); }
+  .coffin-indicator{
+    font-family:'JetBrains Mono', monospace; font-size:1rem; color:var(--blood-glow);
+    flex-shrink:0; transition:transform 0.3s ease;
+  }
+  .coffin-card.open .coffin-indicator{ transform:rotate(45deg); }
+
+  .coffin-body{
+    max-height:0; opacity:0; overflow:hidden; margin-top:0;
+    transition:max-height 0.45s ease, opacity 0.35s ease, margin-top 0.45s ease;
+  }
+  .coffin-card.open .coffin-body{ max-height:300px; opacity:1; margin-top:14px; }
+  .coffin-epigraph{ font-family:'Shippori Mincho B1', serif; font-style:italic; font-size:0.74rem; color:var(--blood-glow); opacity:0.85; }
+  .coffin-desc{ margin-top:10px; font-size:0.8rem; color:var(--bone-dim); }
 
   footer{ padding:40px 0 90px; text-align:center; font-family:'JetBrains Mono', monospace; font-size:0.64rem; color:var(--bone-dim); }
 
@@ -259,6 +296,7 @@
 
   @media (max-width:720px){
     .coffin-grid{ grid-template-columns:1fr; }
+    .coffin-split{ grid-template-columns:1fr; gap:30px; }
     .stat-row{ grid-template-columns:120px 1fr; }
   }
 </style>
@@ -274,6 +312,14 @@
       <div class="decrypt-title">DECRYPTING RESTRICTED FILE</div>
       <div class="decrypt-bar"><div class="decrypt-bar-fill" id="decryptFill"></div></div>
       <div class="decrypt-status mono" id="decryptStatus">不正アクセスを検知...</div>
+
+      <div class="decrypt-confirm" id="decryptConfirm">
+        <div class="dc-title display">アクセスを確定</div>
+        <div class="dc-choices">
+          <a href="#" id="decryptYes" class="dc-choice yes">YES</a>
+          <a href="access-denied.html" class="dc-choice no">NO</a>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -349,13 +395,14 @@
     <div class="wrap">
       <div class="sec-head"><span class="sec-num">Ⅰ</span><span class="sec-title display">概要</span></div>
       <p class="body-text">
-        神霊土体「敵界」のバグポイントのひとつ、完全封鎖都市<b>裏ロンドン</b>にて産声を上げた半エネミーにして───
+        本個体は、神霊土体「敵界」のバグポイントの一つとされる完全封鎖都市<b>裏ロンドン</b>において
+        出生が確認された半エネミーであり───
       </p>
-      <div class="big-line">死の近縁種そのもの。</div>
+      <div class="big-line">死の近縁種そのものと分類される。</div>
       <p class="body-text">
-        かつて裏ロンドンに居たとある稀人が、戯れに死霊種と関係を持った事に起因して産み落とされた禁忌の落胤。
-        それが<b>【DEATH】</b>のアルカナを冠するS級フィクサー、グリム・ネームレス…もとい
-        <b>グリム・タナトフィリア</b>の正体である。
+        出生の経緯は、かつて裏ロンドンに滞在していた稀人が死霊種と関係を持ったことに起因すると
+        推定されており、当該個体は禁忌の落胤として記録されている。これが<b>【DEATH】</b>のアルカナを
+        冠するS級フィクサー、グリム・ネームレス――正確には<b>グリム・タナトフィリア</b>の正体である。
       </p>
     </div>
   </section>
@@ -364,33 +411,35 @@
     <div class="wrap">
       <div class="sec-head"><span class="sec-num">Ⅱ</span><span class="sec-title display">来歴</span></div>
       <p class="body-text">
-        自分が生まれた理由すらも分からないままその身ひとつで裏ロンドンの街に放り出されることとなった
-        グリムには、<b>既に死体であることであらゆる病理や生命の危機に適応する</b>という埒外の力が宿っていたが、
-        だからといって死の街が彼女に優しい世界という訳ではない。
+        出生の理由が不明のまま単身で裏ロンドンに放置された経緯が確認されている。当該個体には、
+        <b>既に死体である状態を保ちながらあらゆる病理及び生命の危機に適応する</b>という規格外の能力が
+        先天的に備わっていたが、これをもって裏ロンドンが個体にとって安全な環境であったとは言えない。
       </p>
       <p class="body-text">
-        <b>魔女の時間</b>外の裏ロンドンは、彼女にとって静か過ぎた。だからこそグリムは途方もない時間と労力を
-        かけてまで、裏エッフェル塔の番人といった強大な敵に向かう決意を固めた。外の世界を、裏ロンドンには
-        存在し得ない生の温もりを知りたかったからこそ。苦しんで、苦しんで、苦しみぬいた末に塔を制し………
+        <b>魔女の時間</b>の及ばない裏ロンドンの環境は、当該個体にとって過度に静穏であったと記録されている。
+        この状況を打開するため、個体は長期にわたる準備の末、裏エッフェル塔の番人への接触を決行した。
+        目的は、裏ロンドンには存在し得ない生の実感を得ることにあったと推定される。苦難の末に塔を制圧し
+        ………
       </p>
-      <div class="big-line">表の世界へと脱出。</div>
+      <div class="big-line">表の世界への脱出に成功。</div>
       <p class="body-text">
-        その後、裏ロンドンで拾った貴重な遺留品を売り払ったり、独自にエネミーを狩って生計を立てる中、
-        フィクサー協会に目を付けられることなり今に至る。
+        以降、裏ロンドンで得た遺留品の売却及び独自のエネミー討伐により生計を立てていたところ、
+        フィクサー協会の関知するところとなり、現在に至る。
       </p>
       <p class="body-text">
-        ちなみにグリムがS級フィクサーである事は協会内でも周知の事実ではあるのだが、それが十三番目の
-        アルカナであることはいかなる資料にも<b>敢えて</b>記されていない。
+        なお、当該個体がS級フィクサーである事実は協会内において公知であるが、大アルカナ十三番目に
+        該当する事実については、いかなる資料においても<b>意図的に</b>非開示とされている。理由として
+        以下の説が併存する。
       </p>
       <ul class="concealment">
-        <li>単純に不吉</li>
-        <li>マルセイユ版タロットの記名法則に基づいた</li>
-        <li>彼女の素性に常人が近づきすぎない為</li>
+        <li>不吉とされる番号であるため</li>
+        <li>マルセイユ版タロットの記名法則に準拠しているため</li>
+        <li>個体の素性に一般人が過度に接近することを防止するため</li>
       </ul>
-      <p class="body-text" style="margin-top:20px;">実際はそのどれもが当てはまっている。</p>
+      <p class="body-text" style="margin-top:20px;">調査の結果、これらは全て事実として確認されている。</p>
       <div class="danger-note">
-        <b>人の身で死の真理に近づき過ぎる者に対し、命の保証は出来ないからだ。</b>
-        人である彼らには、過剰すぎる警戒が丁度いい。
+        <b>人の身で死の真理に過度に接近した者について、生存を保証することはできない。</b>
+        一般人に対しては、過剰な警戒を促すことが妥当とされる。
       </div>
     </div>
   </section>
@@ -399,17 +448,20 @@
     <div class="wrap">
       <div class="sec-head"><span class="sec-num">Ⅲ</span><span class="sec-title display">性格</span></div>
       <p class="body-text">
-        半分ほど人間の血が混じっているからか、彼女にはどの死の近縁種よりも<b>死生観が人間に寄っている傾向</b>
-        が見られる。少なくとも、無闇矢鱈に死を渇望するような真似をする人物ではない。
+        当該個体は人間の血が半数程度混入しているためか、他の死の近縁種と比較して
+        <b>死生観が人間的傾向に近い</b>ことが確認されている。死を無差別に希求するような言動は
+        観測されていない。
       </p>
       <p class="body-text">
-        彼女にとって、死とは生命循環サイクルの最終行程。理想の死とは今際の際に「いい人生だった」と
-        振り返られるような、家族や子孫に囲まれた円満な老衰である。人も、人以外の生物も…自然に振る舞って
-        いればいずれ死ぬ。それを理解しているからこそ、その生と死の境界は彼女の双眸に美しく映る。
+        個体の認識において、死とは生命循環における最終工程として位置づけられている。理想とする死の
+        形態は、臨終の際に満足のいく人生であったと総括できるような、家族及び子孫に囲まれた自然な
+        老衰であるとされる。すべての生命は自然な経過の末に死に至るものであり、この理解に基づき、
+        個体は生と死の境界に対して肯定的な認識を持つ。
       </p>
       <div class="danger-note">
-        故に、<b>“不自然”な死および不老不死に対しては何よりも唾棄し、嫌悪する</b>一面を持つ。
-        人類の味方ではあるが…彼女もまた死の崇拝者であるということは忘れてはいけない。
+        一方で、<b>“不自然”な死及び不老不死に対しては強い嫌悪と拒絶反応を示す</b>ことが確認されている。
+        人類に対して協力的な立場を取ってはいるが、個体自身もまた死を崇拝する存在であるという点には
+        留意が必要である。
       </div>
     </div>
   </section>
@@ -418,9 +470,10 @@
     <div class="wrap">
       <div class="sec-head"><span class="sec-num">Ⅳ</span><span class="sec-title display">戦闘関連</span></div>
       <p class="body-text">
-        基礎事項、及び異能に関して特筆すべき追記事項はないので割愛。彼女の齎す死の形は人智を超えた
-        摩訶不思議な力ではなく、裏ロンドンでの死闘の果てに自ずと体得した<b>純然たる暴力</b>。
-        人が最も想起しやすい生命の危機だからこそ、その様は敵対者により克明な恐怖を掻き立てるのだ。
+        基礎能力及び異能に関して、特記すべき追加情報は確認されていない。個体がもたらす死は
+        超常的な力によるものではなく、裏ロンドンにおける実戦経験を通じて習得された<b>純然たる暴力</b>
+        に起因する。人が最も生命の危機として認識しやすい形態であるため、対峙する者に対して
+        強い恐怖を与える傾向がある。
       </p>
     </div>
   </section>
@@ -428,76 +481,144 @@
   <section style="border-bottom:none;">
     <div class="wrap">
       <div class="sec-head"><span class="sec-num">Ⅴ</span><span class="sec-title display"><ruby>虐殺棺具<rt>ジェノサイド・コフィンズ</rt></ruby></span></div>
-      <p class="body-text">
-        「死神」として戦いに赴く時のみ、グリムが取り扱う特殊異産群。計8つの薄い棺桶のような自律機動翼を
-        鎖で繋いだような本体の内部には、棺ごとに別種の異産が納められている。
-      </p>
-      <div class="danger-note">
-        各武具は裏ロンドン時代から愛用していたエネミーの欠片や異産をそのまま転用している為、
-        <b>常人が携行及び過度に使用し過ぎると裏ロンドンのような敵性異能粒子汚染現象を曝露する。</b>
-        加えて、いずれも現代考古学及び異能の力を以てしても解読不能な文字が記されている。唯一グリムのみが
-        その文を読み解く事が出来るようだが…それが死の近縁種だからなのかは不明。解読した文字にも特段
-        意味がある訳では無いようだ。
-      </div>
 
-      <div class="coffin-grid">
-        <div class="coffin-card primary">
-          <div class="coffin-badge">常用</div>
-          <div class="coffin-no mono">第一の棺</div>
-          <div class="coffin-name"><ruby>処刑人の剣<rt>エクスキューショナーズソード</rt></ruby></div>
-          <div class="coffin-epigraph">〜死は、最も普遍的な友人である〜</div>
-          <div class="coffin-desc">畏怖と権威に頂く処断の刃。刺突攻撃を放棄した幅広の刀身は、敵対する者のみに
-          作用する重みと斬れ味にて死を齎す。この武装のみ、他の虐殺棺具とは異なり平時も棺の外で保管している
-          普段使い用装備である。</div>
+      <div class="coffin-split">
+        <div class="coffin-left">
+          <p class="body-text">
+            「死神」として戦いに赴く時のみ、グリムが取り扱う特殊異産群。計8つの薄い棺桶のような自律機動翼を
+            鎖で繋いだような本体の内部には、棺ごとに別種の異産が納められている。
+          </p>
+          <div class="danger-note">
+            各武具は裏ロンドン時代から愛用していたエネミーの欠片や異産をそのまま転用している為、
+            <b>常人が携行及び過度に使用し過ぎると裏ロンドンのような敵性異能粒子汚染現象を曝露する。</b>
+            加えて、いずれも現代考古学及び異能の力を以てしても解読不能な文字が記されている。唯一グリムのみが
+            その文を読み解く事が出来るようだが…それが死の近縁種だからなのかは不明。解読した文字にも特段
+            意味がある訳では無いようだ。
+          </div>
         </div>
-        <div class="coffin-card">
-          <div class="coffin-no mono">第二の棺</div>
-          <div class="coffin-name"><ruby>静寂の孔<rt>ドレインホール</rt></ruby></div>
-          <div class="coffin-epigraph">〜死後の世界などない〜</div>
-          <div class="coffin-desc">敵を異能粒子ごと吸い込む孔。この武装自体に直接的な殺傷性は存在しないが、
-          その分妨害性能に特化している。</div>
-        </div>
-        <div class="coffin-card">
-          <div class="coffin-no mono">第三の棺</div>
-          <div class="coffin-name"><ruby>火葬の双銃<rt>ヘルファイア</rt></ruby></div>
-          <div class="coffin-epigraph">〜死せ。それが命のあるべき姿〜</div>
-          <div class="coffin-desc">骨で組まれた二丁の拳銃。鉄よりも耐熱性の高い骸骨で構成された砲身は、
-          高熱を吐いて完全なる死へと導く。</div>
-        </div>
-        <div class="coffin-card">
-          <div class="coffin-no mono">第四の棺</div>
-          <div class="coffin-name"><ruby>渡し守の呼び声<rt>ハルシネーション</rt></ruby></div>
-          <div class="coffin-epigraph">〜人智を超えた究極の神秘、それこそが死〜</div>
-          <div class="coffin-desc">観るものに幻聴を呼び起こす振り子。伸ばしてムチのように振るったり、敵の
-          拘束にも活用できるが…警戒して直視し続ければより精神を掻き乱されるだろう。</div>
-        </div>
-        <div class="coffin-card">
-          <div class="coffin-no mono">第五の棺</div>
-          <div class="coffin-name"><ruby>余命<rt>タイムリミット</rt></ruby></div>
-          <div class="coffin-epigraph">〜死の帳が、新たな世界の始まりを告げる〜</div>
-          <div class="coffin-desc">TTT機構にて他の棺の力を引き出す古時計。バフの種類は重量強化、脚力強化、
-          斬性強化の三つ。ただし同時使用機構は備えていない。</div>
-        </div>
-        <div class="coffin-card">
-          <div class="coffin-no mono">第六の棺</div>
-          <div class="coffin-name"><ruby>庇護の英雄譚<rt>サクリファイス</rt></ruby></div>
-          <div class="coffin-epigraph">〜死者の尊厳は、新たな生者へと委ねられる〜</div>
-          <div class="coffin-desc">内蔵された数枚の盾を展開・飛翔させる。盾は非常に堅牢だが、受けた衝撃と
-          ダメージは全て所有者のグリムにフィードバックされる。己を削ってでも他人を守る博愛の防壁。</div>
-        </div>
-        <div class="coffin-card">
-          <div class="coffin-no mono">第七の棺</div>
-          <div class="coffin-name"><ruby>復活祭卵<rt>イースターエッグ</rt></ruby></div>
-          <div class="coffin-epigraph">〜殻は破られた。ゆえに人は死を紡ぐ〜</div>
-          <div class="coffin-desc">自律的に転がるタマゴ型の爆弾。起爆スイッチは外殻の破壊。威力は低いが、
-          爆発後は何事も無かったかのように外殻を復元し即時再利用が可能。</div>
-        </div>
-        <div class="coffin-card">
-          <div class="coffin-no mono">第八の棺</div>
-          <div class="coffin-name"><ruby>死刑宣告<rt>デスセンテンス</rt></ruby></div>
-          <div class="coffin-epigraph">〜旧き愚者、等しく死すべし〜</div>
-          <div class="coffin-desc">死神の代名詞たる紫の大鎌。切断部位とその周辺の異能粒子に干渉し、
-          非活性化させることでその出力を削りながら敵を死へと誘う。</div>
+
+        <div class="coffin-grid">
+          <div class="coffin-card primary">
+            <div class="coffin-badge">常用</div>
+            <button class="coffin-toggle" type="button">
+              <div class="coffin-heading">
+                <div class="coffin-no mono">第一の棺</div>
+                <div class="coffin-name"><ruby>処刑人の剣<rt>エクスキューショナーズソード</rt></ruby></div>
+              </div>
+              <span class="coffin-indicator">+</span>
+            </button>
+            <div class="coffin-body">
+              <div class="coffin-epigraph">〜死は、最も普遍的な友人である〜</div>
+              <div class="coffin-desc">畏怖と権威に頂く処断の刃。刺突攻撃を放棄した幅広の刀身は、敵対する者のみに
+              作用する重みと斬れ味にて死を齎す。この武装のみ、他の虐殺棺具とは異なり平時も棺の外で保管している
+              普段使い用装備である。</div>
+            </div>
+          </div>
+
+          <div class="coffin-card">
+            <button class="coffin-toggle" type="button">
+              <div class="coffin-heading">
+                <div class="coffin-no mono">第二の棺</div>
+                <div class="coffin-name"><ruby>静寂の孔<rt>ドレインホール</rt></ruby></div>
+              </div>
+              <span class="coffin-indicator">+</span>
+            </button>
+            <div class="coffin-body">
+              <div class="coffin-epigraph">〜死後の世界などない〜</div>
+              <div class="coffin-desc">敵を異能粒子ごと吸い込む孔。この武装自体に直接的な殺傷性は存在しないが、
+              その分妨害性能に特化している。</div>
+            </div>
+          </div>
+
+          <div class="coffin-card">
+            <button class="coffin-toggle" type="button">
+              <div class="coffin-heading">
+                <div class="coffin-no mono">第三の棺</div>
+                <div class="coffin-name"><ruby>火葬の双銃<rt>ヘルファイア</rt></ruby></div>
+              </div>
+              <span class="coffin-indicator">+</span>
+            </button>
+            <div class="coffin-body">
+              <div class="coffin-epigraph">〜死せ。それが命のあるべき姿〜</div>
+              <div class="coffin-desc">骨で組まれた二丁の拳銃。鉄よりも耐熱性の高い骸骨で構成された砲身は、
+              高熱を吐いて完全なる死へと導く。</div>
+            </div>
+          </div>
+
+          <div class="coffin-card">
+            <button class="coffin-toggle" type="button">
+              <div class="coffin-heading">
+                <div class="coffin-no mono">第四の棺</div>
+                <div class="coffin-name"><ruby>渡し守の呼び声<rt>ハルシネーション</rt></ruby></div>
+              </div>
+              <span class="coffin-indicator">+</span>
+            </button>
+            <div class="coffin-body">
+              <div class="coffin-epigraph">〜人智を超えた究極の神秘、それこそが死〜</div>
+              <div class="coffin-desc">観るものに幻聴を呼び起こす振り子。伸ばしてムチのように振るったり、敵の
+              拘束にも活用できるが…警戒して直視し続ければより精神を掻き乱されるだろう。</div>
+            </div>
+          </div>
+
+          <div class="coffin-card">
+            <button class="coffin-toggle" type="button">
+              <div class="coffin-heading">
+                <div class="coffin-no mono">第五の棺</div>
+                <div class="coffin-name"><ruby>余命<rt>タイムリミット</rt></ruby></div>
+              </div>
+              <span class="coffin-indicator">+</span>
+            </button>
+            <div class="coffin-body">
+              <div class="coffin-epigraph">〜死の帳が、新たな世界の始まりを告げる〜</div>
+              <div class="coffin-desc">TTT機構にて他の棺の力を引き出す古時計。バフの種類は重量強化、脚力強化、
+              斬性強化の三つ。ただし同時使用機構は備えていない。</div>
+            </div>
+          </div>
+
+          <div class="coffin-card">
+            <button class="coffin-toggle" type="button">
+              <div class="coffin-heading">
+                <div class="coffin-no mono">第六の棺</div>
+                <div class="coffin-name"><ruby>庇護の英雄譚<rt>サクリファイス</rt></ruby></div>
+              </div>
+              <span class="coffin-indicator">+</span>
+            </button>
+            <div class="coffin-body">
+              <div class="coffin-epigraph">〜死者の尊厳は、新たな生者へと委ねられる〜</div>
+              <div class="coffin-desc">内蔵された数枚の盾を展開・飛翔させる。盾は非常に堅牢だが、受けた衝撃と
+              ダメージは全て所有者のグリムにフィードバックされる。己を削ってでも他人を守る博愛の防壁。</div>
+            </div>
+          </div>
+
+          <div class="coffin-card">
+            <button class="coffin-toggle" type="button">
+              <div class="coffin-heading">
+                <div class="coffin-no mono">第七の棺</div>
+                <div class="coffin-name"><ruby>復活祭卵<rt>イースターエッグ</rt></ruby></div>
+              </div>
+              <span class="coffin-indicator">+</span>
+            </button>
+            <div class="coffin-body">
+              <div class="coffin-epigraph">〜殻は破られた。ゆえに人は死を紡ぐ〜</div>
+              <div class="coffin-desc">自律的に転がるタマゴ型の爆弾。起爆スイッチは外殻の破壊。威力は低いが、
+              爆発後は何事も無かったかのように外殻を復元し即時再利用が可能。</div>
+            </div>
+          </div>
+
+          <div class="coffin-card">
+            <button class="coffin-toggle" type="button">
+              <div class="coffin-heading">
+                <div class="coffin-no mono">第八の棺</div>
+                <div class="coffin-name"><ruby>死刑宣告<rt>デスセンテンス</rt></ruby></div>
+              </div>
+              <span class="coffin-indicator">+</span>
+            </button>
+            <div class="coffin-body">
+              <div class="coffin-epigraph">〜旧き愚者、等しく死すべし〜</div>
+              <div class="coffin-desc">死神の代名詞たる紫の大鎌。切断部位とその周辺の異能粒子に干渉し、
+              非活性化させることでその出力を削りながら敵を死へと誘う。</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -531,11 +652,16 @@
         status.textContent = step.msg;
         if (step.pct === 100){
           setTimeout(function(){
-            overlay.classList.add('hide');
-            setTimeout(runCutscene, 550); /* wait for the decrypt overlay's own fade to finish */
+            document.getElementById('decryptConfirm').classList.add('show');
           }, 400);
         }
       }, elapsed);
+    });
+
+    document.getElementById('decryptYes').addEventListener('click', function(e){
+      e.preventDefault();
+      overlay.classList.add('hide');
+      setTimeout(runCutscene, 550); /* wait for the decrypt overlay's own fade to finish */
     });
 
     function runCutscene(){
@@ -580,9 +706,20 @@
         cutscene.classList.add('hide');
         document.body.style.overflow = '';
         reveal.classList.add('in');
-        setTimeout(function(){ warning.classList.add('show'); }, 500);
+        setTimeout(function(){
+          warning.classList.add('show');
+          setTimeout(function(){ warning.classList.remove('show'); }, 4000);
+        }, 500);
       }, t);
     }
+  })();
+
+  (function(){
+    document.querySelectorAll('.coffin-toggle').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        btn.closest('.coffin-card').classList.toggle('open');
+      });
+    });
   })();
   </script>
 
