@@ -678,6 +678,7 @@
       e.preventDefault();
       gate.classList.add('hide');
       document.body.style.overflow = '';
+      startCodenameTypewriter();
     });
   })();
 
@@ -809,9 +810,10 @@
     targets.forEach(function(t){ if (t) spy.observe(t); });
   })();
 
-  (function(){
+  function startCodenameTypewriter(){
     var el = document.getElementById('phCodename');
-    if (!el) return;
+    if (!el || el.dataset.typed) return;
+    el.dataset.typed = '1';
     var text = 'THE NAMELESS UNDERTAKER';
     var cursor = document.createElement('span');
     cursor.className = 'tw-cursor';
@@ -825,7 +827,7 @@
       }
     }
     type();
-  })();
+  }
 
   (function(){
     var box = document.getElementById('abilityBox');
