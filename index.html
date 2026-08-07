@@ -203,10 +203,16 @@
   .suit-row{
     display:grid; grid-template-columns:56px 1fr auto; align-items:center; gap:26px;
     padding:22px 0; border-top:1px solid var(--line);
-    transition:background 0.2s ease;
+    transition:background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+    position:relative; z-index:0;
   }
   .suit-row:last-child{ border-bottom:1px solid var(--line); }
-  .suit-row:hover{ background:var(--paper-2); }
+  .suit-row:hover{
+    background:var(--paper-2);
+    transform:scale(1.09);
+    box-shadow:0 16px 34px rgba(28,26,22,0.2);
+    z-index:1;
+  }
   .suit-row .glyph{ font-size:1.7rem; color:var(--gold-deep); }
   .suit-row .sname{ font-family:'Cinzel', serif; font-size:0.85rem; letter-spacing:0.12em; color:var(--ink); font-weight:600; }
   .suit-row .cap{ font-size:0.78rem; color:var(--ink-faint); text-align:right; }
