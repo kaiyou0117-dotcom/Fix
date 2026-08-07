@@ -10,6 +10,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://kaiyou0117-dotcom.github.io/Fix/index.html">
 <meta name="theme-color" content="#7c5f22">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 150'%3E%3Cg stroke='%237c5f22' stroke-width='4' fill='none'%3E%3Cline x1='50' y1='10' x2='72' y2='30'/%3E%3Cline x1='50' y1='10' x2='28' y2='30'/%3E%3Cline x1='50' y1='10' x2='50' y2='75'/%3E%3Cline x1='72' y1='30' x2='28' y2='30'/%3E%3Cline x1='72' y1='30' x2='72' y2='60'/%3E%3Cline x1='72' y1='30' x2='50' y2='75'/%3E%3Cline x1='28' y1='30' x2='28' y2='60'/%3E%3Cline x1='28' y1='30' x2='50' y2='75'/%3E%3Cline x1='72' y1='60' x2='28' y2='60'/%3E%3Cline x1='72' y1='60' x2='50' y2='75'/%3E%3Cline x1='72' y1='60' x2='72' y2='105'/%3E%3Cline x1='28' y1='60' x2='50' y2='75'/%3E%3Cline x1='28' y1='60' x2='28' y2='105'/%3E%3Cline x1='50' y1='75' x2='72' y2='105'/%3E%3Cline x1='50' y1='75' x2='28' y2='105'/%3E%3Cline x1='50' y1='75' x2='50' y2='120'/%3E%3Cline x1='72' y1='105' x2='28' y2='105'/%3E%3Cline x1='72' y1='105' x2='50' y2='120'/%3E%3Cline x1='28' y1='105' x2='50' y2='120'/%3E%3Cline x1='50' y1='120' x2='50' y2='140'/%3E%3C/g%3E%3Cg fill='%23f2ecdb' stroke='%237c5f22' stroke-width='4'%3E%3Ccircle cx='50' cy='10' r='8'/%3E%3Ccircle cx='72' cy='30' r='7'/%3E%3Ccircle cx='28' cy='30' r='7'/%3E%3Ccircle cx='72' cy='60' r='7'/%3E%3Ccircle cx='28' cy='60' r='7'/%3E%3Ccircle cx='50' cy='75' r='8'/%3E%3Ccircle cx='72' cy='105' r='7'/%3E%3Ccircle cx='28' cy='105' r='7'/%3E%3Ccircle cx='50' cy='120' r='7'/%3E%3Ccircle cx='50' cy='140' r='8'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Shippori+Mincho+B1:wght@500;800&family=Noto+Serif+JP:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -45,6 +46,44 @@
     letter-spacing:0.32em; display:block;
   }
 
+  /* ===== paper grain overlay ===== */
+  .grain-overlay{
+    position:fixed; inset:0; z-index:9000; pointer-events:none;
+    background-image:url('paper-grain.png');
+    background-size:180px 180px; background-repeat:repeat;
+    mix-blend-mode:multiply; opacity:0.05;
+  }
+
+  /* ===== custom scrollbar ===== */
+  html{ scrollbar-width:thin; scrollbar-color:var(--gold-deep) var(--paper-2); }
+  ::-webkit-scrollbar{ width:9px; }
+  ::-webkit-scrollbar-track{ background:var(--paper-2); }
+  ::-webkit-scrollbar-thumb{ background:var(--gold-deep); border-radius:0; }
+  ::-webkit-scrollbar-thumb:hover{ background:var(--gold); }
+
+  /* ===== load-in intro: the tree draws itself, then fades ===== */
+  .intro-veil{
+    position:fixed; inset:0; z-index:9998; background:var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    transition:opacity 0.8s ease, visibility 0.8s ease;
+  }
+  .intro-veil.hide{ opacity:0; visibility:hidden; pointer-events:none; }
+  .intro-tree .path-line line{
+    stroke:var(--gold-bright); stroke-width:1;
+    stroke-dasharray:120; stroke-dashoffset:120;
+    animation:drawLine 1s ease forwards;
+    filter:drop-shadow(0 0 5px rgba(199,155,63,0.6));
+  }
+  .intro-tree .node-ring{
+    stroke:var(--gold-bright); stroke-width:1.2; fill:var(--ink);
+    opacity:0; animation:nodeAppear 0.5s ease forwards; animation-delay:0.8s;
+  }
+  @keyframes drawLine{ to{ stroke-dashoffset:0; } }
+  @keyframes nodeAppear{ to{ opacity:1; } }
+  @media (prefers-reduced-motion: reduce){
+    .intro-veil{ display:none; }
+  }
+
   /* ===== tree of life mark ===== */
   .tree-mark .path-line{ stroke:currentColor; stroke-width:1; fill:none; opacity:0.65; }
   .tree-mark circle.node-ring{ stroke:currentColor; stroke-width:1.1; fill:var(--paper); }
@@ -71,11 +110,22 @@
   }
   header.site nav a:hover{ color:var(--paper); opacity:1; }
   header.site nav a:hover::after{ width:100%; }
+  header.site nav a.active{ color:var(--gold-bright); opacity:1; }
+  header.site nav a.active::after{ width:100%; }
 
   .wrap{ max-width:1120px; margin:0 auto; padding:0 6vw; }
 
   /* ===== Hero — asymmetric split ===== */
-  .hero{ padding:9vh 0 7vh; }
+  .hero-zone{ position:relative; overflow:hidden; }
+  .hero{ padding:9vh 0 7vh; position:relative; }
+  .hero-tree{
+    position:absolute; bottom:40px; left:78%; transform:translateX(-50%);
+    z-index:0; opacity:0.06; color:var(--gold-deep); pointer-events:none;
+    transition:transform 0.4s ease-out;
+  }
+  .hero-tree .path-line{ stroke:currentColor; stroke-width:0.6; fill:none; }
+  .hero-tree .node-ring{ stroke:currentColor; stroke-width:0.7; fill:none; }
+  .hero-grid{ position:relative; z-index:1; }
   .hero-grid{
     display:grid; grid-template-columns:1.5fr 1px 0.85fr;
     gap:60px; align-items:start;
@@ -108,8 +158,10 @@
 
   /* ===== announcement strip ===== */
   .strip{
-    background:var(--paper-2);
+    background:transparent;
+    border-top:1px solid var(--line);
     border-bottom:1px solid var(--line);
+    position:relative; z-index:1;
   }
   .strip-item .date{
     font-family:'Cinzel', serif; font-size:0.58rem; color:var(--paper);
@@ -131,7 +183,13 @@
   }
 
   /* ===== Section shell ===== */
-  section{ border-bottom:1px solid var(--line); padding:86px 0; }
+  section{ border-bottom:1px solid var(--line); padding:86px 0; position:relative; }
+  section:not(:last-of-type)::after{
+    content:""; position:absolute; left:50%; bottom:-5px;
+    width:9px; height:9px; margin-left:-4.5px;
+    background:var(--paper); border:1px solid var(--gold-deep);
+    transform:rotate(45deg);
+  }
   .sec-header{
     display:flex; justify-content:space-between; align-items:flex-end;
     gap:30px; margin-bottom:52px;
@@ -189,8 +247,15 @@
 
   /* ===== S-rank directory ===== */
   .tarot-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(108px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); }
-  .tarot-card{ perspective:1000px; height:172px; background:var(--paper); }
+  .tarot-card{ perspective:1000px; height:172px; background:var(--paper); position:relative; overflow:hidden; }
   .tarot-card.tarot-link{ display:block; color:inherit; text-decoration:none; cursor:pointer; }
+  .tarot-card::before{
+    content:""; position:absolute; top:-40%; left:-60%; width:40%; height:220%;
+    background:linear-gradient(115deg, transparent, rgba(199,155,63,0.55), transparent);
+    transform:translateX(-40px) rotate(8deg); z-index:5; pointer-events:none;
+    transition:transform 0.75s ease;
+  }
+  .tarot-card:hover::before{ transform:translateX(420px) rotate(8deg); }
   .tarot-card .inner{ position:relative; width:100%; height:100%; transform-style:preserve-3d; transition:transform 0.7s cubic-bezier(.3,.7,.3,1); }
   .tarot-card:hover .inner{ transform:rotateY(180deg); }
   .tarot-face{ position:absolute; inset:0; backface-visibility:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:10px; text-align:center; }
@@ -284,6 +349,33 @@
 </head>
 <body>
 
+  <div class="grain-overlay"></div>
+
+  <div class="intro-veil" id="introVeil">
+    <svg class="intro-tree" width="150" height="225" viewBox="0 0 100 150">
+      <g class="path-line">
+        <line x1="50" y1="10" x2="72" y2="30"/><line x1="50" y1="10" x2="28" y2="30"/><line x1="50" y1="10" x2="50" y2="75"/>
+        <line x1="72" y1="30" x2="28" y2="30"/><line x1="72" y1="30" x2="72" y2="60"/><line x1="72" y1="30" x2="50" y2="75"/>
+        <line x1="28" y1="30" x2="28" y2="60"/><line x1="28" y1="30" x2="50" y2="75"/>
+        <line x1="72" y1="60" x2="28" y2="60"/><line x1="72" y1="60" x2="50" y2="75"/><line x1="72" y1="60" x2="72" y2="105"/>
+        <line x1="28" y1="60" x2="50" y2="75"/><line x1="28" y1="60" x2="28" y2="105"/>
+        <line x1="50" y1="75" x2="72" y2="105"/><line x1="50" y1="75" x2="28" y2="105"/><line x1="50" y1="75" x2="50" y2="120"/>
+        <line x1="72" y1="105" x2="28" y2="105"/><line x1="72" y1="105" x2="50" y2="120"/>
+        <line x1="28" y1="105" x2="50" y2="120"/>
+        <line x1="50" y1="120" x2="50" y2="140"/>
+      </g>
+      <g>
+        <circle class="node-ring" cx="50" cy="10" r="7"/>
+        <circle class="node-ring" cx="72" cy="30" r="6"/><circle class="node-ring" cx="28" cy="30" r="6"/>
+        <circle class="node-ring" cx="72" cy="60" r="6"/><circle class="node-ring" cx="28" cy="60" r="6"/>
+        <circle class="node-ring" cx="50" cy="75" r="7"/>
+        <circle class="node-ring" cx="72" cy="105" r="6"/><circle class="node-ring" cx="28" cy="105" r="6"/>
+        <circle class="node-ring" cx="50" cy="120" r="6"/>
+        <circle class="node-ring" cx="50" cy="140" r="7"/>
+      </g>
+    </svg>
+  </div>
+
   <header class="site">
     <div class="brand">
       <svg class="tree-mark" width="20" height="28" viewBox="0 0 100 150" style="color:var(--gold-bright);">
@@ -319,43 +411,68 @@
     </nav>
   </header>
 
-  <div class="wrap">
-    <div class="hero">
-      <div class="hero-grid">
-        <div class="hero-left scroll-in">
-          <span class="eyebrow">ESTABLISHED — LONDON</span>
-          <h1 class="display">フィクサー協会</h1>
-          <p class="lead">
-            フィクサー協会は、特殊な技能（異能）を持つ便利屋たちの活動を管理・支援する
-            公的な仲介組織です。個人・企業・行政機関からのご依頼を受け付け、
-            内容に応じて適切なフィクサーをご紹介しています。
-          </p>
-        </div>
-        <div class="hero-div"></div>
-        <div class="hero-right scroll-in">
-          <div class="meta-list">
-            <div class="meta-row"><span class="k">本部</span><span class="v">ロンドン</span></div>
-            <div class="meta-row"><span class="k">等級制度</span><span class="v">E〜S / 全6段階</span></div>
-            <div class="meta-row"><span class="k">統轄</span><span class="v">協会長</span></div>
-            <div class="meta-row"><span class="k">受付</span><span class="v">個人 ／ 事務所単位</span></div>
+  <div class="hero-zone">
+    <svg class="hero-tree" id="heroTree" width="320" height="480" viewBox="0 0 100 150">
+      <g class="path-line">
+        <line x1="50" y1="10" x2="72" y2="30"/><line x1="50" y1="10" x2="28" y2="30"/><line x1="50" y1="10" x2="50" y2="75"/>
+        <line x1="72" y1="30" x2="28" y2="30"/><line x1="72" y1="30" x2="72" y2="60"/><line x1="72" y1="30" x2="50" y2="75"/>
+        <line x1="28" y1="30" x2="28" y2="60"/><line x1="28" y1="30" x2="50" y2="75"/>
+        <line x1="72" y1="60" x2="28" y2="60"/><line x1="72" y1="60" x2="50" y2="75"/><line x1="72" y1="60" x2="72" y2="105"/>
+        <line x1="28" y1="60" x2="50" y2="75"/><line x1="28" y1="60" x2="28" y2="105"/>
+        <line x1="50" y1="75" x2="72" y2="105"/><line x1="50" y1="75" x2="28" y2="105"/><line x1="50" y1="75" x2="50" y2="120"/>
+        <line x1="72" y1="105" x2="28" y2="105"/><line x1="72" y1="105" x2="50" y2="120"/>
+        <line x1="28" y1="105" x2="50" y2="120"/>
+        <line x1="50" y1="120" x2="50" y2="140"/>
+      </g>
+      <g>
+        <circle class="node-ring" cx="50" cy="10" r="7"/>
+        <circle class="node-ring" cx="72" cy="30" r="6"/><circle class="node-ring" cx="28" cy="30" r="6"/>
+        <circle class="node-ring" cx="72" cy="60" r="6"/><circle class="node-ring" cx="28" cy="60" r="6"/>
+        <circle class="node-ring" cx="50" cy="75" r="7"/>
+        <circle class="node-ring" cx="72" cy="105" r="6"/><circle class="node-ring" cx="28" cy="105" r="6"/>
+        <circle class="node-ring" cx="50" cy="120" r="6"/>
+        <circle class="node-ring" cx="50" cy="140" r="7"/>
+      </g>
+    </svg>
+
+    <div class="wrap">
+      <div class="hero">
+        <div class="hero-grid">
+          <div class="hero-left scroll-in">
+            <span class="eyebrow">ESTABLISHED — LONDON</span>
+            <h1 class="display">フィクサー協会</h1>
+            <p class="lead">
+              フィクサー協会は、特殊な技能（異能）を持つ便利屋たちの活動を管理・支援する
+              公的な仲介組織です。個人・企業・行政機関からのご依頼を受け付け、
+              内容に応じて適切なフィクサーをご紹介しています。
+            </p>
+          </div>
+          <div class="hero-div"></div>
+          <div class="hero-right scroll-in">
+            <div class="meta-list">
+              <div class="meta-row"><span class="k">本部</span><span class="v">ロンドン</span></div>
+              <div class="meta-row"><span class="k">等級制度</span><span class="v">E〜S / 全6段階</span></div>
+              <div class="meta-row"><span class="k">統轄</span><span class="v">協会長</span></div>
+              <div class="meta-row"><span class="k">受付</span><span class="v">個人 ／ 事務所単位</span></div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="strip">
-    <div class="wrap">
-      <div class="strip-inner">
-        <div class="strip-title">
-          <span class="display">お知らせ</span>
-          <span class="en">ANNOUNCEMENTS</span>
+    <div class="strip">
+      <div class="wrap">
+        <div class="strip-inner">
+          <div class="strip-title">
+            <span class="display">お知らせ</span>
+            <span class="en">ANNOUNCEMENTS</span>
+          </div>
+          <a class="more" href="#">すべて見る →</a>
         </div>
-        <a class="more" href="#">すべて見る →</a>
-      </div>
-      <div class="strip-items">
-        <div class="strip-item"><span class="date">2026.07.18</span><span>研修生（E級）の受け入れ枠を拡大しました</span></div>
-        <div class="strip-item"><span class="date">2026.06.02</span><span>事務所登録申請システムのメンテナンスについて</span></div>
+        <div class="strip-items">
+          <div class="strip-item"><span class="date">2026.07.18</span><span>研修生（E級）の受け入れ枠を拡大しました</span></div>
+          <div class="strip-item"><span class="date">2026.06.02</span><span>事務所登録申請システムのメンテナンスについて</span></div>
+        </div>
       </div>
     </div>
   </div>
@@ -586,6 +703,50 @@
       });
     }, { threshold:0.12, rootMargin:'0px 0px -60px 0px' });
     targets.forEach(function(el){ obs.observe(el); });
+  })();
+
+  (function(){
+    var veil = document.getElementById('introVeil');
+    if (!veil) return;
+    document.body.style.overflow = 'hidden';
+    setTimeout(function(){
+      veil.classList.add('hide');
+      document.body.style.overflow = '';
+    }, 1350);
+  })();
+
+  (function(){
+    var tree = document.getElementById('heroTree');
+    var hero = document.querySelector('.hero-zone');
+    if (!tree || !hero) return;
+    hero.addEventListener('mousemove', function(e){
+      var r = hero.getBoundingClientRect();
+      var dx = (e.clientX - r.left) / r.width - 0.5;
+      var dy = (e.clientY - r.top) / r.height - 0.5;
+      tree.style.transform = 'translateX(calc(-50% + ' + (dx * -16) + 'px)) translateY(' + (dy * -10) + 'px)';
+    });
+    hero.addEventListener('mouseleave', function(){
+      tree.style.transform = 'translateX(-50%)';
+    });
+  })();
+
+  (function(){
+    var navLinks = document.querySelectorAll('header.site nav a');
+    var sections = Array.prototype.map.call(navLinks, function(a){
+      return document.querySelector(a.getAttribute('href'));
+    });
+    if (!('IntersectionObserver' in window)) return;
+    var spy = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        var idx = sections.indexOf(entry.target);
+        if (idx === -1) return;
+        if (entry.isIntersecting){
+          navLinks.forEach(function(a){ a.classList.remove('active'); });
+          navLinks[idx].classList.add('active');
+        }
+      });
+    }, { threshold:0.3, rootMargin:'-30% 0px -50% 0px' });
+    sections.forEach(function(s){ if (s) spy.observe(s); });
   })();
   </script>
 
