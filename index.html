@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>フィクサー協会 ― 公式サイト</title>
+<meta property="og:title" content="フィクサー協会 ― THE FIXER ASSOCIATION">
+<meta property="og:description" content="ロンドンを本拠地とする、異能を持つフィクサー（便利屋）たちの管理・支援組織。Fix the Impossible.">
+<meta property="og:site_name" content="THE FIXER ASSOCIATION">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kaiyou0117-dotcom.github.io/Fix/index.html">
+<meta name="theme-color" content="#7c5f22">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Shippori+Mincho+B1:wght@500;800&family=Noto+Serif+JP:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -153,22 +159,33 @@
   .kv-col .row .dot{ color:var(--gold); flex-shrink:0; }
 
   /* ===== Rank ledger ===== */
-  table.ledger{ width:100%; border-collapse:collapse; font-size:0.87rem; }
-  table.ledger th{
-    font-family:'Cinzel', serif; text-align:left; font-weight:600; font-size:0.6rem;
-    color:var(--ink-faint); letter-spacing:0.14em; padding:0 18px 14px 0; border-bottom:1px solid var(--ink);
+  .rank-table{ width:100%; font-size:0.87rem; }
+  .rank-header{
+    display:grid; grid-template-columns:170px 1fr; gap:18px;
+    font-family:'Cinzel', serif; font-weight:600; font-size:0.6rem;
+    color:var(--ink-faint); letter-spacing:0.14em; padding:0 0 14px; border-bottom:1px solid var(--ink);
   }
-  table.ledger td{ padding:18px 18px 18px 0; border-bottom:1px solid var(--line); vertical-align:top; color:var(--ink-soft); transition:background 0.2s ease; }
-  table.ledger tr:hover td{ background:var(--paper-2); }
+  .rank-row{
+    display:grid; grid-template-columns:170px 1fr; gap:18px; align-items:center;
+    padding:18px 0; border-bottom:1px solid var(--line); color:var(--ink-soft);
+    position:relative; z-index:0;
+    transition:background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .rank-row.scroll-stagger:hover{
+    background:var(--paper-2);
+    transform:scale(1.045);
+    box-shadow:0 14px 30px rgba(28,26,22,0.18);
+    z-index:1;
+  }
   .rank-mark{ font-family:'Cinzel', serif; font-weight:600; display:flex; align-items:baseline; gap:10px; }
   .rank-mark .letter{ font-size:1rem; width:1.2em; }
   .rank-mark .bar{ height:1px; width:30px; }
-  tr.rk-E .letter{ color:var(--ink-faint); } tr.rk-E .bar{ background:var(--ink-faint); }
-  tr.rk-D .letter{ color:#8f7c58; } tr.rk-D .bar{ background:#8f7c58; }
-  tr.rk-C .letter{ color:#7c6435; } tr.rk-C .bar{ background:#7c6435; }
-  tr.rk-B .letter{ color:var(--gold-deep); } tr.rk-B .bar{ background:var(--gold-deep); }
-  tr.rk-A .letter{ color:var(--gold); } tr.rk-A .bar{ background:var(--gold); }
-  tr.rk-S .letter{ color:var(--burgundy); font-size:1.2rem; } tr.rk-S .bar{ background:var(--burgundy); }
+  .rk-E .letter{ color:var(--ink-faint); } .rk-E .bar{ background:var(--ink-faint); }
+  .rk-D .letter{ color:#8f7c58; } .rk-D .bar{ background:#8f7c58; }
+  .rk-C .letter{ color:#7c6435; } .rk-C .bar{ background:#7c6435; }
+  .rk-B .letter{ color:var(--gold-deep); } .rk-B .bar{ background:var(--gold-deep); }
+  .rk-A .letter{ color:var(--gold); } .rk-A .bar{ background:var(--gold); }
+  .rk-S .letter{ color:var(--burgundy); font-size:1.2rem; } .rk-S .bar{ background:var(--burgundy); }
 
   /* ===== S-rank directory ===== */
   .tarot-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(108px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); }
@@ -207,7 +224,7 @@
     position:relative; z-index:0;
   }
   .suit-row:last-child{ border-bottom:1px solid var(--line); }
-  .suit-row:hover{
+  .suit-row.scroll-stagger:hover{
     background:var(--paper-2);
     transform:scale(1.09);
     box-shadow:0 16px 34px rgba(28,26,22,0.2);
@@ -312,8 +329,6 @@
         </div>
         <div class="hero-div"></div>
         <div class="hero-right scroll-in">
-          <div class="stat-big">22</div>
-          <div class="stat-cap">S級フィクサー定員（大アルカナに準拠）</div>
           <div class="meta-list">
             <div class="meta-row"><span class="k">本部</span><span class="v">ロンドン</span></div>
             <div class="meta-row"><span class="k">等級制度</span><span class="v">E〜S / 全6段階</span></div>
@@ -373,19 +388,16 @@
     <div class="wrap">
       <div class="sec-header">
         <div><span class="eyebrow">FIXER RANKS</span><h2 class="display">等級制度</h2></div>
-        <div class="aside-stat"><div class="n">6</div><div class="c">TIERS</div></div>
       </div>
-      <table class="ledger">
-        <thead><tr><th>RANK</th><th>概要</th></tr></thead>
-        <tbody>
-          <tr class="rk-E"><td><div class="rank-mark"><span class="letter">E</span><span class="bar"></span></div></td><td>新人や実地研修生。簡単な依頼に対応します。</td></tr>
-          <tr class="rk-D"><td><div class="rank-mark"><span class="letter">D</span><span class="bar"></span></div></td><td>一般的な便利屋レベル。軽度なトラブルの対応が可能です。</td></tr>
-          <tr class="rk-C"><td><div class="rank-mark"><span class="letter">C</span><span class="bar"></span></div></td><td>中堅クラス。小規模チームのリーダーを務めることもあります。</td></tr>
-          <tr class="rk-B"><td><div class="rank-mark"><span class="letter">B</span><span class="bar"></span></div></td><td>大規模な任務や海外派遣にも対応。特殊技能に秀でた者が多く在籍します。</td></tr>
-          <tr class="rk-A"><td><div class="rank-mark"><span class="letter">A</span><span class="bar"></span></div></td><td>協会の中核を担う精鋭。独立した活動が認められています。</td></tr>
-          <tr class="rk-S"><td><div class="rank-mark"><span class="letter">S</span><span class="bar"></span></div></td><td>協会内でも数が極めて少ない、卓越した実力を持つフィクサーたちです。</td></tr>
-        </tbody>
-      </table>
+      <div class="rank-table">
+        <div class="rank-header"><span>RANK</span><span>概要</span></div>
+        <div class="rank-row scroll-stagger rk-E"><div><div class="rank-mark"><span class="letter">E</span><span class="bar"></span></div></div><div>新人や実地研修生。簡単な依頼に対応します。</div></div>
+        <div class="rank-row scroll-stagger rk-D"><div><div class="rank-mark"><span class="letter">D</span><span class="bar"></span></div></div><div>一般的な便利屋レベル。軽度なトラブルの対応が可能です。</div></div>
+        <div class="rank-row scroll-stagger rk-C"><div><div class="rank-mark"><span class="letter">C</span><span class="bar"></span></div></div><div>中堅クラス。小規模チームのリーダーを務めることもあります。</div></div>
+        <div class="rank-row scroll-stagger rk-B"><div><div class="rank-mark"><span class="letter">B</span><span class="bar"></span></div></div><div>大規模な任務や海外派遣にも対応。特殊技能に秀でた者が多く在籍します。</div></div>
+        <div class="rank-row scroll-stagger rk-A"><div><div class="rank-mark"><span class="letter">A</span><span class="bar"></span></div></div><div>協会の中核を担う精鋭。独立した活動が認められています。</div></div>
+        <div class="rank-row scroll-stagger rk-S"><div><div class="rank-mark"><span class="letter">S</span><span class="bar"></span></div></div><div>協会内でも数が極めて少ない、卓越した実力を持つフィクサーたちです。</div></div>
+      </div>
     </div>
   </section>
 
@@ -393,7 +405,6 @@
     <div class="wrap">
       <div class="sec-header">
         <div><span class="eyebrow">MAJOR ARCANA</span><h2 class="display">S級フィクサー</h2></div>
-        <div class="aside-stat"><div class="n">22</div><div class="c">SEATS</div></div>
       </div>
       <p class="section-lead">
         各S級フィクサーには、その資質にちなんだ異名が与えられています。カードにカーソルを合わせるとご覧いただけます。
@@ -500,7 +511,6 @@
     <div class="wrap">
       <div class="sec-header">
         <div><span class="eyebrow">FOUR ACTIVE SQUADS</span><h2 class="display">シ紋（フォースーツ）</h2></div>
-        <div class="aside-stat"><div class="n">4</div><div class="c">SQUADS</div></div>
       </div>
       <p class="section-lead">
         協会に所属する実働部隊です。4つの部隊が存在し、それぞれ隊長号を持っています。
@@ -518,7 +528,6 @@
     <div class="wrap">
       <div class="sec-header">
         <div><span class="eyebrow">FIRM REGISTRATION</span><h2 class="display">事務所システム</h2></div>
-        <div class="aside-stat"><div class="n">3+</div><div class="c">MIN. MEMBERS</div></div>
       </div>
       <p class="section-lead">
         3人以上のフィクサーで構成された組織は、協会への登録申請により「事務所」として活動できます。
