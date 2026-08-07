@@ -119,7 +119,8 @@
 
   /* ===== stat table (red/black) ===== */
   .stat-table{ border:1px solid var(--blood-deep); }
-  .stat-row{ display:grid; grid-template-columns:130px 1fr; border-bottom:1px solid rgba(200,30,46,0.25); }
+  .stat-row{ display:grid; grid-template-columns:130px 1fr; border-bottom:1px solid rgba(200,30,46,0.25); transition:background 0.2s ease; }
+  .stat-row:hover{ background:rgba(200,30,46,0.12); }
   .stat-row:last-child{ border-bottom:none; }
   .stat-row .sk{ font-family:'JetBrains Mono', monospace; font-size:0.66rem; color:var(--blood-glow); padding:13px 14px; background:var(--void-3); border-right:1px solid rgba(200,30,46,0.25); }
   .stat-row .sv{ font-family:'JetBrains Mono', monospace; font-size:0.74rem; color:var(--bone); padding:13px 14px; }
@@ -165,8 +166,10 @@
   .coffin-left .body-text{ max-width:none; }
 
   .coffin-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); }
-  .coffin-card{ background:var(--void-2); padding:22px 22px; position:relative; }
+  .coffin-card{ background:var(--void-2); padding:22px 22px; position:relative; transition:background 0.2s ease; }
+  .coffin-card:hover{ background:#241a1a; }
   .coffin-card.primary{ background:var(--void-3); }
+  .coffin-card.primary:hover{ background:#2a1f1f; }
   .coffin-badge{ position:absolute; top:20px; right:20px; font-family:'JetBrains Mono', monospace; font-size:0.56rem; color:var(--blood-glow); border:1px solid var(--blood-deep); padding:2px 7px; }
 
   .coffin-toggle{

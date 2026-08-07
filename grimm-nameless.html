@@ -81,7 +81,8 @@
 
   /* ===== dossier — open list, not a bureaucratic grid ===== */
   .dossier{ border-top:1px solid var(--ink); }
-  .d-row{ display:grid; grid-template-columns:120px 1fr; gap:16px; padding:8px 0; border-bottom:1px solid var(--line); font-size:0.76rem; }
+  .d-row{ display:grid; grid-template-columns:120px 1fr; gap:16px; padding:8px 0; border-bottom:1px solid var(--line); font-size:0.76rem; transition:background 0.2s ease; }
+  .d-row:hover{ background:var(--paper-2); }
   .d-row .k{ font-family:'Cinzel', serif; font-size:0.54rem; letter-spacing:0.08em; color:var(--accent-deep); padding-top:2px; }
   .d-row .v{ color:var(--ink-soft); }
   .redact-block{ display:inline-block; background:var(--ink); color:var(--ink); border-radius:1px; padding:0 6px; font-size:0.9em; user-select:none; }
@@ -105,7 +106,8 @@
   .combat-left .body-text{ max-width:none; }
 
   .equip-grid{ display:grid; grid-template-columns:1fr; gap:1px; background:var(--line); border:1px solid var(--line); }
-  .equip-card{ background:var(--paper); padding:24px 24px; }
+  .equip-card{ background:var(--paper); padding:24px 24px; transition:background 0.2s ease; }
+  .equip-card:hover{ background:var(--paper-2); }
   .eq-toggle{
     display:flex; align-items:center; justify-content:space-between; width:100%;
     background:none; border:none; padding:0; margin:0; cursor:pointer; text-align:left;
@@ -237,6 +239,7 @@
   .restricted-content .note-box .nb-label{ color:var(--danger); }
   .restricted-content .equip-grid{ background:rgba(242,236,219,0.12); border-color:rgba(242,236,219,0.12); }
   .restricted-content .equip-card{ background:var(--ink); }
+  .restricted-content .equip-card:hover{ background:#26211b; }
   .restricted-content .equip-card h4{ color:var(--accent); }
   .restricted-content .equip-card p{ color:var(--paper-3); }
   .restricted-content .equip-card .origin{ color:var(--danger); opacity:0.85; }
