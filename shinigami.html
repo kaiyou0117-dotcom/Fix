@@ -330,7 +330,7 @@
     <div class="decrypt-inner">
       <div class="decrypt-title">DECRYPTING RESTRICTED FILE</div>
       <div class="decrypt-bar"><div class="decrypt-bar-fill" id="decryptFill"></div></div>
-      <div class="decrypt-status mono" id="decryptStatus">不明なアクセスを検知...</div>
+      <div class="decrypt-status mono" id="decryptStatus">不正アクセスを検知...</div>
 
       <div class="decrypt-confirm" id="decryptConfirm">
         <div class="dc-title display">アクセスを確定</div>
@@ -387,8 +387,8 @@
             <img src="shinigami-portrait.png" alt="「死神」として顕現した際の姿">
           </div>
           <p class="portrait-caption">
-            <span class="pc-epigraph">〜資料番号：VIS-07089〜</span>
-            当個体が「死神」として顕現した際の記録。周囲に見える光条は虐殺棺具の残光と推定され、
+            <span class="pc-epigraph">〜訪れる者に、安らぎはない〜</span>
+            「死神」として顕現した際の記録。周囲に見える光条は虐殺棺具の残光と推定され、
             通常の観測機器では正確な輪郭を捉えきれない。
           </p>
         </div>
@@ -701,8 +701,8 @@
       var beats = [
         { id:'cs1', hold:700  },
         { id:'cs2', hold:1300 },
-        { id:'cs3', hold:2200 },
-        { id:'cs4', hold:2400 }
+        { id:'cs3', hold:1650 },
+        { id:'cs4', hold:1850 }
       ];
       var gap = 350;
 
@@ -713,6 +713,15 @@
           triggerGlitch();
           el.classList.add('in');
         }, t);
+
+        /* extra mid-beat flickers, so the noise/flash isn't only tied to the switch moment */
+        if (beat.hold > 900){
+          setTimeout(triggerGlitch, t + beat.hold * 0.45);
+        }
+        if (beat.hold > 1600){
+          setTimeout(triggerGlitch, t + beat.hold * 0.75);
+        }
+
         t += beat.hold;
         setTimeout(function(){ el.classList.remove('in'); }, t);
         t += gap;
