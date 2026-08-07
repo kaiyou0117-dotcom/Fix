@@ -212,7 +212,11 @@
   .tarot-removed .tarot-front .glyph{ color:#8a8a8a; }
   .tarot-removed .tarot-front .arcana{ color:#8a8a8a; }
   .tarot-removed .tarot-back{ background:#2a2a2a; }
-  .tarot-removed .tarot-back .name{ color:#bdbdbd; text-decoration:line-through; font-size:0.7rem; }
+  .tarot-removed .tarot-back .name{ color:#bdbdbd; font-size:0.7rem; }
+  .tarot-removed .redact-block{
+    display:inline-block; background:#111; color:#111; border-radius:1px;
+    padding:0 6px; user-select:none;
+  }
   .grid-note{ margin-top:24px; font-size:0.64rem; color:var(--ink-faint); }
 
   /* ===== Four suits — left-aligned list, not centered grid ===== */
@@ -499,8 +503,8 @@
           <div class="tarot-face tarot-back"><div class="name">CHRISTOPHER THE WORLD</div><div class="meaning">完成と統合</div></div>
         </div></div>
         <div class="tarot-card tarot-removed scroll-stagger"><div class="inner">
-          <div class="tarot-face tarot-front"><div class="glyph">⊘</div><div class="num">×</div><div class="arcana">Removed</div></div>
-          <div class="tarot-face tarot-back"><div class="name">SWORD</div><div class="meaning" style="color:var(--burgundy);">除名済み ― 協会名簿より抹消</div></div>
+          <div class="tarot-face tarot-front"></div>
+          <div class="tarot-face tarot-back"><div class="name"><span class="redact-block">SWORD</span></div><div class="meaning" style="color:var(--burgundy);">除名済み ― 協会名簿より抹消</div></div>
         </div></div>
       </div>
       <p class="grid-note">大アルカナに準えた22の議席と、除名済みの1席を含む全ての記録です。</p>
