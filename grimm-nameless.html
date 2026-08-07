@@ -112,8 +112,9 @@
     display:flex; align-items:center; gap:10px;
   }
   .ph-eyebrow .card-no{ border:1px solid var(--accent-deep); padding:2px 8px; }
-  .name-redact{ margin-top:22px; display:flex; gap:8px; }
-  .name-redact span{ width:32px; height:32px; background:var(--ink); }
+  .name-redact{ margin-top:22px; display:flex; gap:8px; cursor:pointer; }
+  .name-redact span{ width:32px; height:32px; background:var(--ink); transition:opacity 0.2s ease; }
+  .name-redact:hover span{ opacity:0.75; }
   .ph-epithet{ margin-top:10px; font-family:'Shippori Mincho B1', serif; font-weight:800; font-size:1.02rem; color:var(--ink-soft); letter-spacing:0.06em; }
   .ph-codename{ margin-top:20px; font-family:'Cinzel', serif; font-weight:700; font-size:clamp(1.8rem,4.2vw,2.7rem); color:var(--ink); letter-spacing:0.03em; min-height:1.2em; }
   .ph-codename .tw-cursor{ display:inline-block; width:2px; background:var(--accent-deep); margin-left:2px; animation:twBlink 0.8s step-end infinite; }
@@ -447,8 +448,8 @@
     <div class="profile-hero scroll-in">
       <div class="ph-grid">
         <div>
-          <div class="ph-eyebrow"><span class="card-no">ⅩⅢ</span>MAJOR ARCANA — DEATH</div>
-          <div class="name-redact"><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="ph-eyebrow"><span class="card-no">ⅩⅢ</span>MAJOR ARCANA — <span class="redact-block">DEATH</span></div>
+          <a class="name-redact" href="https://w.atwiki.jp/inoutoenemy/pages/966.html" aria-label="不明なリンク"><span></span><span></span><span></span><span></span><span></span></a>
           <div class="ph-epithet">――終焉と再生</div>
           <div class="ph-codename" id="phCodename"></div>
           <div class="ph-quote-label mono">SUBJECT STATEMENT — VERBATIM</div>
@@ -823,7 +824,7 @@
       el.appendChild(cursor);
       if (i < text.length){
         i++;
-        setTimeout(type, 55);
+        setTimeout(type, 90);
       }
     }
     type();
