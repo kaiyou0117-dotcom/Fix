@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>マザー・シェーラ ― フィクサー協会 構成員データベース</title>
+<meta property="og:title" content="マザー・シェーラ ― 構成員記録 FA-002-II">
+<meta property="og:description" content="フィクサー協会 構成員記録。RESTRICTED ― S級フィクサー認証が必要です。">
+<meta property="og:site_name" content="THE FIXER ASSOCIATION — MEMBER DATABASE">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kaiyou0117-dotcom.github.io/Fix/mother-shayla.html">
+<meta name="theme-color" content="#a5822f">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='8' r='5' stroke='%23af8f52' stroke-width='1.5' fill='none'/%3E%3Cpath d='M12 13 L12 21 M8 17 L16 17' stroke='%23af8f52' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,500;1,500;1,600&family=Shippori+Mincho+B1:wght@500;800&family=Noto+Serif+JP:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Yomogi&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f6f1e4;
+    --paper-2:#eee5cf;
+    --paper-3:#e3d7b8;
+    --ink:#241f18;
+    --ink-soft:#5c5344;
+    --ink-faint:#a89f8c;
+    --line:rgba(28,26,22,0.14);
+    --accent:#c4a054;
+    --accent-deep:#af8f3f;
+    --accent-pale:#f5ecd6;
+    --danger:#a5433a;
+    --dark-zone:#2a2416;
+    --gate-bg:#171307;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{ scroll-behavior:smooth; }
+  body{ background:var(--paper); color:var(--ink); font-family:'Noto Serif JP', serif; line-height:1.95; }
+  .en{ font-family:'Cinzel', serif; }
+  .display{ font-family:'Shippori Mincho B1', serif; }
+  .script{ font-family:'Cormorant Garamond', serif; font-style:italic; }
+  .mono{ font-family:'JetBrains Mono', monospace; letter-spacing:0.03em; }
+  a{ color:inherit; text-decoration:none; }
+  ruby rt{ font-size:0.55em; color:var(--ink-faint); letter-spacing:0; }
+  .wrap{ max-width:920px; margin:0 auto; padding:0 6vw; }
+
+  /* ===== paper grain overlay ===== */
+  .grain-overlay{
+    position:fixed; inset:0; z-index:9000; pointer-events:none;
+    background-image:url('paper-grain.png');
+    background-size:180px 180px; background-repeat:repeat;
+    mix-blend-mode:multiply; opacity:0.05;
+  }
+
+  /* ===== custom scrollbar (lavender) ===== */
+  html{ scrollbar-width:thin; scrollbar-color:var(--accent-deep) var(--paper-2); }
+  ::-webkit-scrollbar{ width:9px; }
+  ::-webkit-scrollbar-track{ background:var(--paper-2); }
+  ::-webkit-scrollbar-thumb{ background:var(--accent-deep); border-radius:0; }
+  ::-webkit-scrollbar-thumb:hover{ background:var(--accent); }
+
+  /* ===== reading progress indicator ===== */
+  .read-progress{
+    position:fixed; right:22px; top:50%; transform:translateY(-50%);
+    z-index:50; display:flex; flex-direction:column; gap:16px; align-items:center;
+  }
+  .read-progress .rp-dot{
+    width:6px; height:6px; border-radius:50%;
+    background:var(--ink-faint); opacity:0.5; cursor:pointer;
+    transition:background 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+    position:relative;
+  }
+  .read-progress .rp-dot .rp-label{
+    position:absolute; right:16px; top:50%; transform:translateY(-50%);
+    font-family:'JetBrains Mono', monospace; font-size:0.6rem; color:var(--ink-faint);
+    white-space:nowrap; opacity:0; transition:opacity 0.25s ease;
+    background:var(--paper); padding:2px 6px; pointer-events:none;
+  }
+  .read-progress .rp-dot:hover .rp-label{ opacity:1; }
+  .read-progress .rp-dot.active{
+    background:var(--accent-deep); opacity:1; transform:scale(1.5);
+  }
+  @media (max-width:900px){ .read-progress{ display:none; } }
+
+  body.gate-shake{ animation:gateShake 0.18s linear; }
+  @keyframes gateShake{
+    0%{ transform:translate(0,0); }
+    20%{ transform:translate(-4px,3px); }
+    40%{ transform:translate(4px,-3px); }
+    60%{ transform:translate(-3px,2px); }
+    80%{ transform:translate(3px,-2px); }
+    100%{ transform:translate(0,0); }
+  }
+
+  header.site{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:20px 6vw; background:var(--ink); position:sticky; top:0; z-index:20;
+  }
+  header.site .brand{ font-size:0.8rem; letter-spacing:0.18em; color:var(--paper); }
+  header.site .back{ font-family:'Cinzel', serif; font-size:0.64rem; letter-spacing:0.08em; color:var(--paper-3); opacity:0.85; }
+  header.site .back:hover{ opacity:1; color:var(--accent); }
+
+  /* slim classification line — a detail, not a wall */
+  .classline{
+    font-family:'JetBrains Mono', monospace; font-size:0.63rem; color:var(--ink-faint);
+    border-bottom:1px solid var(--line); letter-spacing:0.02em;
+  }
+  .classline .wrap{ display:flex; gap:24px; padding:9px 6vw; flex-wrap:wrap; }
+  .classline b{ color:var(--danger); font-weight:600; }
+
+  /* ===== profile hero ===== */
+  .profile-hero{ padding:8vh 0 6vh; }
+  .ph-grid{ display:grid; grid-template-columns:1.35fr 0.9fr; gap:56px; align-items:start; }
+  .ph-eyebrow{
+    font-family:'Cinzel', serif; font-size:0.62rem; letter-spacing:0.28em; color:var(--accent-deep);
+    display:flex; align-items:center; gap:10px;
+  }
+  .ph-eyebrow .card-no{ border:1px solid var(--accent-deep); padding:2px 8px; }
+  .name-redact{ margin-top:22px; display:flex; gap:8px; cursor:pointer; }
+  .name-redact span{ width:32px; height:32px; background:var(--ink); transition:opacity 0.2s ease; }
+  .name-redact:hover span{ opacity:0.75; }
+  .ph-epithet{ margin-top:10px; font-family:'Shippori Mincho B1', serif; font-weight:800; font-size:1.02rem; color:var(--ink-soft); letter-spacing:0.06em; }
+  .ph-codename{ margin-top:20px; font-family:'Cinzel', serif; font-weight:700; font-size:clamp(1.8rem,4.2vw,2.7rem); color:var(--ink); letter-spacing:0.03em; min-height:1.2em; }
+  .ph-codename .tw-cursor{ display:inline-block; width:2px; background:var(--accent-deep); margin-left:2px; animation:twBlink 0.8s step-end infinite; }
+  @keyframes twBlink{ 0%, 100%{ opacity:1; } 50%{ opacity:0; } }
+  .ph-quote-label{ margin-top:28px; font-family:'JetBrains Mono', monospace; font-size:0.6rem; color:var(--ink-faint); letter-spacing:0.06em; }
+  .ph-quote{ margin-top:8px; max-width:460px; font-size:1.15rem; color:var(--accent-deep); padding-left:18px; border-left:2px solid var(--accent); }
+
+  .ph-halo-wrap{ position:relative; }
+  .ph-halo-wrap::before{
+    content:""; position:absolute; left:50%; top:8%; width:150%; height:65%;
+    transform:translateX(-50%);
+    background:radial-gradient(ellipse at center, rgba(196,160,84,0.55), rgba(196,160,84,0.15) 45%, transparent 72%);
+    filter:blur(6px); z-index:0; pointer-events:none;
+    animation:haloBreathe 5s ease-in-out infinite;
+  }
+  @keyframes haloBreathe{
+    0%, 100%{ opacity:0.75; }
+    50%{ opacity:1; }
+  }
+  .ph-portrait{ position:relative; z-index:1; aspect-ratio:3/4; overflow:hidden; border:1px solid var(--line); background:var(--paper-2); }
+  .ph-portrait img{ width:110%; height:110%; object-fit:cover; display:block; filter:saturate(0.92) contrast(1.03); transition:transform 0.3s ease-out; margin:-5%; max-width:none; }
+  .ph-portrait::after{ content:""; position:absolute; inset:0; box-shadow:inset 0 0 60px rgba(28,26,22,0.25); pointer-events:none; }
+  .ph-portrait .tag{ position:absolute; left:10px; bottom:10px; font-family:'Cinzel', serif; font-size:0.56rem; letter-spacing:0.1em; color:var(--paper); background:rgba(28,26,22,0.72); padding:4px 9px; }
+
+  /* ===== section shell ===== */
+  section{
+    border-top:none; padding:64px 0 64px;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='8' viewBox='0 0 60 8'%3E%3Cpath d='M0 4 Q7.5 0 15 4 T30 4 T45 4 T60 4' stroke='%23af8f3f' stroke-width='1' fill='none' opacity='0.4'/%3E%3C/svg%3E");
+    background-repeat:repeat-x; background-position:top center; background-size:60px 8px;
+  }
+  .sec-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:32px; }
+  .sec-num{ font-family:'Cinzel', serif; font-size:1.1rem; color:var(--accent-deep); }
+  .sec-title{ font-family:'Shippori Mincho B1', serif; font-size:1.3rem; font-weight:800; letter-spacing:0.04em; }
+  .body-text{ max-width:660px; font-size:0.92rem; color:var(--ink-soft); }
+  .body-text + .body-text{ margin-top:16px; }
+  .note-box{ margin-top:22px; padding:15px 20px; border-left:3px solid var(--danger); background:var(--paper-2); font-size:0.85rem; color:var(--ink-soft); }
+  .note-box .nb-label{ font-family:'JetBrains Mono', monospace; font-size:0.6rem; color:var(--danger); margin-bottom:6px; letter-spacing:0.05em; }
+
+  /* ===== dossier — open list, not a bureaucratic grid ===== */
+  .dossier{ border-top:1px solid var(--ink); }
+  .d-row{ display:grid; grid-template-columns:120px 1fr; gap:16px; padding:8px 0; border-bottom:1px solid var(--line); font-size:0.76rem; transition:background 0.2s ease; }
+  .d-row:hover{ background:var(--paper-2); }
+  .d-row .k{ font-family:'Cinzel', serif; font-size:0.54rem; letter-spacing:0.08em; color:var(--accent-deep); padding-top:2px; }
+  .d-row .v{ color:var(--ink-soft); }
+  .redact-block{ display:inline-block; background:var(--ink); color:var(--ink); border-radius:1px; padding:0 6px; font-size:0.9em; user-select:none; }
+  .d-row .v a.corrupt{
+    color:var(--danger); font-family:'JetBrains Mono', monospace; font-size:0.72rem; border-bottom:1px dashed var(--danger);
+    display:inline-block; animation:weakGlitch 3.6s infinite steps(1);
+  }
+  @keyframes weakGlitch{
+    0%, 92%, 100%{ text-shadow:none; transform:translate(0,0); }
+    93%{ text-shadow:1px 0 rgba(165,67,58,0.6), -1px 0 rgba(63,107,94,0.5); transform:translate(-0.5px,0); }
+    95%{ text-shadow:-1px 0 rgba(165,67,58,0.6), 1px 0 rgba(63,107,94,0.5); transform:translate(0.5px,0); }
+    97%{ text-shadow:none; transform:translate(0,0); }
+  }
+  .d-row .v a.corrupt:hover{ background:var(--danger); color:var(--paper); }
+  .d-row .v a.plain{ border-bottom:1px solid var(--accent); }
+
+  /* ===== profile split: dossier left, narrative right ===== */
+  .profile-split{ display:grid; grid-template-columns:300px 1fr; gap:56px; align-items:start; }
+  .narrative-col .sec-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:18px; }
+  .narrative-col .sec-head + .body-text{ margin-bottom:6px; }
+  .narrative-block + .narrative-block{ margin-top:44px; }
+
+  .drop-cap{
+    float:left; font-family:'Shippori Mincho B1', serif; font-weight:800;
+    font-size:3.4rem; line-height:0.78; color:var(--accent-deep);
+    padding:4px 8px 0 0; margin-top:2px;
+  }
+
+  .firm-link{
+    display:inline-block; margin-top:16px; font-family:'Cinzel', serif;
+    font-size:0.68rem; letter-spacing:0.08em; color:var(--accent-deep);
+    border-bottom:1px solid var(--accent); padding-bottom:2px;
+    transition:opacity 0.2s ease;
+  }
+  .firm-link:hover{ opacity:0.7; }
+
+  /* ===== dramatic reveal ===== */
+  .reveal-setup{ font-size:0.92rem; color:var(--ink-soft); max-width:600px; }
+  .reveal-big{ margin:24px 0 28px; font-family:'Shippori Mincho B1', serif; font-weight:800; font-size:clamp(2rem,5.2vw,3rem); color:var(--ink); line-height:1.2; }
+
+  /* ===== equipment — spec cards, not spreadsheet rows ===== */
+  /* ===== combat section: text+weakness on the left, equipment stacked on the right ===== */
+  .combat-split{ display:grid; grid-template-columns:1fr 1fr; gap:44px; align-items:start; }
+  .combat-left .body-text{ max-width:none; }
+
+  .equip-grid{ display:grid; grid-template-columns:1fr; gap:1px; background:var(--line); border:1px solid var(--line); }
+  .equip-card{
+    background:var(--paper); padding:24px 24px; position:relative; z-index:0;
+    transition:background 0.2s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .equip-card:hover{ background:var(--paper-2); transform:translateY(-4px); box-shadow:0 14px 28px rgba(28,26,22,0.16); z-index:1; }
+  .eq-toggle{
+    display:flex; align-items:center; justify-content:space-between; width:100%;
+    background:none; border:none; padding:0; margin:0; cursor:pointer; text-align:left;
+    font:inherit; color:inherit;
+  }
+  .eq-toggle h4{ margin-bottom:0; position:relative; display:inline-block; }
+  .note-fx{
+    position:absolute; right:-18px; top:0; font-family:'Cinzel', serif;
+    color:var(--accent-deep); opacity:0; pointer-events:none;
+    transition:opacity 0.2s ease;
+  }
+  .equip-card:hover .note-fx{ animation:noteFloat 1.1s ease-out; opacity:1; }
+  @keyframes noteFloat{
+    0%{ opacity:0; transform:translateY(0) rotate(0deg); }
+    15%{ opacity:1; }
+    100%{ opacity:0; transform:translateY(-22px) rotate(12deg); }
+  }
+  .eq-indicator{
+    font-family:'JetBrains Mono', monospace; font-size:1rem; color:var(--accent-deep);
+    flex-shrink:0; margin-left:16px; transition:transform 0.3s ease;
+  }
+  .equip-card.open .eq-indicator{ transform:rotate(45deg); }
+  .eq-body{
+    max-height:0; opacity:0; overflow:hidden; margin-top:0;
+    transition:max-height 0.45s ease, opacity 0.35s ease, margin-top 0.45s ease;
+  }
+  .equip-card.open .eq-body{ max-height:400px; opacity:1; margin-top:14px; }
+  .equip-card h4{ font-family:'Shippori Mincho B1', serif; font-size:1rem; font-weight:800; margin-bottom:12px; color:var(--accent-deep); }
+  .equip-card p{ font-size:0.85rem; color:var(--ink-soft); }
+  .lyric-line{
+    display:block; opacity:0; transform:translateY(6px);
+    transition:opacity 0.5s ease, transform 0.5s ease;
+  }
+  .equip-card.open .lyric-line:nth-child(1){ transition-delay:0.15s; }
+  .equip-card.open .lyric-line:nth-child(2){ transition-delay:0.4s; }
+  .equip-card.open .lyric-line{ opacity:1; transform:translateY(0); }
+  .equip-card .origin{ margin-top:14px; font-family:'JetBrains Mono', monospace; font-size:0.68rem; color:var(--danger); opacity:0.9; }
+
+  /* ===== ability box — atmospheric again ===== */
+  .ability-box{ margin-top:14px; border:1px solid var(--accent); padding:34px 30px; background:linear-gradient(180deg, var(--accent-pale), transparent 65%); position:relative; overflow:hidden; }
+  .rose-window{
+    position:absolute; top:50%; right:-8%; transform:translateY(-50%);
+    width:280px; height:280px; z-index:0; opacity:0.16; pointer-events:none;
+    color:var(--accent-deep);
+  }
+  .rose-window svg{ width:100%; height:100%; }
+  .rose-window circle, .rose-window line{ stroke:currentColor; fill:none; stroke-width:1; }
+  .ability-box .a-name, .ability-box .a-body{ position:relative; z-index:1; }
+  .ab-trace{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+  .ab-trace rect{ fill:none; stroke:var(--accent-deep); stroke-width:1.5; stroke-dasharray:400; stroke-dashoffset:400; opacity:0; }
+  .ability-box.traced .ab-trace rect{ animation:traceBorder 1.4s ease forwards; }
+  @keyframes traceBorder{
+    0%{ stroke-dashoffset:400; opacity:1; }
+    85%{ opacity:1; }
+    100%{ stroke-dashoffset:0; opacity:0; }
+  }
+  .ability-box .a-name{ font-family:'Shippori Mincho B1', serif; font-weight:800; font-size:1.12rem; color:var(--accent-deep); }
+  .ability-box .a-body{ margin-top:16px; font-size:0.89rem; color:var(--ink-soft); }
+  .ability-box .a-body b{ color:var(--ink); }
+
+  /* ===== classified gate ===== */
+  .gate{
+    background:var(--gate-bg); color:var(--paper-3);
+    max-height:0; opacity:0; overflow:hidden; padding:0 0;
+    transition:opacity 0.7s ease, max-height 1s ease, padding 1s ease;
+  }
+  .gate.unlocked{ max-height:2400px; opacity:1; padding:88px 0; }
+  .gate .wrap{ max-width:680px; text-align:center; }
+  .gate .code{ font-family:'JetBrains Mono', monospace; font-size:0.72rem; color:var(--ink-faint); line-height:2; }
+  .gate hr{ border:none; border-top:1px solid rgba(242,236,219,0.15); margin:32px 0; }
+  .gate .confirm{ font-family:'JetBrains Mono', monospace; font-size:0.82rem; color:var(--danger); letter-spacing:0.03em; line-height:2; }
+  .gate .prompt{ margin-top:48px; font-family:'Shippori Mincho B1', serif; font-size:1.5rem; font-weight:800; color:var(--paper); }
+  .gate .choices{ margin-top:28px; display:flex; justify-content:center; gap:16px; }
+  .gate .choices a{ font-family:'Cinzel', serif; font-size:0.7rem; letter-spacing:0.12em; padding:14px 38px; border:1px solid var(--paper-3); color:var(--paper); transition:background 0.25s, color 0.25s; }
+  .gate .choices a.yes:hover{ background:var(--danger); border-color:var(--danger); }
+  .gate .choices a.no:hover{ background:var(--paper); color:var(--ink); }
+
+  footer{ padding:28px 0 58px; text-align:center; font-family:'JetBrains Mono', monospace; font-size:0.64rem; color:var(--ink-faint); }
+
+  /* ===== license verification gate — a rite, not a hack ===== */
+  .lgate{
+    position:fixed; inset:0; z-index:9999;
+    background:radial-gradient(ellipse at center, #241c0f, #14100a 75%);
+    display:flex; align-items:center; justify-content:center;
+    transition:opacity 0.9s ease, visibility 0.9s ease;
+  }
+  .lgate.hide{ opacity:0; visibility:hidden; pointer-events:none; }
+  .lgate-inner{ text-align:center; }
+  .lgate-window{ width:150px; height:150px; margin:0 auto 26px; filter:drop-shadow(0 0 14px rgba(196,160,84,0.15)); }
+  .petal{
+    fill:rgba(196,160,84,0.05); stroke:rgba(196,160,84,0.3); stroke-width:0.6;
+    transition:fill 0.9s ease, stroke 0.9s ease, filter 0.9s ease;
+  }
+  .petal.lit{
+    fill:rgba(196,160,84,0.85); stroke:#e8cf8f;
+    filter:drop-shadow(0 0 6px rgba(232,207,143,0.9));
+  }
+  .window-ring{ stroke:rgba(196,160,84,0.35); stroke-width:1; }
+  .window-core{ fill:#4a3c1e; transition:fill 0.8s ease, r 0.8s ease; }
+  .window-core.lit{ fill:#f3e0ab; r:12; }
+  .lgate-title{
+    font-family:'Cinzel', serif; font-size:0.64rem; letter-spacing:0.24em; color:#d8c393;
+    margin-bottom:14px; opacity:0.9;
+  }
+  .lgate-status{
+    font-family:'Cormorant Garamond', serif; font-style:italic; font-size:0.88rem; color:#a8967a;
+    min-height:1.4em; letter-spacing:0.02em;
+  }
+  .lgate-status.granted{ color:#e8cf8f; }
+
+  .lgate-prompt{
+    max-height:0; opacity:0; overflow:hidden;
+    transition:opacity 0.5s ease, max-height 0.6s ease;
+  }
+  .lgate-prompt.show{ max-height:220px; opacity:1; margin-top:30px; }
+  .lgate-prompt-text{ font-size:1.35rem; font-weight:800; color:#f3e0ab; margin-bottom:24px; }
+  .lgate-choices{ display:flex; gap:14px; justify-content:center; }
+  .lgate-choice{
+    font-family:'Shippori Mincho B1', serif; font-size:0.85rem; letter-spacing:0.08em;
+    padding:12px 34px; border:1px solid rgba(196,160,84,0.5); color:#e8cf8f;
+    transition:background 0.25s, color 0.25s;
+  }
+  .lgate-choice.yes:hover{ background:#c4a054; border-color:#c4a054; color:#1c1608; }
+  .lgate-choice.no:hover{ background:rgba(196,160,84,0.12); }
+
+  /* ===== mid-page clearance gate (B-rank and above) ===== */
+  .clearance-gate{
+    max-width:520px; margin:0 auto; text-align:center;
+    padding:56px 30px; border:1px solid var(--line);
+    background:var(--paper-2);
+    transition:opacity 0.5s ease, max-height 0.6s ease, padding 0.6s ease, margin 0.6s ease;
+    overflow:hidden;
+  }
+  .clearance-gate.cg-hide{ opacity:0; max-height:0; padding-top:0; padding-bottom:0; margin-bottom:0; pointer-events:none; }
+  .cg-icon{ color:var(--accent-deep); margin-bottom:18px; display:flex; justify-content:center; }
+  .cg-title{ font-family:'Cinzel', serif; font-size:0.68rem; letter-spacing:0.2em; color:var(--ink); margin-bottom:14px; }
+  .cg-desc{ font-size:0.85rem; color:var(--ink-soft); max-width:380px; margin:0 auto 20px; }
+  .cg-level{ font-size:0.66rem; color:var(--ink-faint); margin-bottom:26px; letter-spacing:0.02em; }
+  .cg-level b{ color:var(--danger); font-weight:600; }
+  .cg-btn{
+    font-family:'Cinzel', serif; font-size:0.7rem; letter-spacing:0.1em;
+    padding:13px 34px; border:1px solid var(--ink); background:transparent; color:var(--ink);
+    cursor:pointer; transition:background 0.25s, color 0.25s;
+  }
+  .cg-btn:hover{ background:var(--ink); color:var(--paper); }
+  .cg-btn:disabled{ opacity:0.6; cursor:default; background:transparent; color:var(--ink); }
+
+  .cg-progress{ display:none; margin-top:26px; }
+  .cg-progress.show{ display:block; }
+  .cg-bar{
+    position:relative; width:100%; height:12px;
+    background:var(--line); border:1px solid rgba(143,124,158,0.3);
+    overflow:hidden; margin-bottom:12px;
+  }
+  .cg-bar-fill{ height:100%; width:0%; background:rgba(143,124,158,0.35); transition:width 0.55s ease; }
+  .cg-bar::after{
+    content:""; position:absolute; top:0; bottom:0; left:0; width:2px;
+    background:var(--accent-deep);
+    box-shadow:0 0 10px 2px rgba(143,124,158,0.8);
+    animation:cgScanSweep 1.1s linear infinite;
+  }
+  @keyframes cgScanSweep{
+    0%{ left:0%; }
+    100%{ left:calc(100% - 2px); }
+  }
+  .cg-progress-status{ font-size:0.66rem; color:var(--ink-faint); letter-spacing:0.02em; min-height:1.3em; }
+  .cg-progress-status.granted{ color:var(--accent-deep); }
+
+  .restricted-content{
+    max-height:0; opacity:0; overflow:hidden; position:relative;
+    transition:opacity 0.7s ease 0.1s, max-height 0.9s ease;
+  }
+  .restricted-content.unlocked{ max-height:4000px; opacity:1; }
+
+  /* darker zone for the clearance-gated content */
+  .restricted-content{ background:var(--dark-zone); }
+  .dust-field{ position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
+  .dust{
+    position:absolute; bottom:-10px; border-radius:50%;
+    background:rgba(196,160,84,0.75);
+    box-shadow:0 0 6px 2px rgba(196,160,84,0.45);
+    animation:dustRise linear infinite;
+  }
+  @keyframes dustRise{
+    0%{ transform:translate(0,0); opacity:0; }
+    10%{ opacity:0.7; }
+    35%{ transform:translate(calc(var(--dx,15px) * 0.4), -180px); opacity:0.5; }
+    60%{ transform:translate(calc(var(--dx,15px) * -0.6), -360px); opacity:0.65; }
+    85%{ opacity:0.3; }
+    100%{ transform:translate(var(--dx,15px), -640px); opacity:0; }
+  }
+  .restricted-content section{
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='8' viewBox='0 0 60 8'%3E%3Cpath d='M0 4 Q7.5 0 15 4 T30 4 T45 4 T60 4' stroke='%23c4a054' stroke-width='1' fill='none' opacity='0.35'/%3E%3C/svg%3E");
+  }
+  .restricted-content .sec-num{ color:var(--accent); }
+  .restricted-content .sec-title{ color:var(--paper); }
+  .restricted-content .body-text{ color:var(--paper-3); }
+  .restricted-content ruby rt{ color:var(--paper-3); opacity:0.65; }
+  .restricted-content .note-box{ background:rgba(242,236,219,0.06); color:var(--paper-3); }
+  .restricted-content .note-box .nb-label{ color:var(--danger); }
+  .restricted-content .equip-grid{ background:rgba(242,236,219,0.12); border-color:rgba(242,236,219,0.12); }
+  .restricted-content .equip-card{ background:var(--ink); }
+  .restricted-content .equip-card:hover{ background:#26211b; }
+  .restricted-content .equip-card h4{ color:var(--accent); }
+  .restricted-content .equip-card p{ color:var(--paper-3); }
+  .restricted-content .equip-card .origin{ color:var(--danger); opacity:0.85; }
+  .restricted-content .eq-indicator{ color:var(--accent); }
+  .restricted-content .ability-box{ border-color:var(--accent); background:rgba(33,28,40,0.9); }
+  .restricted-content .ability-box .a-name{ color:var(--accent); }
+  .restricted-content .ability-box .a-body{ color:var(--paper-3); }
+  .restricted-content .ability-box .a-body b{ color:var(--paper); }
+  .restricted-content .rose-window{ color:var(--accent); opacity:0.14; }
+
+  /* ===== scroll-triggered entrance ===== */
+  .scroll-in{
+    opacity:0; transform:translateY(26px);
+    transition:opacity 0.8s ease, transform 0.8s ease;
+  }
+  .scroll-in.show{ opacity:1; transform:translateY(0); }
+  .scroll-stagger{ opacity:0; transform:translateY(12px); transition:opacity 0.5s ease, transform 0.5s ease; }
+  .scroll-stagger.show{ opacity:1; transform:translateY(0); }
+
+  /* ===== ability sigil — a giant emblem behind the text (pre-composited transparent PNG) ===== */
+  .ability-wrap{ position:relative; }
+  .sigil-bg{
+    position:absolute; z-index:0; pointer-events:none;
+    top:50%; left:50%;
+    width:min(48vw, 320px);
+    transform:translate(-50%, -50%);
+  }
+  .sigil-bg img{ width:100%; display:block; animation:sigilPulse 6s ease-in-out infinite; }
+  @keyframes sigilPulse{
+    0%, 100%{ opacity:0.85; filter:brightness(1); }
+    50%{ opacity:1; filter:brightness(1.25); }
+  }
+  .ability-box{ position:relative; z-index:1; }
+
+  @media (max-width:780px){
+    .ph-grid{ grid-template-columns:1fr; }
+    .profile-split{ grid-template-columns:1fr; gap:36px; }
+    .equip-grid{ grid-template-columns:1fr; }
+    .combat-split{ grid-template-columns:1fr; gap:28px; }
+    .gate .choices{ flex-direction:column; align-items:center; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="grain-overlay"></div>
+
+  <div class="read-progress" id="readProgress">
+    <div class="rp-dot" data-target="sec-dossier"><span class="rp-label">基本情報</span></div>
+    <div class="rp-dot" data-target="sec-overview"><span class="rp-label">概要</span></div>
+    <div class="rp-dot" data-target="sec-personality"><span class="rp-label">性格</span></div>
+    <div class="rp-dot" data-target="sec-combat"><span class="rp-label">戦闘関連</span></div>
+    <div class="rp-dot" data-target="sec-ability"><span class="rp-label">異能</span></div>
+  </div>
+
+  <div class="lgate" id="gate">
+    <div class="lgate-inner">
+      <div class="lgate-window">
+        <svg width="150" height="150" viewBox="0 0 100 100">
+          <path class="petal" id="petal1" d="M50,50 L50,5 L88.97,27.5 Z"/>
+          <path class="petal" id="petal2" d="M50,50 L88.97,27.5 L88.97,72.5 Z"/>
+          <path class="petal" id="petal3" d="M50,50 L88.97,72.5 L50,95 Z"/>
+          <path class="petal" id="petal4" d="M50,50 L50,95 L11.03,72.5 Z"/>
+          <path class="petal" id="petal5" d="M50,50 L11.03,72.5 L11.03,27.5 Z"/>
+          <path class="petal" id="petal6" d="M50,50 L11.03,27.5 L50,5 Z"/>
+          <circle cx="50" cy="50" r="70" class="window-ring" fill="none"/>
+          <circle cx="50" cy="50" r="9" class="window-core" id="windowCore"/>
+        </svg>
+      </div>
+      <div class="lgate-title">RITE OF ADMITTANCE</div>
+      <div class="lgate-status mono" id="gateStatus">接続を確立しています...</div>
+
+      <div class="lgate-prompt" id="gatePrompt">
+        <div class="lgate-prompt-text display">扉を開きますか？</div>
+        <div class="lgate-choices">
+          <a href="#" id="gateYes" class="lgate-choice yes">はい</a>
+          <a href="access-denied.html" class="lgate-choice no">いいえ</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <header class="site">
+    <span class="en brand">THE FIXER ASSOCIATION</span>
+    <a class="back" href="index.html">← 構成員名簿へ戻る</a>
+  </header>
+
+  <div class="classline">
+    <div class="wrap">
+      <span>FILE NO. FA-013-XIII</span>
+      <span>CLASS: <b>RESTRICTED</b></span>
+      <span>ISSUED BY: 協会文書管理課</span>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="profile-hero scroll-in">
+      <div class="ph-grid">
+        <div>
+          <div class="ph-eyebrow"><span class="card-no">Ⅱ</span>MAJOR ARCANA — HIGH PRIESTESS</div>
+          <div class="ph-epithet">――秘匿された叡智</div>
+          <div class="ph-codename" id="phCodename"></div>
+          <div class="ph-quote-label mono">SUBJECT STATEMENT — VERBATIM</div>
+          <p class="ph-quote script">「ようこそ童話事務所へ。あなたが自分の生き方を自分で決められるようになるまで、わたくし達にお手伝いをさせてください」</p>
+        </div>
+        <div class="ph-halo-wrap">
+          <div class="ph-portrait" id="phPortrait">
+            <img src="https://images-ng.pixai.art/gi/orig/148c3ac1-5cef-4146-8342-f45107ac5a36" alt="マザー・シェーラ 肖像" id="phPortraitImg">
+            <span class="tag mono">FILE PHOTO — UNVERIFIED</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <div class="wrap">
+      <div class="profile-split">
+        <div class="dossier" id="sec-dossier">
+          <div class="d-row scroll-stagger"><span class="k">名前</span><span class="v">マザー・シェーラ</span></div>
+          <div class="d-row scroll-stagger"><span class="k">本名</span><span class="v">ソフィア・マグワイア</span></div>
+          <div class="d-row scroll-stagger"><span class="k">性別</span><span class="v">女性</span></div>
+          <div class="d-row scroll-stagger"><span class="k">身長</span><span class="v">156cm</span></div>
+          <div class="d-row scroll-stagger"><span class="k">アライメント</span><span class="v">秩序・善</span></div>
+          <div class="d-row scroll-stagger"><span class="k">種族</span><span class="v">人間</span></div>
+          <div class="d-row scroll-stagger"><span class="k">異能力</span><span class="v"><ruby>マザーグース・マザーソング<rt>マザーグース・マザーソング</rt></ruby></span></div>
+          <div class="d-row scroll-stagger"><span class="k">職業</span><span class="v"><ruby>便利屋<rt>フィクサー</rt></ruby> ／ 事務所長</span></div>
+          <div class="d-row scroll-stagger"><span class="k">階級</span><span class="v">S級</span></div>
+          <div class="d-row scroll-stagger"><span class="k">所属組織</span><span class="v"><a class="plain" href="index.html">フィクサー協会</a></span></div>
+          <div class="d-row scroll-stagger"><span class="k">所属事務所</span><span class="v"><a class="plain" href="fairytale-office.html">童話事務所</a></span></div>
+          <div class="d-row scroll-stagger"><span class="k">称号</span><span class="v">The Benevolent High Priestess</span></div>
+        </div>
+
+        <div class="narrative-col">
+          <div class="narrative-block scroll-in" id="sec-overview">
+            <div class="sec-head"><span class="sec-num">Ⅰ</span><span class="sec-title display">概要</span></div>
+            <p class="body-text">
+              <span class="drop-cap">対</span>象はフィクサー協会所属のS級フィクサーの一人であり、称号は『The Benevolent
+              High Priestess』。前線に立つ機会こそ減少しているが、異能の出力自体は健在で
+              あることが確認されている。
+            </p>
+            <p class="body-text">
+              対象は孤児院を併設した事務所「童話事務所」の所長を務めている。同事務所は、
+              異能を持つ子供たちが自身の力を制御する方法を学び、フィクサーとしての基礎を
+              修めるための施設として機能している。
+            </p>
+            <a class="firm-link" href="fairytale-office.html">童話事務所について詳しく見る →</a>
+          </div>
+
+          <div class="narrative-block scroll-in" id="sec-personality">
+            <div class="sec-head"><span class="sec-num">Ⅱ</span><span class="sec-title display">性格</span></div>
+            <p class="body-text">
+              対象は敬虔なシスターとしての一面を持ち、困窮する者に対して迷いなく手を
+              差し伸べる傾向が確認されている。秩序・善のアライメントを体現する人格として、
+              協会内における評価は高い。
+            </p>
+            <div class="note-box">
+              <div class="nb-label">面談記録より</div>
+              「主の愛は全ての人に平等に注がれるもの。たとえ異能者であろうとなかろうと、
+              子供たちには幸せに生きる権利があります」
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="clearance-gate" id="clearanceGate">
+      <div class="cg-icon">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+          <rect x="5" y="11" width="14" height="9" rx="1"/>
+          <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+        </svg>
+      </div>
+      <div class="cg-title">CLEARANCE REQUIRED</div>
+      <p class="cg-desc">以下の文書は協会における準A級機密事項です。<br>改ざん・無断アクセス等の行為は規約第17条により重大な違反行為とみなされます。</p>
+      <div class="cg-level mono">REQUIRED LEVEL: <b>B</b></div>
+      <button class="cg-btn" id="cgBtn">権限を認証する</button>
+
+      <div class="cg-progress" id="cgProgress">
+        <div class="cg-bar"><div class="cg-bar-fill" id="cgBarFill"></div></div>
+        <div class="cg-progress-status mono" id="cgProgressStatus">アクセス権限を照合中...</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="restricted-content" id="restrictedContent">
+
+    <section>
+      <div class="wrap">
+        <div class="sec-head" id="sec-combat"><span class="sec-num">Ⅲ</span><span class="sec-title display">戦闘関連</span></div>
+
+      <div class="combat-split">
+        <div class="combat-left">
+          <p class="body-text">
+            若年期には、洗礼詠唱によって強化した異能の聖歌を用い、エネミーに対する特攻運用を
+            行っていた実績が確認されている。ただし現在は必要な声量を確保できないとして、
+            当該運用は封印されている。
+          </p>
+          <div class="note-box">
+            <div class="nb-label">現行の運用</div>
+            現行の戦闘スタイルは、異能の童謡によって呼び出した物体及び不思議な生物に
+            代理戦闘を行わせる形式へと移行している。
+          </div>
+        </div>
+
+        <div class="equip-grid">
+          <div class="equip-card">
+            <button class="eq-toggle" type="button">
+              <h4>聖歌<span class="note-fx">♪</span></h4>
+              <span class="eq-indicator">+</span>
+            </button>
+            <div class="eq-body">
+              <p>
+                <span class="lyric-line">エネミーに対してのみ効果を及ぼす、周囲無差別の衝撃波。</span>
+                <span class="lyric-line">歌い続ける限り、衝撃波は継続的に発生する。</span>
+              </p>
+              <div class="origin mono">現在使用不可 ― 必要声量を確保できないため封印中</div>
+            </div>
+          </div>
+          <div class="equip-card">
+            <button class="eq-toggle" type="button">
+              <h4>London Bridge Is Broken Down<span class="note-fx">♪</span></h4>
+              <span class="eq-indicator">+</span>
+            </button>
+            <div class="eq-body">
+              <p>
+                <span class="lyric-line">小さなロンドン橋が生成されては落下し、直されてはまた落下する。</span>
+                <span class="lyric-line">落下する橋そのものに攻撃判定がある。</span>
+              </p>
+            </div>
+          </div>
+          <div class="equip-card">
+            <button class="eq-toggle" type="button">
+              <h4>Scarborough Fair<span class="note-fx">♪</span></h4>
+              <span class="eq-indicator">+</span>
+            </button>
+            <div class="eq-body">
+              <p>
+                <span class="lyric-line">妖精の騎士を1体召喚する。</span>
+                <span class="lyric-line">騎士の周囲には常にハーブの香りが漂うため、隠密行動には不向きとされる。</span>
+              </p>
+            </div>
+          </div>
+          <div class="equip-card">
+            <button class="eq-toggle" type="button">
+              <h4>Hey Diddle Diddle<span class="note-fx">♪</span></h4>
+              <span class="eq-indicator">+</span>
+            </button>
+            <div class="eq-body">
+              <p>
+                <span class="lyric-line">バイオリンを弾く猫、笑う犬、動き回る食器類など、ナンセンスな生物が多数召喚される。</span>
+                <span class="lyric-line">戦闘能力は無いが、子供たちの間では人気が高い。</span>
+              </p>
+            </div>
+          </div>
+          <div class="equip-card">
+            <button class="eq-toggle" type="button">
+              <h4>Star Light, Star Bright<span class="note-fx">♪</span></h4>
+              <span class="eq-indicator">+</span>
+            </button>
+            <div class="eq-body">
+              <p>
+                <span class="lyric-line">対象を問答無用で眠らせる子守唄。</span>
+                <span class="lyric-line">効果は強力だが、対象が歌を聴ける状態にあること、英語圏の出身であること、18歳未満であることなど、発動条件は厳しい。</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="border-bottom:none;">
+    <div class="wrap">
+      <div class="sec-head" id="sec-ability"><span class="sec-num">Ⅳ</span><span class="sec-title display">異能</span></div>
+
+      <div class="ability-wrap">
+        <div class="ability-box" id="abilityBox">
+          <svg class="ab-trace" viewBox="0 0 100 100" preserveAspectRatio="none"><rect x="0.5" y="0.5" width="99" height="99" vector-effect="non-scaling-stroke"/></svg>
+          <div class="rose-window">
+            <svg viewBox="0 0 200 200">
+              <circle cx="100" cy="100" r="92"/>
+              <circle cx="100" cy="100" r="66"/>
+              <circle cx="100" cy="100" r="28"/>
+              <line x1="100" y1="8" x2="100" y2="192"/>
+              <line x1="8" y1="100" x2="192" y2="100"/>
+              <line x1="35" y1="35" x2="165" y2="165"/>
+              <line x1="165" y1="35" x2="35" y2="165"/>
+              <line x1="100" y1="34" x2="100" y2="166"/>
+              <line x1="34" y1="100" x2="166" y2="100"/>
+            </svg>
+          </div>
+        <div class="a-name">マザーグース・マザーソング</div>
+        <div class="a-body">
+          <b>自身が歌った歌に対応する力・生物・物体を生成する異能。</b>生成物の規模及び
+          強度は声量に依存し、歌唱が中断ないし終了した時点で消失する。任意の歌で発動する
+          ものではなく、生成対象が明確に定まっている歌でなければならない。これまでに
+          異能の発動が確認されている歌は<b>「聖歌」及び「マザーグースに分類される童謡群」</b>
+          に限られる。
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  </div>
+
+  <footer>最終更新：[REDACTED] ／ 文書番号：XXX-XXX-XXXX</footer>
+
+  <script>
+  (function(){
+    document.body.style.overflow = 'hidden';
+    var gate = document.getElementById('gate');
+    var statusEl = document.getElementById('gateStatus');
+    var core = document.getElementById('windowCore');
+    var petals = [1,2,3,4,5,6].map(function(n){ return document.getElementById('petal' + n); });
+
+    var steps = [
+      { lit: 1, msg: '接続を確立しています...',           delay: 400 },
+      { lit: 2, msg: 'フィクサーライセンスを照合中...',     delay: 700 },
+      { lit: 4, msg: '生体データを確認しています...',       delay: 700 },
+      { lit: 5, msg: '協会データベースへ接続中...',         delay: 650 },
+      { lit: 6, msg: '認証完了 ― ACCESS GRANTED',          delay: 600 }
+    ];
+
+    var elapsed = 0;
+    steps.forEach(function(step){
+      elapsed += step.delay;
+      setTimeout(function(){
+        for (var i = 0; i < petals.length; i++){
+          if (i < step.lit) petals[i].classList.add('lit');
+        }
+        statusEl.textContent = step.msg;
+        if (step.lit === 6){
+          gate.classList.add('granted');
+          statusEl.classList.add('granted');
+          core.classList.add('lit');
+          setTimeout(function(){
+            document.getElementById('gatePrompt').classList.add('show');
+          }, 600);
+        }
+      }, elapsed);
+    });
+
+    document.getElementById('gateYes').addEventListener('click', function(e){
+      e.preventDefault();
+      gate.classList.add('hide');
+      document.body.style.overflow = '';
+      startCodenameTypewriter();
+    });
+  })();
+
+  (function(){
+    var btn = document.getElementById('cgBtn');
+    var gateBox = document.getElementById('clearanceGate');
+    var content = document.getElementById('restrictedContent');
+    var progress = document.getElementById('cgProgress');
+    var barFill = document.getElementById('cgBarFill');
+    var statusEl = document.getElementById('cgProgressStatus');
+    if (!btn) return;
+
+    var steps = [
+      { pct: 12,  msg: 'アクセス権限を照合中...',       delay: 500 },
+      { pct: 34,  msg: '行動履歴データベースと照合...',  delay: 650 },
+      { pct: 58,  msg: '生体情報を認証...',              delay: 650 },
+      { pct: 80,  msg: '協会中央データベースと同期...',  delay: 650 },
+      { pct: 100, msg: '認証完了',                        delay: 550 }
+    ];
+
+    btn.addEventListener('click', function(){
+      btn.disabled = true;
+      btn.style.display = 'none';
+      progress.classList.add('show');
+
+      var elapsed = 0;
+      steps.forEach(function(step){
+        elapsed += step.delay;
+        setTimeout(function(){
+          barFill.style.width = step.pct + '%';
+          statusEl.textContent = step.msg;
+          if (step.pct === 100){
+            statusEl.classList.add('granted');
+            setTimeout(function(){
+              gateBox.classList.add('cg-hide');
+              content.classList.add('unlocked');
+              document.body.classList.add('gate-shake');
+              setTimeout(function(){ document.body.classList.remove('gate-shake'); }, 180);
+            }, 650);
+          }
+        }, elapsed);
+      });
+    });
+  })();
+
+  (function(){
+    document.querySelectorAll('.eq-toggle').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        btn.closest('.equip-card').classList.toggle('open');
+      });
+    });
+  })();
+
+  (function(){
+    var targets = document.querySelectorAll('.scroll-in, .scroll-stagger');
+    if (!('IntersectionObserver' in window)){
+      targets.forEach(function(el){ el.classList.add('show'); });
+      return;
+    }
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add('show');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold:0.12, rootMargin:'0px 0px -60px 0px' });
+    targets.forEach(function(el){ obs.observe(el); });
+  })();
+
+  (function(){
+    var content = document.getElementById('restrictedContent');
+    if (!content) return;
+    var field = document.createElement('div');
+    field.className = 'dust-field';
+    content.insertBefore(field, content.firstChild);
+    for (var i = 0; i < 22; i++){
+      var d = document.createElement('span');
+      d.className = 'dust';
+      var size = 2 + Math.random() * 2;
+      d.style.width = size + 'px';
+      d.style.height = size + 'px';
+      d.style.left = (Math.random() * 100) + '%';
+      d.style.setProperty('--dx', (Math.random() * 40 - 20) + 'px');
+      d.style.animationDuration = (10 + Math.random() * 10) + 's';
+      d.style.animationDelay = (Math.random() * 12) + 's';
+      field.appendChild(d);
+    }
+  })();
+
+  (function(){
+    var box = document.getElementById('phPortrait');
+    var img = document.getElementById('phPortraitImg');
+    if (!box || !img) return;
+    box.addEventListener('mousemove', function(e){
+      var r = box.getBoundingClientRect();
+      var dx = (e.clientX - r.left) / r.width - 0.5;
+      var dy = (e.clientY - r.top) / r.height - 0.5;
+      img.style.transform = 'translate(' + (dx * -14) + 'px, ' + (dy * -14) + 'px)';
+    });
+    box.addEventListener('mouseleave', function(){
+      img.style.transform = 'translate(0, 0)';
+    });
+  })();
+
+  (function(){
+    var dots = document.querySelectorAll('.read-progress .rp-dot');
+    if (!dots.length || !('IntersectionObserver' in window)) return;
+    var targets = Array.prototype.map.call(dots, function(dot){
+      return document.getElementById(dot.getAttribute('data-target'));
+    });
+    dots.forEach(function(dot, i){
+      dot.addEventListener('click', function(){
+        if (targets[i]) targets[i].scrollIntoView({ behavior:'smooth', block:'start' });
+      });
+    });
+    var spy = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        var idx = targets.indexOf(entry.target);
+        if (idx === -1 || !entry.isIntersecting) return;
+        dots.forEach(function(d){ d.classList.remove('active'); });
+        dots[idx].classList.add('active');
+      });
+    }, { threshold:0.3, rootMargin:'-20% 0px -50% 0px' });
+    targets.forEach(function(t){ if (t) spy.observe(t); });
+  })();
+
+  function startCodenameTypewriter(){
+    var el = document.getElementById('phCodename');
+    if (!el || el.dataset.typed) return;
+    el.dataset.typed = '1';
+    var text = 'THE BENEVOLENT HIGH PRIESTESS';
+    var cursor = document.createElement('span');
+    cursor.className = 'tw-cursor';
+    var i = 0;
+    function type(){
+      el.textContent = text.slice(0, i);
+      el.appendChild(cursor);
+      if (i < text.length){
+        i++;
+        setTimeout(type, 90);
+      }
+    }
+    type();
+  }
+
+  (function(){
+    var box = document.getElementById('abilityBox');
+    if (!box || !('IntersectionObserver' in window)){
+      if (box) box.classList.add('traced');
+      return;
+    }
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add('traced');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold:0.4 });
+    obs.observe(box);
+  })();
+
+  (function(){
+    var morning = { paper:[246,241,228], paper2:[238,229,207], paper3:[227,215,184] };
+    var dusk    = { paper:[243,221,184], paper2:[232,204,156], paper3:[220,191,135] };
+    function lerp(a, b, t){ return Math.round(a + (b - a) * t); }
+    function mix(c1, c2, t){
+      return 'rgb(' + lerp(c1[0],c2[0],t) + ',' + lerp(c1[1],c2[1],t) + ',' + lerp(c1[2],c2[2],t) + ')';
+    }
+    var ticking = false;
+    function applyTone(){
+      ticking = false;
+      var scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      var t = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
+      var root = document.documentElement.style;
+      root.setProperty('--paper', mix(morning.paper, dusk.paper, t));
+      root.setProperty('--paper-2', mix(morning.paper2, dusk.paper2, t));
+      root.setProperty('--paper-3', mix(morning.paper3, dusk.paper3, t));
+    }
+    window.addEventListener('scroll', function(){
+      if (!ticking){ ticking = true; requestAnimationFrame(applyTone); }
+    }, { passive:true });
+    applyTone();
+  })();
+  </script>
+
+</body>
+</html>

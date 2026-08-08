@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>童話事務所 ― フィクサー協会 事務所案内</title>
+<meta property="og:title" content="童話事務所 ― フィクサー協会 事務所案内">
+<meta property="og:description" content="後世の育成をメインとするフィクサー事務所。孤児院を併設し、異能を持つ子供たちが自らの生き方を選べるようになるまでの場所。">
+<meta property="og:site_name" content="THE FIXER ASSOCIATION">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kaiyou0117-dotcom.github.io/Fix/fairytale-office.html">
+<meta name="theme-color" content="#a5822f">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 11 L12 4 L20 11 V20 H4 Z' stroke='%23af8f52' stroke-width='1.5' fill='none' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,500;1,500;1,600&family=Shippori+Mincho+B1:wght@500;800&family=Noto+Serif+JP:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Yomogi&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f6f1e4;
+    --paper-2:#eee5cf;
+    --paper-3:#e3d7b8;
+    --ink:#241f18;
+    --ink-soft:#5c5344;
+    --ink-faint:#a89f8c;
+    --line:rgba(28,26,22,0.14);
+    --accent:#c4a054;
+    --accent-deep:#af8f3f;
+    --accent-pale:#f5ecd6;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{ scroll-behavior:smooth; }
+  body{ background:var(--paper); color:var(--ink); font-family:'Noto Serif JP', serif; line-height:1.95; }
+  .en{ font-family:'Cinzel', serif; }
+  .display{ font-family:'Shippori Mincho B1', serif; }
+  .script{ font-family:'Cormorant Garamond', serif; font-style:italic; }
+  .mono{ font-family:'JetBrains Mono', monospace; letter-spacing:0.03em; }
+  a{ color:inherit; text-decoration:none; }
+  .wrap{ max-width:920px; margin:0 auto; padding:0 6vw; }
+
+  /* ===== header ===== */
+  header.site{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:20px 6vw; background:var(--ink); position:sticky; top:0; z-index:20;
+  }
+  header.site .brand{ font-size:0.8rem; letter-spacing:0.18em; color:var(--paper); }
+  header.site .back{ font-family:'Cinzel', serif; font-size:0.64rem; letter-spacing:0.08em; color:var(--paper-3); opacity:0.85; }
+  header.site .back:hover{ opacity:1; color:var(--accent); }
+
+  /* ===== hero ===== */
+  .hero{ padding:9vh 0 7vh; text-align:center; }
+  .hero .eyebrow{ font-family:'Cinzel', serif; font-size:0.64rem; letter-spacing:0.32em; color:var(--accent-deep); }
+  .hero .emblem{ width:56px; height:56px; margin:22px auto 0; color:var(--accent-deep); }
+  .hero h1{ margin-top:18px; font-family:'Shippori Mincho B1', serif; font-weight:800; font-size:clamp(2rem,5vw,2.8rem); letter-spacing:0.06em; }
+  .hero .tagline{ margin-top:14px; font-size:1rem; color:var(--ink-soft); }
+  .hero .lead{ margin-top:26px; max-width:520px; margin-left:auto; margin-right:auto; font-size:0.88rem; color:var(--ink-soft); }
+
+  /* ===== sections ===== */
+  section{
+    border-top:1px solid var(--line); padding:64px 0;
+    opacity:0; transform:translateY(24px);
+    transition:opacity 0.8s ease, transform 0.8s ease;
+  }
+  section.show{ opacity:1; transform:translateY(0); }
+  .sec-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:32px; }
+  .sec-num{ font-family:'Cinzel', serif; font-size:1.05rem; color:var(--accent-deep); }
+  .sec-title{ font-family:'Shippori Mincho B1', serif; font-size:1.25rem; font-weight:800; letter-spacing:0.04em; }
+  .body-text{ max-width:640px; font-size:0.9rem; color:var(--ink-soft); }
+  .body-text + .body-text{ margin-top:16px; }
+  .drop-cap{
+    float:left; font-family:'Shippori Mincho B1', serif; font-weight:800;
+    font-size:3.2rem; line-height:0.78; color:var(--accent-deep);
+    padding:4px 8px 0 0; margin-top:2px;
+  }
+
+  /* ===== growth path ===== */
+  .growth-path{ display:flex; align-items:stretch; gap:0; margin-top:36px; }
+  .gp-step{
+    flex:1; position:relative; text-align:center; padding:16px 10px 10px;
+    background:none; border:none; font:inherit; color:inherit; cursor:pointer;
+  }
+  .gp-step:hover .gp-rank{ transform:scale(1.08); }
+  .gp-step::before{
+    content:""; position:absolute; top:9px; left:-50%; width:100%; height:1px;
+    background:var(--accent); opacity:0.4;
+  }
+  .gp-step:first-child::before{ display:none; }
+  .gp-rank{
+    position:relative; z-index:1; margin:0 auto 12px; width:34px; height:34px;
+    border-radius:50%; background:var(--paper); border:1.5px solid var(--accent-deep);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Cinzel', serif; font-weight:700; font-size:0.68rem; color:var(--accent-deep);
+    transition:transform 0.25s ease;
+  }
+  .gp-final .gp-rank{ background:var(--accent-deep); color:var(--paper); }
+  .gp-label{ font-size:0.7rem; color:var(--ink-soft); line-height:1.6; }
+  .gp-label span{ display:block; font-size:0.62rem; color:var(--ink-faint); margin-top:2px; }
+  .gp-detail{
+    max-height:0; opacity:0; overflow:hidden;
+    transition:max-height 0.4s ease, opacity 0.35s ease, margin-top 0.4s ease;
+    font-size:0.8rem; color:var(--ink-soft); line-height:1.8;
+    border-left:2px solid var(--accent); padding-left:0;
+  }
+  .gp-detail.show{ max-height:200px; opacity:1; margin-top:24px; padding-left:18px; }
+  .gp-stats{ margin-top:26px; font-size:0.66rem; color:var(--ink-faint); letter-spacing:0.02em; }
+
+  .hq-note{
+    margin-top:20px; max-width:640px; padding:16px 20px;
+    border-left:3px solid var(--accent-deep); background:var(--paper-2);
+    font-size:0.85rem; color:var(--ink-soft);
+  }
+  .hq-note-label{ font-size:0.6rem; color:var(--accent-deep); letter-spacing:0.05em; margin-bottom:8px; }
+  @media (max-width:640px){
+    .growth-path{ flex-direction:column; gap:18px; }
+    .gp-step::before{ display:none; }
+  }
+
+  /* ===== corkboard ===== */
+  .cork-board{ margin-top:34px; display:flex; flex-wrap:wrap; gap:22px 28px; padding:6px 2px; }
+  .cork-note{
+    position:relative; font-family:'Yomogi', cursive; font-size:0.95rem;
+    color:#5c4a2e; background:#f7e9a8; padding:16px 18px 18px;
+    max-width:180px; line-height:1.6;
+    box-shadow:0 3px 8px rgba(28,26,22,0.18);
+  }
+  .cork-note .pin{
+    position:absolute; top:-6px; left:50%; transform:translateX(-50%);
+    width:9px; height:9px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #e08a8a, #a5433a 70%);
+    box-shadow:0 2px 3px rgba(0,0,0,0.3);
+  }
+
+  /* ===== director card ===== */
+  .director-card{
+    display:flex; align-items:center; gap:22px; margin-top:8px;
+    padding:22px 24px; border:1px solid var(--line); background:var(--paper-2);
+    transition:background 0.2s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .director-card:hover{ background:var(--accent-pale); transform:translateY(-3px); box-shadow:0 12px 26px rgba(28,26,22,0.14); }
+  .director-card img{ width:64px; height:64px; border-radius:50%; object-fit:cover; border:1.5px solid var(--accent-deep); }
+  .director-card .dc-name{ font-family:'Shippori Mincho B1', serif; font-weight:800; font-size:1rem; }
+  .director-card .dc-role{ font-size:0.72rem; color:var(--ink-faint); margin-top:4px; }
+  .director-card .dc-arrow{ margin-left:auto; font-family:'Cinzel', serif; font-size:0.7rem; color:var(--accent-deep); }
+
+  /* ===== info grid ===== */
+  .info-grid{ display:grid; grid-template-columns:1fr 1fr; gap:0 40px; margin-top:8px; }
+  .info-row{ display:flex; justify-content:space-between; gap:16px; padding:13px 0; border-top:1px solid var(--line); font-size:0.87rem; }
+  .info-row .k{ color:var(--ink-faint); font-family:'Cinzel', serif; font-size:0.62rem; letter-spacing:0.06em; white-space:nowrap; padding-top:2px; }
+  .info-row .v{ color:var(--ink-soft); text-align:right; }
+  @media (max-width:640px){ .info-grid{ grid-template-columns:1fr; } }
+
+  footer{ padding:44px 0 70px; text-align:center; font-family:'JetBrains Mono', monospace; font-size:0.6rem; color:var(--ink-faint); letter-spacing:0.06em; }
+</style>
+</head>
+<body>
+
+  <header class="site">
+    <span class="en brand">THE FIXER ASSOCIATION</span>
+    <a class="back" href="index.html">← 協会サイトへ戻る</a>
+  </header>
+
+  <div class="wrap">
+    <div class="hero">
+      <div class="eyebrow">FIXER FIRM ― LONDON</div>
+      <svg class="emblem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
+        <path d="M4 11 L12 4 L20 11 V20 H4 Z" stroke-linejoin="round"/>
+        <path d="M9 20 V14 H15 V20" stroke-linejoin="round"/>
+      </svg>
+      <h1 class="display">童話事務所</h1>
+      <div class="tagline script">後世の育成をメインとするフィクサー事務所</div>
+      <p class="lead">
+        孤児院を併設し、異能を持つ子供たちが自分の生き方を自分で決められるようになるまでの間、
+        金銭の稼ぎ方・異能の制御法・社会との関わり方を学べる場所として運営されている。
+      </p>
+    </div>
+  </div>
+
+  <section id="overview">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">Ⅰ</span><span class="sec-title display">概要</span></div>
+      <p class="body-text">
+        <span class="drop-cap">後</span>世の育成をメインとするフィクサー事務所。所長のマザー・
+        シェーラと、事務作業及び孤児院の経営を手伝うシスターを除いた所員のほとんどが、
+        18歳未満の子供たちであることが目立つ特徴の一つとして挙げられる。
+      </p>
+      <p class="body-text">
+        ロンドンを中心にイギリス各地で、経済的な理由やエネミーの襲撃により親を失った、
+        あるいは異能の力が強すぎて自力での制御が困難であるなどの事情から孤児・ストリート
+        チルドレンとなってしまった、異能持ちの子供たちを保護の対象としている。
+      </p>
+      <p class="body-text">
+        その子供たちが裏社会の餌食になってしまわないよう、自分で自分の生き方を定められる
+        ようになるまでの間、当事務所のフィクサーとして、お金の稼ぎ方・異能の制御の仕方・
+        社会との関わり方を学べる場として、孤児院と共に併設されている。
+      </p>
+    </div>
+  </section>
+
+  <section id="growth">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">Ⅱ</span><span class="sec-title display">育成の流れ</span></div>
+      <p class="body-text">
+        子供のフィクサーは、年齢と実力に応じて段階的に受注可能な依頼の階級が上がっていく。
+        18歳になった子供たちの多くは、フィクサーとして別の事務所に移籍するか、フィクサーを
+        辞めて大学に進学、あるいは一般の職を見つけて童話事務所を卒業する。少数ながら、
+        そのまま事務所を手伝う道を選ぶ子供たちもいる。
+      </p>
+
+      <div class="growth-path">
+        <button class="gp-step" type="button" data-detail="孤児院で義務教育相当の学びを受けながら、命の危険がないE級の依頼をこなす期間。フィクサーとしての第一歩を、安全な環境の中で踏み出す。">
+          <div class="gp-rank">E級</div>
+          <div class="gp-label">15歳未満<br><span>孤児院で教育＋簡単な依頼</span></div>
+        </button>
+        <button class="gp-step" type="button" data-detail="通常のD級案件を受注できるようになる段階。孤児院での教育と並行し、実務としてのフィクサー業務の比重が増えていく。">
+          <div class="gp-rank">D級</div>
+          <div class="gp-label">15歳以上<br><span>通常の依頼が可能に</span></div>
+        </button>
+        <button class="gp-step" type="button" data-detail="子供たちのリーダーになれるほど力をつけた者だけが到達する段階。C級案件を受注し、後進の子供たちを率いる役割も担う。">
+          <div class="gp-rank">C級</div>
+          <div class="gp-label">リーダー格<br><span>子供たちを率いる力量</span></div>
+        </button>
+        <button class="gp-step gp-final" type="button" data-detail="18歳になった子供たちの多くは、別の事務所へフィクサーとして移籍するか、フィクサーを辞めて進学・就職する形で童話事務所を巣立つ。少数だが、そのまま事務所を手伝う道を選ぶ者もいる。">
+          <div class="gp-rank">卒業</div>
+          <div class="gp-label">18歳<br><span>独立・進学・他事務所へ</span></div>
+        </button>
+      </div>
+      <div class="gp-detail" id="gpDetail"></div>
+      <div class="gp-stats mono">在籍フィクサー ― E級 12名 ／ D級 5名 ／ C級 2名</div>
+    </div>
+  </section>
+
+  <section id="voices">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">Ⅲ</span><span class="sec-title display">子供たちの声</span></div>
+      <p class="body-text">
+        マザーが用事で事務所を数日不在にした際、留守番をしていた子供たちの中でも
+        特に幼い子らが、フィクサー協会宛に直接手紙を送ってきたことに由来する。
+        以来、その一部をここに書き留めてあるのはマザーの意向。
+      </p>
+      <div class="hq-note">
+        <div class="hq-note-label mono">協会本部 ― 対応記録より</div>
+        「手紙が届いても、こちらでは対応いたしかねます。送るのであれば、
+        マザーに直接送るようお伝えください」
+      </div>
+      <p class="body-text">卒業生・在籍生から寄せられた、いくつかの一言。</p>
+      <div class="cork-board">
+        <div class="cork-note" style="transform:rotate(-4deg);">せんせい、いつもありがとう<span class="pin"></span></div>
+        <div class="cork-note" style="transform:rotate(3deg);">明日帰って来る？<span class="pin"></span></div>
+        <div class="cork-note" style="transform:rotate(-2deg);">ひとりで依頼こなせたよ！<span class="pin"></span></div>
+        <div class="cork-note" style="transform:rotate(2deg);">卒業しても、たまに帰ってきていい？<span class="pin"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="director">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">Ⅳ</span><span class="sec-title display">所長</span></div>
+      <a class="director-card" href="mother-shayla.html">
+        <img src="https://images-ng.pixai.art/gi/orig/148c3ac1-5cef-4146-8342-f45107ac5a36" alt="マザー・シェーラ">
+        <div>
+          <div class="dc-name">マザー・シェーラ</div>
+          <div class="dc-role">S級フィクサー ／ The Benevolent High Priestess</div>
+        </div>
+        <div class="dc-arrow">VIEW PROFILE →</div>
+      </a>
+    </div>
+  </section>
+
+  <section id="info" style="border-bottom:none;">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">Ⅴ</span><span class="sec-title display">事務所情報</span></div>
+      <div class="info-grid">
+        <div class="info-row"><span class="k">所在地</span><span class="v">ロンドン</span></div>
+        <div class="info-row"><span class="k">所長</span><span class="v">マザー・シェーラ</span></div>
+        <div class="info-row"><span class="k">併設施設</span><span class="v">孤児院</span></div>
+        <div class="info-row"><span class="k">主な活動</span><span class="v">後世の育成</span></div>
+        <div class="info-row"><span class="k">所属組織</span><span class="v"><a href="index.html" style="border-bottom:1px solid var(--accent);">フィクサー協会</a></span></div>
+        <div class="info-row"><span class="k">受け入れ対象</span><span class="v">異能を持つ孤児・要保護児童</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>THE FIXER ASSOCIATION ／ 童話事務所</footer>
+
+  <script>
+  (function(){
+    var sections = document.querySelectorAll('section');
+    if (!('IntersectionObserver' in window)){
+      sections.forEach(function(s){ s.classList.add('show'); });
+    } else {
+      var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting){
+            entry.target.classList.add('show');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold:0.12, rootMargin:'0px 0px -60px 0px' });
+      sections.forEach(function(s){ obs.observe(s); });
+    }
+  })();
+
+  (function(){
+    var steps = document.querySelectorAll('.gp-step');
+    var detail = document.getElementById('gpDetail');
+    if (!steps.length || !detail) return;
+    var activeStep = null;
+    steps.forEach(function(step){
+      step.addEventListener('click', function(){
+        if (activeStep === step){
+          detail.classList.remove('show');
+          activeStep = null;
+          return;
+        }
+        activeStep = step;
+        detail.textContent = step.getAttribute('data-detail');
+        detail.classList.add('show');
+      });
+    });
+  })();
+  </script>
+
+</body>
+</html>
