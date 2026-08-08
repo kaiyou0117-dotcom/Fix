@@ -640,6 +640,21 @@
   <footer>最終更新：[REDACTED] ／ 文書番号：XXX-XXX-XXXX</footer>
 
   <script>
+  var introSkipped = false;
+
+  function skipIntro(){
+    if (introSkipped) return;
+    introSkipped = true;
+    var gateEl = document.getElementById('gate');
+    if (gateEl) gateEl.classList.add('hide');
+    document.body.style.overflow = '';
+    startCodenameTypewriter();
+  }
+
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' || e.key === 'Esc') skipIntro();
+  });
+
   (function(){
     document.body.style.overflow = 'hidden';
     var gate = document.getElementById('gate');
@@ -662,6 +677,7 @@
     steps.forEach(function(step){
       elapsed += step.delay;
       setTimeout(function(){
+        if (introSkipped) return;
         ring.style.strokeDashoffset = circumference * (1 - step.pct / 100);
         percentEl.textContent = step.pct + '%';
         statusEl.textContent = step.msg;
@@ -669,6 +685,7 @@
           gate.classList.add('granted');
           statusEl.classList.add('granted');
           setTimeout(function(){
+            if (introSkipped) return;
             document.getElementById('gatePrompt').classList.add('show');
           }, 600);
         }
@@ -677,6 +694,8 @@
 
     document.getElementById('gateYes').addEventListener('click', function(e){
       e.preventDefault();
+      if (introSkipped) return;
+      introSkipped = true;
       gate.classList.add('hide');
       document.body.style.overflow = '';
       startCodenameTypewriter();

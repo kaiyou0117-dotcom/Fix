@@ -564,7 +564,7 @@
             <div class="sec-head"><span class="sec-num">Ⅱ</span><span class="sec-title display">性格</span></div>
             <p class="body-text">
               対象は敬虔なシスターとしての一面を持ち、困窮する者に対して迷いなく手を
-              差し伸べる傾向が確認されている。秩序・善のアライメントを体現する人格として、
+              差し伸べる傾向が確認されている。秩序と慈愛を体現する人格として、
               協会内における評価は高い。
             </p>
             <div class="note-box">
@@ -723,6 +723,21 @@
   <footer>最終更新：[REDACTED] ／ 文書番号：XXX-XXX-XXXX</footer>
 
   <script>
+  var introSkipped = false;
+
+  function skipIntro(){
+    if (introSkipped) return;
+    introSkipped = true;
+    var gateEl = document.getElementById('gate');
+    if (gateEl) gateEl.classList.add('hide');
+    document.body.style.overflow = '';
+    startCodenameTypewriter();
+  }
+
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' || e.key === 'Esc') skipIntro();
+  });
+
   (function(){
     document.body.style.overflow = 'hidden';
     var gate = document.getElementById('gate');
@@ -742,6 +757,7 @@
     steps.forEach(function(step){
       elapsed += step.delay;
       setTimeout(function(){
+        if (introSkipped) return;
         for (var i = 0; i < petals.length; i++){
           if (i < step.lit) petals[i].classList.add('lit');
         }
@@ -751,6 +767,7 @@
           statusEl.classList.add('granted');
           core.classList.add('lit');
           setTimeout(function(){
+            if (introSkipped) return;
             document.getElementById('gatePrompt').classList.add('show');
           }, 600);
         }
@@ -759,6 +776,8 @@
 
     document.getElementById('gateYes').addEventListener('click', function(e){
       e.preventDefault();
+      if (introSkipped) return;
+      introSkipped = true;
       gate.classList.add('hide');
       document.body.style.overflow = '';
       startCodenameTypewriter();
