@@ -163,19 +163,14 @@
     mask-position:center;
     transition:background 0.2s ease;
   }
-  .fiend-card::before{
-    content:""; position:absolute; inset:-2px; z-index:-1;
-    background:#fff;
-    -webkit-mask-image:url('fiend-shape.png');
-    mask-image:url('fiend-shape.png');
-    -webkit-mask-size:100% 100%;
-    mask-size:100% 100%;
-    -webkit-mask-repeat:no-repeat;
-    mask-repeat:no-repeat;
-    -webkit-mask-position:center;
-    mask-position:center;
+  .fiend-card::after{
+    content:""; position:absolute; inset:0; z-index:5; pointer-events:none;
+    background-image:url('fiend-outline.png');
+    background-size:100% 100%;
+    background-repeat:no-repeat;
+    background-position:center;
   }
-  .fiend-card.open::before{ display:none; }
+  .fiend-card.open::after{ display:none; }
   .fiend-card.open{
     -webkit-mask-image:none;
     mask-image:none;
