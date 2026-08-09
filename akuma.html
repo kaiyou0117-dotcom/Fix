@@ -281,48 +281,68 @@
   .danger-note{ margin-top:24px; padding:18px 22px; border-left:3px solid var(--blood); background:var(--void-2); font-size:0.85rem; color:var(--bone-dim); }
   .danger-note b{ color:var(--blood-glow); }
 
-  /* ===== coffins: intro text left, coffin cards right ===== */
+  /* ===== fiend cards: circular emblem, becomes a rectangle when open ===== */
   .coffin-split{ display:grid; grid-template-columns:0.85fr 1.3fr; gap:48px; align-items:start; margin-top:30px; }
   .coffin-left .body-text{ max-width:none; }
 
-  .coffin-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; background:transparent; border:none; align-items:start; }
-  .coffin-card{
-    background:var(--void-2); position:relative;
-    clip-path:polygon(0% 50%, 9% 22%, 100% 30%, 100% 70%, 9% 78%);
-    transition:background 0.2s ease, clip-path 0.5s ease;
+  .fiend-grid{ display:grid; grid-template-columns:1fr; gap:14px; margin-top:24px; }
+  .fiend-grid-2col{ grid-template-columns:1fr 1fr; gap:10px; }
+  .fiend-card{
+    position:relative; z-index:0;
+    max-width:190px; margin:0 auto; aspect-ratio:1/1;
   }
-  .coffin-card.open{
-    clip-path:polygon(0% 0%, 0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  .fiend-card.open{ max-width:none; aspect-ratio:auto; margin:0; }
+  .fiend-card::before{
+    content:""; position:absolute; inset:0; z-index:-1;
+    background:var(--void-2);
+    -webkit-mask-image:url('fiend-emblem.png');
+    mask-image:url('fiend-emblem.png');
+    -webkit-mask-size:100% 100%;
+    mask-size:100% 100%;
+    -webkit-mask-repeat:no-repeat;
+    mask-repeat:no-repeat;
+    -webkit-mask-position:center;
+    mask-position:center;
+    transition:background 0.2s ease;
   }
-  .coffin-card:hover{ background:#241a1a; }
-  .coffin-card.primary{ background:var(--void-3); }
-  .coffin-card.primary:hover{ background:#2a1f1f; }
-  .coffin-badge{ position:absolute; top:44px; right:20px; z-index:2; font-family:'JetBrains Mono', monospace; font-size:0.56rem; color:var(--blood-glow); border:1px solid var(--blood-deep); padding:2px 7px; }
+  .fiend-outline-img{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+  .fiend-card.open .fiend-outline-img{ display:none; }
+  .fiend-card.open::before{
+    -webkit-mask-image:none;
+    mask-image:none;
+    border:1.5px solid #fff;
+  }
+  .fiend-card:hover::before{ background:#241a1a; }
+  .fiend-card.primary::before{ background:var(--void-3); }
+  .fiend-card.primary:hover::before{ background:#2a1f1f; }
+  .fiend-badge{ display:inline-block; margin-top:10px; font-family:'JetBrains Mono', monospace; font-size:0.52rem; color:var(--blood-glow); border:1px solid var(--blood-deep); padding:2px 8px; white-space:nowrap; }
 
-  .coffin-toggle{
-    display:flex; align-items:center; justify-content:space-between; width:100%;
-    background:none; border:none; padding:42px 34px 42px 62px; margin:0; cursor:pointer; text-align:left;
+  .fiend-toggle{
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; width:100%;
+    background:none; border:none; padding:30% 22%; margin:0; cursor:pointer; text-align:center;
     font:inherit; color:inherit;
     transition:padding 0.4s ease;
   }
-  .coffin-card.open .coffin-toggle{ padding:26px 26px 14px 32px; }
-  .coffin-heading{ padding-right:20px; }
-  .coffin-no{ font-size:0.6rem; color:var(--blood); letter-spacing:0.08em; margin-bottom:6px; }
-  .coffin-name{ font-family:'Shippori Mincho B1', serif; font-weight:800; font-size:0.96rem; color:var(--bone); }
-  .coffin-indicator{
+  .fiend-card.open .fiend-toggle{ flex-direction:row; align-items:center; justify-content:space-between; text-align:left; padding:26px 26px 14px; }
+  .fiend-heading{ display:flex; flex-direction:column; align-items:center; }
+  .fiend-card.open .fiend-heading{ align-items:flex-start; }
+  .fiend-no{ font-size:0.56rem; color:var(--blood); letter-spacing:0.08em; margin-bottom:6px; }
+  .fiend-name{ font-family:'Shippori Mincho B1', serif; font-weight:800; font-size:0.88rem; color:var(--bone); }
+  .fiend-indicator{
+    display:none;
     font-family:'JetBrains Mono', monospace; font-size:1rem; color:var(--blood-glow);
     flex-shrink:0; transition:transform 0.3s ease;
   }
-  .coffin-card.open .coffin-indicator{ transform:rotate(45deg); }
+  .fiend-card.open .fiend-indicator{ display:block; transform:rotate(45deg); }
 
-  .coffin-body{
+  .fiend-body{
     max-height:0; opacity:0; overflow:hidden;
-    padding:0 34px 0 62px; margin-top:0;
+    padding:0 26px 0; margin-top:0;
     transition:max-height 0.5s ease 0.15s, opacity 0.4s ease 0.2s, padding 0.5s ease 0.15s;
   }
-  .coffin-card.open .coffin-body{ max-height:320px; opacity:1; padding:0 32px 26px 32px; }
-  .coffin-epigraph{ font-family:'Shippori Mincho B1', serif; font-style:italic; font-size:0.74rem; color:var(--blood-glow); opacity:0.85; }
-  .coffin-desc{ margin-top:10px; font-size:0.8rem; color:var(--bone-dim); }
+  .fiend-card.open .fiend-body{ max-height:320px; opacity:1; padding:0 26px 26px; }
+  .fiend-epigraph{ font-family:'Shippori Mincho B1', serif; font-style:italic; font-size:0.74rem; color:var(--blood-glow); opacity:0.85; }
+  .fiend-desc{ margin-top:10px; font-size:0.8rem; color:var(--bone-dim); }
 
   footer{ padding:40px 0 90px; text-align:center; font-family:'JetBrains Mono', monospace; font-size:0.64rem; color:var(--bone-dim); }
 
@@ -528,7 +548,7 @@
 
   </div>
 
-  <section class="scroll-in">
+  <section class="scroll-in" style="border-bottom:none;">
     <div class="wrap">
       <div class="sec-head"><span class="sec-num">Ⅰ</span><span class="sec-title display">過去</span></div>
       <p class="body-text">
@@ -560,185 +580,6 @@
       </div>
     </div>
   </section>
-
-  <section class="scroll-in">
-    <div class="wrap">
-      <div class="sec-head"><span class="sec-num">Ⅱ</span><span class="sec-title display">異能</span></div>
-      <p class="body-text">
-        <b>「禁断の園で悪魔は嗤う」</b>――自身の顔を見た、あるいは対象に触れた・傷付けた・
-        傷付けられた相手が持つ『怒り』『恐怖』『憎悪』『嫉妬』『恨み』などの、本人が認めたくない
-        醜い側面を、植物と害虫、そして対象自身を写した異形のエネミーとして具現化し使役する異能。
-        使役体は1人につき1体までだが、破壊されれば再度召喚可能となる。
-      </p>
-      <p class="body-text">
-        具現化されたエネミーは優先的に感情の持ち主を攻撃し、近くにいるだけで持ち主の負の感情を
-        刺激する。強さは相手の負の感情に比例するが、これはあくまで副次的な要素に過ぎない。
-      </p>
-      <div class="danger-note">
-        <div class="nb-label">本質</div>
-        この異能の本質は、破壊された際に発生する以下三つの効果にある。どの効果が発生するかは
-        対象本人が選択できる。自身の認めたくない負の側面と、相手を強制的に向き合わせることに
-        こそ、この異能の核がある。
-      </div>
-
-      <div class="coffin-grid">
-        <div class="coffin-card primary scroll-stagger" id="coffin-1">
-          <div class="coffin-badge">反射</div>
-          <button class="coffin-toggle" type="button">
-            <div class="coffin-heading">
-              <div class="coffin-no mono">効果・一</div>
-              <div class="coffin-name">因果</div>
-            </div>
-            <span class="coffin-indicator">+</span>
-          </button>
-          <div class="coffin-body">
-            <div class="coffin-epigraph">〜受けたダメージの反射〜</div>
-            <div class="coffin-desc">撃破時に与えた攻撃のダメージが、感情の持ち主へとそのまま
-            反射される。</div>
-          </div>
-        </div>
-
-        <div class="coffin-card scroll-stagger" id="coffin-2">
-          <button class="coffin-toggle" type="button">
-            <div class="coffin-heading">
-              <div class="coffin-no mono">効果・二</div>
-              <div class="coffin-name">醜念</div>
-            </div>
-            <span class="coffin-indicator">+</span>
-          </button>
-          <div class="coffin-body">
-            <div class="coffin-epigraph">〜感情の暴走〜</div>
-            <div class="coffin-desc">破壊された時、持ち主の負の感情が肥大化する。小さな不満で
-            さえ殺意に達する水準まで増大し、持ち主の意志を超えて自分自身か対象者の仲間へと
-            矛先を向けさせ、暴走と自滅を促す。自分がどうしようもなく醜い感情を持つ人間であると
-            受け入れられる場合に限り、これに耐えることができる。逆に感情を否定するほど状態は
-            悪化する。</div>
-          </div>
-        </div>
-
-        <div class="coffin-card scroll-stagger" id="coffin-3">
-          <button class="coffin-toggle" type="button">
-            <div class="coffin-heading">
-              <div class="coffin-no mono">効果・三</div>
-              <div class="coffin-name">離間</div>
-            </div>
-            <span class="coffin-indicator">+</span>
-          </button>
-          <div class="coffin-body">
-            <div class="coffin-epigraph">〜同士討ちの種〜</div>
-            <div class="coffin-desc">破壊されると種子となって対象の影に寄生し、次にその対象が
-            攻撃を放つ際、攻撃方向を捻じ曲げて本人あるいはその仲間に向けて放たせる。同士討ちと
-            仲間割れを誘発する効果であり、信頼関係が薄い集団ほど崩壊の危険性が増す。種子は一度
-            攻撃が放たれるか、対象が自省することで消滅する。</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="scroll-in">
-    <div class="wrap">
-      <div class="sec-head"><span class="sec-num">Ⅲ</span><span class="sec-title display">アルプスパワー・ヨルムンガルド</span></div>
-      <p class="body-text">
-        アルプス地下世界を形成するエイドロンの影響を受けた、アルプスパワーの亜種。地下世界での
-        戦闘に特化しており、通常のアルプスパワーと比較して回復性能が高く、視覚・聴覚・嗅覚及び
-        アルプスセンサーなどの索敵能力が著しく優れている。暗闇でも問題なく行動でき、僅かな
-        物音も聞き逃さない。習熟すれば予知に等しい動きも可能とされる。反面、攻撃及び防御に
-        関する強化性能は劣る。
-      </p>
-      <div class="danger-note">
-        対象は視覚を持たないため、本来視覚に振り分けられる分の強化を他の感覚に転用しており、
-        結果としてその探知能力は同系統の中でも際立って高いと記録されている。
-      </div>
-    </div>
-  </section>
-
-  <section class="scroll-in">
-    <div class="wrap">
-      <div class="sec-head"><span class="sec-num">Ⅳ</span><span class="sec-title display"><ruby>異産「死の収穫」<rt>デル・トーデスシュニット</rt></ruby></span></div>
-
-      <div class="coffin-split">
-        <div class="coffin-left">
-          <p class="body-text">
-            植物の絡みついた異形の大鎌。命名の際「死神担当だから死に関する名前にしよう」という
-            安直な理由で名付けられており、対象は現在この名称を改めるべきか悩んでいる。
-          </p>
-          <div class="danger-note">
-            斬り裂いた生命体から生命力を吸引し、持ち主に分配する能力を持つ。生命力を抜かれた
-            相手は全ての能力にデバフを受ける。反対に、奪った生命力を流し込むことで対象を
-            強化することも可能。<b>経口摂取が出来ない対象にとって、この武器を通じて得る生命力は
-            文字通りの生命線となっている。</b>元来効果を持つ異産を改造する形でTTT技術が一基分
-            組み込まれており、以下の3形態を切り替えることでそれぞれ異なるバフを得ることができる。
-          </div>
-        </div>
-
-        <div class="coffin-grid">
-          <div class="coffin-card primary scroll-stagger" id="coffin-4">
-            <button class="coffin-toggle" type="button">
-              <div class="coffin-heading">
-                <div class="coffin-no mono">形態・一</div>
-                <div class="coffin-name">ライフルモード</div>
-              </div>
-              <span class="coffin-indicator">+</span>
-            </button>
-            <div class="coffin-body">
-              <div class="coffin-epigraph">〜選択バフ：敏捷上昇〜</div>
-              <div class="coffin-desc">射撃武器としての形態。機動性を重視した立ち回りに適する。</div>
-            </div>
-          </div>
-
-          <div class="coffin-card scroll-stagger" id="coffin-5">
-            <button class="coffin-toggle" type="button">
-              <div class="coffin-heading">
-                <div class="coffin-no mono">形態・二</div>
-                <div class="coffin-name">大鎌モード</div>
-              </div>
-              <span class="coffin-indicator">+</span>
-            </button>
-            <div class="coffin-body">
-              <div class="coffin-epigraph">〜選択バフ：力増強〜</div>
-              <div class="coffin-desc">本来の大鎌としての形態。生命力の吸引・分配効率が最も高い。</div>
-            </div>
-          </div>
-
-          <div class="coffin-card scroll-stagger" id="coffin-6">
-            <button class="coffin-toggle" type="button">
-              <div class="coffin-heading">
-                <div class="coffin-no mono">形態・三</div>
-                <div class="coffin-name">短剣モード</div>
-              </div>
-              <span class="coffin-indicator">+</span>
-            </button>
-            <div class="coffin-body">
-              <div class="coffin-epigraph">〜選択バフ：防御上昇〜</div>
-              <div class="coffin-desc">近接防御を重視した形態。視覚を持たない対象の護身用途を兼ねる。</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="scroll-in" style="border-bottom:none;">
-    <div class="wrap">
-      <div class="sec-head"><span class="sec-num">Ⅴ</span><span class="sec-title display">TTT技術使用仮面「シン・バインド」</span></div>
-      <p class="body-text">
-        対象の異能の暴発を防ぐため、協会から支給された仮面。単に着用しただけでは、強すぎる
-        異能の効果が仮面を透過して勝手に発動してしまうため、対象自身の異能を弱体化させる
-        デバフを常時発動する設定がなされている。
-      </p>
-      <div class="danger-note">
-        これはTTTに使用される異界陣技術を流用したものであり、能力の切り替え等はできないため
-        厳密な意味でのTTTには該当しない。
-      </div>
-      <p class="body-text">
-        仮面には思考を読み取り、音声として出力する機能も搭載されている。若い女性から老年の
-        男性まで多様な音声が用意されているとされる。最近のお気に入りは、ずんぐりとした緑色の
-        何かをモチーフにしたような合成音声だという。
-      </p>
-    </div>
-  </section>
-
   <footer>最終更新：[REDACTED] ／ 文書番号：XXX-XXX-XXXX</footer>
 
   <script>
@@ -800,9 +641,9 @@
   })();
 
   (function(){
-    document.querySelectorAll('.coffin-toggle').forEach(function(btn){
+    document.querySelectorAll('.fiend-toggle').forEach(function(btn){
       btn.addEventListener('click', function(){
-        btn.closest('.coffin-card').classList.toggle('open');
+        btn.closest('.fiend-card').classList.toggle('open');
       });
     });
   })();
