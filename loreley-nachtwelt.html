@@ -432,6 +432,15 @@
   .restricted-content .ability-box .a-name{ color:var(--accent); }
   .restricted-content .ability-box .a-body{ color:var(--paper-3); }
   .restricted-content .ability-box .a-body b{ color:var(--paper); }
+  .restricted-content .fiend-card{ background:rgba(242,236,219,0.1); }
+  .restricted-content .fiend-card.primary{ background:rgba(242,236,219,0.16); }
+  .restricted-content .fiend-card:hover{ background:rgba(242,236,219,0.18); }
+  .restricted-content .fiend-name{ color:var(--paper); }
+  .restricted-content .fiend-desc{ color:var(--paper-3); }
+  .restricted-content .fiend-no{ color:var(--accent); }
+  .restricted-content .fiend-epigraph{ color:var(--accent); }
+  .restricted-content .fiend-indicator{ color:var(--accent); }
+  .restricted-content .fiend-badge{ color:var(--accent); border-color:var(--accent); }
 
   /* ===== scroll-triggered entrance ===== */
   .scroll-in{
@@ -603,6 +612,28 @@
       </div>
     </div>
   </section>
+
+  <div class="wrap">
+    <div class="clearance-gate" id="clearanceGate">
+      <div class="cg-icon">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+          <rect x="5" y="11" width="14" height="9" rx="1"/>
+          <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+        </svg>
+      </div>
+      <div class="cg-title">CLEARANCE REQUIRED</div>
+      <p class="cg-desc">以下の文書は協会における準A級機密事項です。<br>改ざん・無断アクセス等の行為は規約第17条により重大な違反行為とみなされます。</p>
+      <div class="cg-level mono">REQUIRED LEVEL: <b>B</b></div>
+      <button class="cg-btn" id="cgBtn">権限を認証する</button>
+
+      <div class="cg-progress" id="cgProgress">
+        <div class="cg-bar"><div class="cg-bar-fill" id="cgBarFill"></div></div>
+        <div class="cg-progress-status mono" id="cgProgressStatus">アクセス権限を照合中...</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="restricted-content" id="restrictedContent">
 
   <section class="scroll-in">
     <div class="wrap">
@@ -782,6 +813,7 @@
     </div>
   </section>
 
+  </div>
 
   <div class="gate" id="finalGate">
     <div class="wrap">
