@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>―</title>
+<style>
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html, body{ height:100%; }
+  body{
+    background:#ffffff; color:#111;
+    font-family:'Hiragino Sans', 'Yu Gothic', sans-serif;
+    display:flex; align-items:center; justify-content:center;
+    text-align:center;
+  }
+  .wrap{ padding:8vh 6vw; }
+
+  .gotcha-img{
+    max-width:min(90vw, 420px); width:100%; height:auto;
+    display:block; margin:0 auto;
+  }
+
+  .buttons{ margin-top:48px; display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+  .btn{
+    display:inline-block; padding:14px 30px;
+    border:1px solid #111; color:#111; font-size:0.85rem; letter-spacing:0.04em;
+    transition:background 0.2s ease, color 0.2s ease;
+  }
+  .btn:hover{ background:#111; color:#fff; }
+</style>
+</head>
+<body>
+
+  <div class="wrap">
+    <div class="bar"></div>
+    <img class="gotcha-img" src="gotcha-image.png" alt="釣られたな？">
+
+    <div class="buttons">
+      <a class="btn" href="index.html">トップに戻る</a>
+      <a class="btn" href="#" id="prevBtn">前のページに戻る</a>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('prevBtn').addEventListener('click', function(e){
+      e.preventDefault();
+      history.back();
+    });
+  </script>
+
+</body>
+</html>

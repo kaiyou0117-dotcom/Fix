@@ -255,6 +255,22 @@
   .sec-num{ font-family:'Cinzel', serif; font-size:1.05rem; color:var(--blood); }
   .sec-title{ font-family:'Shippori Mincho B1', serif; font-size:1.25rem; font-weight:800; letter-spacing:0.04em; color:var(--bone); }
   .body-text{ max-width:660px; font-size:0.9rem; color:var(--bone-dim); }
+
+  .cd-btn{
+    margin-top:22px; font-family:'Cinzel', serif; font-size:0.68rem; letter-spacing:0.1em;
+    background:none; border:1px solid var(--blood-deep); color:var(--blood-glow);
+    padding:12px 26px; cursor:pointer;
+    transition:background 0.2s ease, color 0.2s ease;
+  }
+  .cd-btn:hover{ background:var(--blood-deep); color:var(--bone); }
+  .cd-btn.hide{ display:none; }
+  .cd-scan{
+    display:none; margin-top:22px;
+    font-family:'JetBrains Mono', monospace; font-size:0.76rem; letter-spacing:0.05em;
+    color:var(--blood-glow);
+  }
+  .cd-scan.show{ display:block; animation:cdPulse 0.8s ease-in-out infinite; }
+  @keyframes cdPulse{ 0%,100%{ opacity:0.6; } 50%{ opacity:1; } }
   .body-text + .body-text{ margin-top:16px; }
   .body-text b{ color:var(--bone); }
   .body-text .hl-red{ color:var(--blood-glow); font-weight:700; }
@@ -548,7 +564,7 @@
 
   </div>
 
-  <section class="scroll-in" style="border-bottom:none;">
+  <section class="scroll-in">
     <div class="wrap">
       <div class="sec-head"><span class="sec-num">Ⅰ</span><span class="sec-title display">過去</span></div>
       <p class="body-text">
@@ -578,6 +594,17 @@
         アルプスで成長する中、自身の強力な異能が周囲に不幸しかもたらさないと悟った対象は、
         単身アルプスを離れ、イギリスへと渡ってフィクサーとしての活動を開始した。
       </div>
+    </div>
+  </section>
+
+  <section class="scroll-in" style="border-bottom:none;">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">Ⅱ</span><span class="sec-title display">契約悪魔</span></div>
+      <p class="body-text">
+        対象が使役する契約悪魔に関する記録。
+      </p>
+      <button class="cd-btn" id="cdBtn" type="button">記録を閲覧する →</button>
+      <div class="cd-scan" id="cdScan">不正なアクセスを感知<span class="cd-dots">...</span></div>
     </div>
   </section>
   <footer>最終更新：[REDACTED] ／ 文書番号：XXX-XXX-XXXX</footer>
@@ -678,6 +705,19 @@
       });
     }, { threshold:0.4 });
     heads.forEach(function(h){ obs.observe(h); });
+  })();
+
+  (function(){
+    var btn = document.getElementById('cdBtn');
+    var scan = document.getElementById('cdScan');
+    if (!btn) return;
+    btn.addEventListener('click', function(){
+      btn.classList.add('hide');
+      scan.classList.add('show');
+      setTimeout(function(){
+        window.location.href = 'access-denied.html';
+      }, 1100);
+    });
   })();
   </script>
 

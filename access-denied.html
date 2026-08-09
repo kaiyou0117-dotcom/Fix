@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACCESS DENIED ― フィクサー協会</title>
+<meta name="theme-color" content="#7a1015">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Shippori+Mincho+B1:wght@500;800&family=Noto+Serif+JP:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#0a0808;
+    --void-2:#161010;
+    --bone:#dcd5ca;
+    --bone-dim:#8f8378;
+    --red:#c81e2e;
+    --red-deep:#7a1015;
+    --red-glow:#ff3d3d;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html, body{ height:100%; }
+  body{
+    background:var(--void); color:var(--bone);
+    font-family:'Noto Serif JP', serif;
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden; position:relative;
+  }
+  .mono{ font-family:'JetBrains Mono', monospace; }
+
+  .scanlines{
+    position:fixed; inset:0; z-index:1; pointer-events:none;
+    background-image:repeating-linear-gradient(to bottom, rgba(0,0,0,0.25) 0px, rgba(0,0,0,0.25) 1px, transparent 1px, transparent 3px);
+    opacity:0.4; mix-blend-mode:multiply;
+  }
+  .vignette{
+    position:fixed; inset:0; z-index:1; pointer-events:none;
+    animation:pulse 2.6s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{ box-shadow:inset 0 0 140px rgba(200,30,46,0.28); }
+    50%{ box-shadow:inset 0 0 220px rgba(200,30,46,0.5); }
+  }
+
+  .wrap{ position:relative; z-index:2; text-align:center; padding:6vh 6vw; max-width:640px; }
+
+  .icon{ margin:0 auto 26px; width:64px; height:64px; }
+  .icon svg{ width:100%; height:100%; }
+  .icon path, .icon line{ stroke:var(--red); }
+
+  .title{
+    font-family:'Cinzel', serif; font-weight:700; font-size:clamp(2rem,7vw,3.2rem);
+    letter-spacing:0.12em; color:var(--red-glow);
+    text-shadow:2px 0 rgba(200,30,46,0.6), -2px 0 rgba(122,16,21,0.6);
+    animation:glitch 2.4s infinite steps(1);
+  }
+  @keyframes glitch{
+    0%, 92%, 100%{ text-shadow:2px 0 rgba(200,30,46,0.6), -2px 0 rgba(122,16,21,0.6); transform:translate(0,0); }
+    93%{ text-shadow:-4px 1px rgba(200,30,46,0.7), 4px -1px rgba(122,16,21,0.7); transform:translate(-2px,0); }
+    95%{ text-shadow:3px -1px rgba(200,30,46,0.7), -3px 1px rgba(122,16,21,0.7); transform:translate(2px,0); }
+    97%{ text-shadow:none; transform:translate(0,0); }
+  }
+
+  .subtitle{
+    margin-top:14px; font-family:'Shippori Mincho B1', serif; font-weight:800;
+    font-size:1.1rem; color:var(--bone); letter-spacing:0.04em;
+  }
+
+  .log{
+    margin-top:36px; text-align:left; font-size:0.72rem; line-height:2.1;
+    color:var(--bone-dim); background:var(--void-2);
+    border-left:2px solid var(--red-deep); padding:18px 22px;
+  }
+  .log .line{ opacity:0; animation:lineIn 0.4s ease forwards; }
+  .log .line:nth-child(1){ animation-delay:0.2s; }
+  .log .line:nth-child(2){ animation-delay:0.6s; }
+  .log .line:nth-child(3){ animation-delay:1.0s; }
+  .log .line:nth-child(4){ animation-delay:1.4s; }
+  .log .line .ok{ color:var(--red); }
+  @keyframes lineIn{ to{ opacity:1; } }
+
+  .footer-note{
+    margin-top:34px; font-size:0.64rem; color:var(--bone-dim); letter-spacing:0.04em;
+    opacity:0; animation:lineIn 0.6s ease forwards; animation-delay:1.9s;
+  }
+
+  .back-link{
+    display:inline-block; margin-top:26px;
+    font-family:'Cinzel', serif; font-size:0.68rem; letter-spacing:0.12em;
+    color:var(--bone); border:1px solid var(--bone-dim);
+    padding:12px 30px;
+    opacity:0; animation:lineIn 0.6s ease forwards; animation-delay:2.2s;
+    transition:background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  }
+  .back-link:hover{ background:var(--red-deep); border-color:var(--red-deep); color:var(--bone); }
+</style>
+</head>
+<body>
+
+  <div class="scanlines"></div>
+  <div class="vignette"></div>
+
+  <div class="wrap">
+    <div class="icon">
+      <svg viewBox="0 0 64 64" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M32 6 L58 20 V38 C58 50 46 58 32 60 C18 58 6 50 6 38 V20 Z"/>
+        <line x1="32" y1="24" x2="32" y2="38"/>
+        <line x1="32" y1="44" x2="32" y2="45"/>
+      </svg>
+    </div>
+
+    <div class="title">ACCESS DENIED</div>
+    <div class="subtitle">不正な侵入者を感知しました</div>
+
+    <div class="log mono">
+      <div class="line">[ <span class="ok">WARN</span> ] 認証プロトコルへの異常なアクセスを検知</div>
+      <div class="line">[ <span class="ok">WARN</span> ] セッションの正当性を確認できませんでした</div>
+      <div class="line">[ <span class="ok">EXEC</span> ] 対象セッションを強制終了します</div>
+      <div class="line">[ <span class="ok">DONE</span> ] アクセス記録を協会本部へ送信しました</div>
+    </div>
+
+    <p class="footer-note">この一連の記録は保全され、必要に応じて関係部署へ照会されます。</p>
+
+    <a class="back-link" href="gotcha.html">戻る</a>
+  </div>
+
+</body>
+</html>
