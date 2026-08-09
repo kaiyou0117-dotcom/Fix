@@ -169,14 +169,8 @@
     mask-position:center;
     transition:background 0.2s ease;
   }
-  .fiend-card::after{
-    content:""; position:absolute; inset:0; z-index:5; pointer-events:none;
-    background-image:url('fiend-emblem-outline.png');
-    background-size:100% 100%;
-    background-repeat:no-repeat;
-    background-position:center;
-  }
-  .fiend-card.open::after{ display:none; }
+  .fiend-outline-img{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+  .fiend-card.open .fiend-outline-img{ display:none; }
   .fiend-card.open::before{
     -webkit-mask-image:none;
     mask-image:none;
@@ -185,7 +179,7 @@
   .fiend-card:hover::before{ background:var(--paper-3); }
   .fiend-card.primary::before{ background:var(--accent-pale); }
   .fiend-card.primary:hover::before{ background:var(--paper-3); }
-  .fiend-badge{ display:inline-block; margin-top:12px; font-family:'JetBrains Mono', monospace; font-size:0.56rem; color:var(--accent-deep); border:1px solid var(--accent); padding:3px 10px; white-space:nowrap; }
+  .fiend-badge{ display:inline-block; margin-top:10px; font-family:'JetBrains Mono', monospace; font-size:0.52rem; color:var(--accent-deep); border:1px solid var(--accent); padding:2px 8px; white-space:nowrap; }
 
   .fiend-toggle{
     display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; width:100%;
@@ -196,8 +190,8 @@
   .fiend-card.open .fiend-toggle{ flex-direction:row; align-items:center; justify-content:space-between; text-align:left; padding:26px 22px 14px; }
   .fiend-heading{ display:flex; flex-direction:column; align-items:center; }
   .fiend-card.open .fiend-heading{ align-items:flex-start; }
-  .fiend-no{ font-size:0.62rem; color:var(--accent-deep); letter-spacing:0.1em; margin-bottom:8px; }
-  .fiend-name{ font-family:'Shippori Mincho B1', serif; font-weight:800; font-size:1.15rem; color:var(--ink); }
+  .fiend-no{ font-size:0.56rem; color:var(--accent-deep); letter-spacing:0.08em; margin-bottom:6px; }
+  .fiend-name{ font-family:'Shippori Mincho B1', serif; font-weight:800; font-size:0.88rem; color:var(--ink); }
   .fiend-indicator{
     display:none;
     font-family:'JetBrains Mono', monospace; font-size:1rem; color:var(--accent-deep);
@@ -680,7 +674,7 @@
               <div class="fiend-no mono">効果・一</div>
               <div class="fiend-name">因果</div>
               <div class="fiend-badge">反射</div>
-            </div>
+        </div>
             <span class="fiend-indicator">+</span>
           </button>
           <div class="fiend-body">
@@ -688,6 +682,7 @@
             <div class="fiend-desc">撃破時に与えた攻撃のダメージが、感情の持ち主へとそのまま
             反射される。</div>
           </div>
+          <img class="fiend-outline-img" src="fiend-emblem-outline.png" alt="">
         </div>
 
         <div class="fiend-card scroll-stagger" id="fiend-2">
@@ -695,7 +690,7 @@
             <div class="fiend-heading">
               <div class="fiend-no mono">効果・二</div>
               <div class="fiend-name">醜念</div>
-            </div>
+        </div>
             <span class="fiend-indicator">+</span>
           </button>
           <div class="fiend-body">
@@ -706,6 +701,7 @@
             受け入れられる場合に限り、これに耐えることができる。逆に感情を否定するほど状態は
             悪化する。</div>
           </div>
+          <img class="fiend-outline-img" src="fiend-emblem-outline.png" alt="">
         </div>
 
         <div class="fiend-card scroll-stagger" id="fiend-3">
@@ -713,7 +709,7 @@
             <div class="fiend-heading">
               <div class="fiend-no mono">効果・三</div>
               <div class="fiend-name">離間</div>
-            </div>
+        </div>
             <span class="fiend-indicator">+</span>
           </button>
           <div class="fiend-body">
@@ -723,6 +719,7 @@
             仲間割れを誘発する効果であり、信頼関係が薄い集団ほど崩壊の危険性が増す。種子は一度
             攻撃が放たれるか、対象が自省することで消滅する。</div>
           </div>
+          <img class="fiend-outline-img" src="fiend-emblem-outline.png" alt="">
         </div>
       </div>
     </div>
@@ -770,13 +767,14 @@
               <div class="fiend-heading">
                 <div class="fiend-no mono">形態・一</div>
                 <div class="fiend-name">ライフルモード</div>
-              </div>
+        </div>
               <span class="fiend-indicator">+</span>
             </button>
             <div class="fiend-body">
               <div class="fiend-epigraph">〜選択バフ：敏捷上昇〜</div>
               <div class="fiend-desc">射撃武器としての形態。機動性を重視した立ち回りに適する。</div>
             </div>
+            <img class="fiend-outline-img" src="fiend-emblem-outline.png" alt="">
           </div>
 
           <div class="fiend-card scroll-stagger" id="fiend-5">
@@ -784,13 +782,14 @@
               <div class="fiend-heading">
                 <div class="fiend-no mono">形態・二</div>
                 <div class="fiend-name">大鎌モード</div>
-              </div>
+        </div>
               <span class="fiend-indicator">+</span>
             </button>
             <div class="fiend-body">
               <div class="fiend-epigraph">〜選択バフ：力増強〜</div>
               <div class="fiend-desc">本来の大鎌としての形態。生命力の吸引・分配効率が最も高い。</div>
             </div>
+            <img class="fiend-outline-img" src="fiend-emblem-outline.png" alt="">
           </div>
 
           <div class="fiend-card scroll-stagger" id="fiend-6">
@@ -798,13 +797,14 @@
               <div class="fiend-heading">
                 <div class="fiend-no mono">形態・三</div>
                 <div class="fiend-name">短剣モード</div>
-              </div>
+        </div>
               <span class="fiend-indicator">+</span>
             </button>
             <div class="fiend-body">
               <div class="fiend-epigraph">〜選択バフ：防御上昇〜</div>
               <div class="fiend-desc">近接防御を重視した形態。視覚を持たない対象の護身用途を兼ねる。</div>
             </div>
+            <img class="fiend-outline-img" src="fiend-emblem-outline.png" alt="">
           </div>
         </div>
       </div>
