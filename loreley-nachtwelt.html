@@ -149,7 +149,7 @@
   .note-box .nb-label{ font-family:'JetBrains Mono', monospace; font-size:0.6rem; color:var(--danger); margin-bottom:6px; letter-spacing:0.05em; }
 
   /* ===== thorn-pod toggle cards ===== */
-  .fiend-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:24px; }
+  .fiend-grid{ display:grid; grid-template-columns:1fr; gap:14px; margin-top:24px; }
   .fiend-card{
     background:var(--paper-2); position:relative;
     -webkit-mask-image:url('fiend-shape.png');
@@ -160,11 +160,18 @@
     mask-repeat:no-repeat;
     -webkit-mask-position:center;
     mask-position:center;
+    filter:
+      drop-shadow(1.5px 0 0 var(--ink))
+      drop-shadow(-1.5px 0 0 var(--ink))
+      drop-shadow(0 1.5px 0 var(--ink))
+      drop-shadow(0 -1.5px 0 var(--ink));
     transition:background 0.2s ease;
   }
   .fiend-card.open{
     -webkit-mask-image:none;
     mask-image:none;
+    filter:none;
+    border:1.5px solid var(--ink);
   }
   .fiend-card:hover{ background:var(--paper-3); }
   .fiend-card.primary{ background:var(--accent-pale); }
