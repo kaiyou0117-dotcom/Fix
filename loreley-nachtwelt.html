@@ -48,6 +48,38 @@
     mix-blend-mode:multiply; opacity:0.05;
   }
 
+  /* ===== scent trail — she follows by smell, not sight ===== */
+  .scent-dot{
+    position:fixed; z-index:9500; width:5px; height:5px; border-radius:50%;
+    background:rgba(124,95,158,0.55); pointer-events:none;
+    transform:translate(-50%,-50%);
+    animation:scentFade 0.9s ease-out forwards;
+  }
+  @keyframes scentFade{
+    0%{ opacity:0.7; transform:translate(-50%,-50%) scale(1); }
+    100%{ opacity:0; transform:translate(-50%,-50%) scale(0.3); }
+  }
+
+  a, .fiend-toggle, .cg-btn, .rp-dot, .gp-step, .deep-link, .back-link{
+    cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M12 2 L14 9 L21 10 L15 14 L17 21 L12 17 L7 21 L9 14 L3 10 L10 9 Z' fill='none' stroke='%235c3f7a' stroke-width='1.2'/%3E%3C/svg%3E") 12 12, pointer;
+  }
+
+  /* ===== drifting spores, site-wide ===== */
+  .spore-field{ position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden; }
+  .spore{
+    position:absolute; bottom:-10px; border-radius:50%;
+    background:rgba(124,95,158,0.5);
+    box-shadow:0 0 4px 1px rgba(124,95,158,0.3);
+    animation:sporeRise linear infinite;
+  }
+  @keyframes sporeRise{
+    0%{ transform:translate(0,0); opacity:0; }
+    10%{ opacity:0.6; }
+    50%{ transform:translate(calc(var(--dx,15px) * 0.5), -50vh); }
+    85%{ opacity:0.3; }
+    100%{ transform:translate(var(--dx,15px), -100vh); opacity:0; }
+  }
+
   /* ===== custom scrollbar (lavender) ===== */
   html{ scrollbar-width:thin; scrollbar-color:var(--accent-deep) var(--paper-2); }
   ::-webkit-scrollbar{ width:9px; }
@@ -107,6 +139,7 @@
   /* ===== profile hero ===== */
   .profile-hero{ padding:8vh 0 6vh; }
   .ph-grid{ display:grid; grid-template-columns:1.35fr 0.9fr; gap:56px; align-items:start; }
+  .hero-vine{ display:block; margin-bottom:14px; }
   .ph-eyebrow{
     font-family:'Cinzel', serif; font-size:0.62rem; letter-spacing:0.28em; color:var(--accent-deep);
     display:flex; align-items:center; gap:10px;
@@ -124,7 +157,17 @@
 
   .ph-portrait{ position:relative; aspect-ratio:3/4; overflow:hidden; border:1px solid var(--line); background:var(--paper-2); }
   .ph-portrait img{ width:110%; height:110%; object-fit:cover; display:block; filter:saturate(0.92) contrast(1.03); transition:transform 0.3s ease-out; margin:-5%; max-width:none; }
-  .ph-portrait::after{ content:""; position:absolute; inset:0; box-shadow:inset 0 0 60px rgba(28,26,22,0.25); pointer-events:none; }
+  .ph-portrait::after{
+    content:""; position:absolute; inset:0; pointer-events:none;
+    box-shadow:inset 0 0 60px rgba(28,26,22,0.25), inset 0 0 34px 6px rgba(239,233,226,0.9);
+    -webkit-backdrop-filter:blur(0px); backdrop-filter:blur(0px);
+  }
+  .ph-portrait::before{
+    content:""; position:absolute; inset:0; z-index:2; pointer-events:none;
+    -webkit-mask-image:radial-gradient(ellipse 70% 68% at center, transparent 62%, #000 100%);
+    mask-image:radial-gradient(ellipse 70% 68% at center, transparent 62%, #000 100%);
+    backdrop-filter:blur(3px); -webkit-backdrop-filter:blur(3px);
+  }
   .ph-portrait::before{
     content:""; position:absolute; left:0; right:0; top:0; height:2px; z-index:2;
     background:linear-gradient(90deg, transparent, rgba(143,124,158,0.85), transparent);
@@ -139,14 +182,23 @@
   .ph-portrait .tag{ position:absolute; left:10px; bottom:10px; font-family:'Cinzel', serif; font-size:0.56rem; letter-spacing:0.1em; color:var(--paper); background:rgba(28,26,22,0.72); padding:4px 9px; }
 
   /* ===== section shell ===== */
-  section{ border-top:1px solid var(--line); padding:64px 0; }
-  .sec-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:32px; }
+  section{
+    border-top:none; padding:64px 0; position:relative;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='12' viewBox='0 0 50 12'%3E%3Cpath d='M0 6 Q6 2 12 6 T24 6 T36 6 T50 6' stroke='%235c3f7a' stroke-width='0.8' fill='none' opacity='0.35'/%3E%3Cpath d='M12 6 L10 2 M12 6 L14 2' stroke='%235c3f7a' stroke-width='0.6' opacity='0.3'/%3E%3Cpath d='M36 6 L34 10 M36 6 L38 10' stroke='%235c3f7a' stroke-width='0.6' opacity='0.3'/%3E%3C/svg%3E");
+    background-repeat:repeat-x; background-position:top center; background-size:50px 12px;
+  }
+  .sec-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:32px; position:relative; }
+  .sec-head::after{
+    content:""; width:16px; height:16px; margin-left:4px; align-self:center;
+    background-image:url('fiend-emblem.png'); background-size:contain; background-repeat:no-repeat;
+    opacity:0.18; filter:saturate(0);
+  }
   .sec-num{ font-family:'Cinzel', serif; font-size:1.1rem; color:var(--accent-deep); }
   .sec-title{ font-family:'Shippori Mincho B1', serif; font-size:1.3rem; font-weight:800; letter-spacing:0.04em; }
   .body-text{ max-width:660px; font-size:0.92rem; color:var(--ink-soft); }
   .body-text + .body-text{ margin-top:16px; }
-  .note-box{ margin-top:22px; padding:15px 20px; border-left:3px solid var(--danger); background:var(--paper-2); font-size:0.85rem; color:var(--ink-soft); }
-  .note-box .nb-label{ font-family:'JetBrains Mono', monospace; font-size:0.6rem; color:var(--danger); margin-bottom:6px; letter-spacing:0.05em; }
+  .note-box{ margin-top:22px; padding:15px 20px; border-left:3px solid var(--danger); background:var(--paper-2); font-size:0.85rem; color:var(--ink-soft); font-family:'Cormorant Garamond', serif; font-style:italic; }
+  .note-box .nb-label{ font-family:'JetBrains Mono', monospace; font-style:normal; font-size:0.6rem; color:var(--danger); margin-bottom:6px; letter-spacing:0.05em; }
 
   /* ===== thorn-pod toggle cards ===== */
   .fiend-grid{ display:grid; grid-template-columns:1fr; gap:14px; margin-top:24px; }
@@ -213,8 +265,15 @@
   @media (max-width:720px){ .fiend-split{ grid-template-columns:1fr; gap:30px; } }
 
   /* ===== dossier — open list, not a bureaucratic grid ===== */
-  .dossier{ border-top:1px solid var(--ink); }
-  .d-row{ display:grid; grid-template-columns:120px 1fr; gap:16px; padding:8px 0; border-bottom:1px solid var(--line); font-size:0.76rem; transition:background 0.2s ease; }
+  .dossier{ border:1px dashed var(--accent-deep); background:var(--paper-2); }
+  .d-row{ display:grid; grid-template-columns:120px 1fr; gap:16px; padding:11px 14px; border-bottom:1px dashed var(--line); font-size:0.76rem; transition:background 0.2s ease; }
+
+  .drop-cap{
+    float:left; font-family:'Shippori Mincho B1', serif; font-weight:800;
+    font-size:3rem; line-height:0.78; color:var(--accent-deep);
+    padding:4px 8px 0 0; margin-top:2px;
+    text-shadow:1px 0 rgba(124,95,158,0.3);
+  }
   .d-row:hover{ background:var(--paper-2); }
   .d-row .k{ font-family:'Cinzel', serif; font-size:0.54rem; letter-spacing:0.08em; color:var(--accent-deep); padding-top:2px; }
   .d-row .v{ color:var(--ink-soft); }
@@ -426,7 +485,9 @@
     85%{ opacity:0.25; }
     100%{ transform:translate(var(--dx,15px), -640px); opacity:0; }
   }
-  .restricted-content section{ border-top-color:rgba(242,236,219,0.12); }
+  .restricted-content section{
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='12' viewBox='0 0 50 12'%3E%3Cpath d='M0 6 Q6 2 12 6 T24 6 T36 6 T50 6' stroke='%238a5fc4' stroke-width='0.8' fill='none' opacity='0.3'/%3E%3Cpath d='M12 6 L10 2 M12 6 L14 2' stroke='%238a5fc4' stroke-width='0.6' opacity='0.25'/%3E%3Cpath d='M36 6 L34 10 M36 6 L38 10' stroke='%238a5fc4' stroke-width='0.6' opacity='0.25'/%3E%3C/svg%3E");
+  }
   .restricted-content .sec-num{ color:var(--accent); }
   .restricted-content .sec-title{ color:var(--paper); }
   .restricted-content .body-text{ color:var(--paper-3); }
@@ -490,6 +551,7 @@
 <body>
 
   <div class="grain-overlay"></div>
+  <div class="spore-field" id="sporeField"></div>
 
   <div class="read-progress" id="readProgress">
     <div class="rp-dot" data-target="sec-dossier"><span class="rp-label">基本情報</span></div>
@@ -550,6 +612,17 @@
     <div class="profile-hero scroll-in">
       <div class="ph-grid">
         <div>
+          <svg class="hero-vine" width="120" height="30" viewBox="0 0 220 40">
+            <path d="M10,25 L60,10 L110,25 L160,10 L210,25" fill="none" stroke="var(--accent-deep)" stroke-width="1.4" opacity="0.55"/>
+            <g transform="translate(210,25)" opacity="0.85">
+              <circle cx="7" cy="0" r="3.6" fill="var(--accent)"/>
+              <circle cx="2.16" cy="6.65" r="3.6" fill="var(--accent)"/>
+              <circle cx="-5.66" cy="4.11" r="3.6" fill="var(--accent)"/>
+              <circle cx="-5.66" cy="-4.11" r="3.6" fill="var(--accent)"/>
+              <circle cx="2.16" cy="-6.65" r="3.6" fill="var(--accent)"/>
+              <circle cx="0" cy="0" r="2.6" fill="var(--ink)"/>
+            </g>
+          </svg>
           <div class="ph-eyebrow"><span class="card-no">ⅩⅤ</span>MAJOR ARCANA — THE DEVIL</div>
           <div class="ph-epithet">――誘惑と束縛</div>
           <div class="ph-codename" id="phCodename"></div>
@@ -587,7 +660,7 @@
           <div class="narrative-block scroll-in" id="sec-overview">
             <div class="sec-head"><span class="sec-num">Ⅰ</span><span class="sec-title display">概要</span></div>
             <p class="body-text">
-              対象は協会所属S級フィクサーのうち一名として登録されており、登録称号は
+              <span class="drop-cap">対</span>象は協会所属S級フィクサーのうち一名として登録されており、登録称号は
               【THE DEVIL】。活動初期の記録には、対象が自身の担当称号を【THE DEATH】と
               誤認していた期間があった旨が記載されている。当該誤認について、本人からは
               訂正の申し出とともに、これを不本意な記録として扱いたい旨の要望が提出されている。
@@ -1095,6 +1168,59 @@
       });
     }, { threshold:0.4 });
     obs.observe(box);
+  })();
+
+  (function(){
+    var field = document.getElementById('sporeField');
+    if (!field) return;
+    for (var i = 0; i < 10; i++){
+      var s = document.createElement('span');
+      s.className = 'spore';
+      var size = 2 + Math.random() * 2.4;
+      s.style.width = size + 'px';
+      s.style.height = size + 'px';
+      s.style.left = (Math.random() * 100) + '%';
+      s.style.setProperty('--dx', (Math.random() * 60 - 30) + 'px');
+      s.style.animationDuration = (14 + Math.random() * 14) + 's';
+      s.style.animationDelay = (Math.random() * 18) + 's';
+      field.appendChild(s);
+    }
+  })();
+
+  (function(){
+    var fresh = { paper:[239,233,226], paper2:[228,220,211], paper3:[215,203,192], ink:[33,28,34] };
+    var withered = { paper:[209,199,183], paper2:[190,178,161], paper3:[168,155,138], ink:[26,22,20] };
+    function lerp(a,b,t){ return Math.round(a + (b-a) * t); }
+    function mix(c1,c2,t){ return 'rgb(' + lerp(c1[0],c2[0],t) + ',' + lerp(c1[1],c2[1],t) + ',' + lerp(c1[2],c2[2],t) + ')'; }
+    var ticking = false;
+    function applyTone(){
+      ticking = false;
+      var scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      var t = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
+      var root = document.documentElement.style;
+      root.setProperty('--paper', mix(fresh.paper, withered.paper, t));
+      root.setProperty('--paper-2', mix(fresh.paper2, withered.paper2, t));
+      root.setProperty('--paper-3', mix(fresh.paper3, withered.paper3, t));
+    }
+    window.addEventListener('scroll', function(){
+      if (!ticking){ ticking = true; requestAnimationFrame(applyTone); }
+    }, { passive:true });
+    applyTone();
+  })();
+
+  (function(){
+    var last = 0;
+    document.addEventListener('mousemove', function(e){
+      var now = Date.now();
+      if (now - last < 60) return;
+      last = now;
+      var dot = document.createElement('span');
+      dot.className = 'scent-dot';
+      dot.style.left = e.clientX + 'px';
+      dot.style.top = e.clientY + 'px';
+      document.body.appendChild(dot);
+      setTimeout(function(){ dot.remove(); }, 900);
+    });
   })();
   </script>
 
