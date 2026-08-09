@@ -3,31 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>グリム・ネームレス ― フィクサー協会 構成員データベース</title>
-<meta property="og:title" content="グリム・ネームレス ― 構成員記録 FA-013-XIII">
+<title>ローレライ・ナハトヴェルト ― フィクサー協会 構成員データベース</title>
+<meta property="og:title" content="ローレライ・ナハトヴェルト ― 構成員記録 FA-015-XV">
 <meta property="og:description" content="フィクサー協会 構成員記録。RESTRICTED ― S級フィクサー認証が必要です。">
 <meta property="og:site_name" content="THE FIXER ASSOCIATION — MEMBER DATABASE">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://kaiyou0117-dotcom.github.io/Fix/grimm-nameless.html">
-<meta name="theme-color" content="#6c5c7c">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg stroke='%238f7c9e' stroke-width='1.6' fill='none' stroke-linecap='round'%3E%3Cline x1='12' y1='3' x2='12' y2='17'/%3E%3Cline x1='7' y1='6' x2='17' y2='6'/%3E%3Cline x1='12' y1='17' x2='12' y2='21'/%3E%3Ccircle cx='12' cy='21' r='1' fill='%238f7c9e'/%3E%3C/g%3E%3C/svg%3E">
+<meta property="og:url" content="https://kaiyou0117-dotcom.github.io/Fix/loreley-nachtwelt.html">
+<meta name="theme-color" content="#5c3f7a">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg stroke='%235c3f7a' stroke-width='1.4' fill='none' stroke-linecap='round'%3E%3Cpath d='M12 21 C12 15 9 13 12 9 C15 13 12 15 12 21'/%3E%3Cpath d='M9 12 C7 11 6 9 7 7'/%3E%3Cpath d='M15 12 C17 11 18 9 17 7'/%3E%3Ccircle cx='12' cy='6' r='2'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,500;1,500;1,600&family=Shippori+Mincho+B1:wght@500;800&family=Noto+Serif+JP:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#f2ecdb;
-    --paper-2:#eae0c8;
-    --paper-3:#e0d4b8;
-    --ink:#1c1a16;
-    --ink-soft:#5c5344;
-    --ink-faint:#a89f8c;
-    --line:rgba(28,26,22,0.14);
-    --accent:#8f7c9e;
-    --accent-deep:#6c5c7c;
-    --accent-pale:#e9e2ee;
-    --danger:#a5433a;
-    --dark-zone:#211c28;
-    --gate-bg:#131019;
+    --paper:#efe9e2;
+    --paper-2:#e4dcd3;
+    --paper-3:#d7cbc0;
+    --ink:#211c22;
+    --ink-soft:#57505a;
+    --ink-faint:#9d95a0;
+    --line:rgba(33,28,34,0.14);
+    --accent:#7c5f9e;
+    --accent-deep:#5c3f7a;
+    --accent-pale:#e7deee;
+    --danger:#7a7a3f;
+    --dark-zone:#211a26;
+    --gate-bg:#100b14;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   html{ scroll-behavior:smooth; }
@@ -167,6 +167,7 @@
   }
   .d-row .v a.corrupt:hover{ background:var(--danger); color:var(--paper); }
   .d-row .v a.plain{ border-bottom:1px solid var(--accent); }
+  .joke-strike{ text-decoration:line-through; opacity:0.5; font-size:0.85em; color:var(--ink-faint); }
 
   /* ===== profile split: dossier left, narrative right ===== */
   .profile-split{ display:grid; grid-template-columns:300px 1fr; gap:56px; align-items:start; }
@@ -250,18 +251,21 @@
   }
   .lgate.hide{ opacity:0; visibility:hidden; pointer-events:none; }
   .lgate-inner{ text-align:center; }
-  .lgate-hourglass{ width:60px; margin:0 auto 26px; }
-  .hg-frame{ fill:none; stroke:var(--accent); stroke-width:1.2; stroke-linejoin:round; }
-  .hg-cap{ stroke:var(--accent); stroke-width:2; stroke-linecap:round; }
-  #topSand, #bottomSand{ transition:y 0.6s ease, height 0.6s ease; }
-  .sand-stream{
-    stroke:var(--accent); stroke-width:0.8; opacity:0.7;
-    stroke-dasharray:1.2 1.4;
-    animation:sandFlow 0.4s linear infinite;
+  .lgate-vine{ width:200px; margin:0 auto 26px; }
+  .vine-path{
+    fill:none; stroke:var(--accent-deep); stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
+    stroke-dasharray:280; stroke-dashoffset:280;
+    transition:stroke-dashoffset 0.6s ease;
   }
-  .lgate.granted .sand-stream{ opacity:0; }
-  @keyframes sandFlow{ to{ stroke-dashoffset:-2.6; } }
-  .lgate.granted .lgate-hourglass{ filter:drop-shadow(0 0 6px rgba(143,124,158,0.6)); }
+  .thorn{ fill:var(--accent-deep); opacity:0; transition:opacity 0.3s ease; }
+  .thorn.show{ opacity:1; }
+  .flower{
+    transform:scale(0); transform-origin:200px 35px;
+    transition:transform 0.7s cubic-bezier(.34,1.56,.64,1);
+  }
+  .flower circle{ fill:var(--ink); stroke:var(--accent); stroke-width:0.6; }
+  .flower .flower-center{ fill:var(--accent-glow, var(--accent)); }
+  .lgate.granted .flower{ transform:scale(1); }
   .lgate-title{
     font-family:'Cinzel', serif; font-size:0.64rem; letter-spacing:0.24em; color:var(--paper-3);
     margin-bottom:14px; opacity:0.85;
@@ -410,24 +414,25 @@
     <div class="rp-dot" data-target="sec-dossier"><span class="rp-label">基本情報</span></div>
     <div class="rp-dot" data-target="sec-overview"><span class="rp-label">概要</span></div>
     <div class="rp-dot" data-target="sec-personality"><span class="rp-label">性格</span></div>
-    <div class="rp-dot" data-target="sec-combat"><span class="rp-label">戦闘関連</span></div>
-    <div class="rp-dot" data-target="sec-ability"><span class="rp-label">異能</span></div>
   </div>
 
   <div class="lgate" id="gate">
     <div class="lgate-inner">
-      <div class="lgate-hourglass">
-        <svg width="60" height="90" viewBox="0 0 60 90" id="hourglassSvg">
-          <defs>
-            <clipPath id="topClip"><polygon points="10,5 50,5 30,42"/></clipPath>
-            <clipPath id="bottomClip"><polygon points="30,42 10,85 50,85"/></clipPath>
-          </defs>
-          <rect id="topSand" x="10" y="5" width="40" height="37" fill="var(--accent)" clip-path="url(#topClip)"/>
-          <rect id="bottomSand" x="10" y="85" width="40" height="0" fill="var(--accent)" clip-path="url(#bottomClip)"/>
-          <line id="sandStream" class="sand-stream" x1="30" y1="42" x2="30" y2="48"/>
-          <polygon class="hg-frame" points="10,5 50,5 30,42 50,85 10,85 30,42"/>
-          <line class="hg-cap" x1="6" y1="5" x2="54" y2="5"/>
-          <line class="hg-cap" x1="6" y1="85" x2="54" y2="85"/>
+      <div class="lgate-vine">
+        <svg width="220" height="70" viewBox="0 0 220 70">
+          <path id="vinePath" class="vine-path" d="M10,35 L50,18 L90,45 L130,18 L170,45 L200,35"/>
+          <polygon class="thorn" id="thorn1" points="50,18 45,7 55,12"/>
+          <polygon class="thorn" id="thorn2" points="90,45 85,56 97,52"/>
+          <polygon class="thorn" id="thorn3" points="130,18 125,7 135,12"/>
+          <polygon class="thorn" id="thorn4" points="170,45 165,56 177,52"/>
+          <g class="flower" id="vineFlower">
+            <circle cx="207" cy="35" r="4"/>
+            <circle cx="202.16" cy="41.65" r="4"/>
+            <circle cx="194.34" cy="39.11" r="4"/>
+            <circle cx="194.34" cy="30.89" r="4"/>
+            <circle cx="202.16" cy="28.35" r="4"/>
+            <circle cx="200" cy="35" r="3" class="flower-center"/>
+          </g>
         </svg>
       </div>
       <div class="lgate-title">FIXER LICENSE VERIFICATION</div>
@@ -460,15 +465,14 @@
     <div class="profile-hero scroll-in">
       <div class="ph-grid">
         <div>
-          <div class="ph-eyebrow"><span class="card-no">ⅩⅢ</span>MAJOR ARCANA — <span class="redact-block">DEATH</span></div>
-          <a class="name-redact" href="https://w.atwiki.jp/inoutoenemy/pages/966.html" aria-label="不明なリンク"><span></span><span></span><span></span><span></span><span></span></a>
-          <div class="ph-epithet">――終焉と再生</div>
+          <div class="ph-eyebrow"><span class="card-no">ⅩⅤ</span>MAJOR ARCANA — THE DEVIL</div>
+          <div class="ph-epithet">――誘惑と束縛</div>
           <div class="ph-codename" id="phCodename"></div>
           <div class="ph-quote-label mono">SUBJECT STATEMENT — VERBATIM</div>
-          <p class="ph-quote script">「全ての死を白日に曝す。それが果たされるまで、死んでも死にきれないわ」</p>
+          <p class="ph-quote script">「生きることも、死ぬことも――どちらであっても同じこと」</p>
         </div>
         <div class="ph-portrait" id="phPortrait">
-          <img src="grimm-portrait.png" alt="グリム・ネームレス 肖像" id="phPortraitImg">
+          <img src="loreley-portrait.png" alt="ローレライ・ナハトヴェルト 肖像（仮面着用）" id="phPortraitImg">
           <span class="tag mono">FILE PHOTO — UNVERIFIED</span>
         </div>
       </div>
@@ -479,150 +483,59 @@
     <div class="wrap">
       <div class="profile-split">
         <div class="dossier" id="sec-dossier">
-          <div class="d-row scroll-stagger"><span class="k">名前</span><span class="v">グリム・ネームレス</span></div>
-          <div class="d-row scroll-stagger"><span class="k">種族</span><span class="v"><span class="redact-block">████</span> 非公開</span></div>
+          <div class="d-row scroll-stagger"><span class="k">名前</span><span class="v">ローレライ・ナハトヴェルト</span></div>
           <div class="d-row scroll-stagger"><span class="k">性別</span><span class="v">女</span></div>
-          <div class="d-row scroll-stagger"><span class="k">アライメント</span><span class="v">秩序・善</span></div>
-          <div class="d-row scroll-stagger"><span class="k">年齢</span><span class="v"><span class="redact-block">████</span> 非公開</span></div>
-          <div class="d-row scroll-stagger"><span class="k">誕生日 ／ 星座</span><span class="v">？月？日　／　？座</span></div>
-          <div class="d-row scroll-stagger"><span class="k">身長 ／ 体重</span><span class="v">163cm　／　不詳</span></div>
-          <div class="d-row scroll-stagger"><span class="k">血液型</span><span class="v">蛹也黄型</span></div>
-          <div class="d-row scroll-stagger"><span class="k">異能力</span><span class="v"><ruby>骸は死を以て死せず<rt>アンコラプス・コープス</rt></ruby></span></div>
-          <div class="d-row scroll-stagger"><span class="k">国籍</span><span class="v">イギリス</span></div>
-          <div class="d-row scroll-stagger"><span class="k">職業</span><span class="v">エネミー狩り ／ <ruby>便利屋<rt>フィクサー</rt></ruby></span></div>
+          <div class="d-row scroll-stagger"><span class="k">身長</span><span class="v">160cm</span></div>
+          <div class="d-row scroll-stagger"><span class="k">年齢</span><span class="v">不明</span></div>
+          <div class="d-row scroll-stagger"><span class="k">種族</span><span class="v">異能者</span></div>
+          <div class="d-row scroll-stagger"><span class="k">職業</span><span class="v"><ruby>便利屋<rt>フィクサー</rt></ruby></span></div>
           <div class="d-row scroll-stagger"><span class="k">階級</span><span class="v">S級</span></div>
           <div class="d-row scroll-stagger"><span class="k">所属組織</span><span class="v"><a class="plain" href="index.html">フィクサー協会</a></span></div>
-          <div class="d-row scroll-stagger"><span class="k">所属事務所</span><span class="v">葬送事務所（<ruby>名も無き葬儀屋<rt>ネームレス・アンダーテイカー</rt></ruby>）</span></div>
-          <div class="d-row scroll-stagger"><span class="k">称号</span><span class="v"><a class="corrupt" href="access-denied.html">蜊∽ｸ臥分逶ｮ</a></span></div>
+          <div class="d-row scroll-stagger"><span class="k">所属事務所</span><span class="v">経営不可（異能の特性上、単独行動のみ）</span></div>
+          <div class="d-row scroll-stagger"><span class="k">称号</span><span class="v">THE DEVIL <span class="joke-strike">（旧：自称THE DEATH）</span></span></div>
         </div>
 
         <div class="narrative-col">
           <div class="narrative-block scroll-in" id="sec-overview">
             <div class="sec-head"><span class="sec-num">Ⅰ</span><span class="sec-title display">概要</span></div>
             <p class="body-text">
-              対象はロンドンのフィクサー協会に所属し、フィクサー・葬儀屋・探偵の三つの肩書を
-              兼ねる。対象が設立し事務所長を務める葬送事務所は死に関する専門知識を有し、
-              エネミーの出現以降増加傾向にある人間の怪死事件を主たる取扱案件とする。同事務所は
-              不可解な死の全てを人知の及ぶ範囲の死へと還元することを活動目的として掲げている。
+              対象は協会所属S級フィクサーのうち一名として登録されており、登録称号は
+              【THE DEVIL】。活動初期の記録には、対象が自身の担当称号を【THE DEATH】と
+              誤認していた期間があった旨が記載されている。当該誤認について、本人からは
+              訂正の申し出とともに、これを不本意な記録として扱いたい旨の要望が提出されている。
             </p>
             <p class="body-text">
-              なお、同事務所は「名も無き葬儀屋」の名義で葬儀業も兼営しており、対象自身も棺師
-              として一定の知名度を有することが業界内で確認されている。
+              対象は協会支給のTTT技術使用仮面「シン・バインド」を常時着用している。当該仮面は
+              対象の異能が不随意に発動することを抑制する目的で支給されたものであり、対象自身の
+              素顔に関する情報は本記録において非公開として扱われる。
             </p>
+            <p class="body-text">
+              対象は敵対エネミーと誤認される事例が複数報告されているが、分類上「異能者」に
+              該当する人間であることが確認されている。
+            </p>
+            <div class="note-box">
+              <div class="nb-label">留意事項</div>
+              後述の異能の性質上、周囲を巻き込む危険性が高いため、事務所の経営及び
+              仲間・部下を持つことは認められていない。
+            </div>
           </div>
 
           <div class="narrative-block scroll-in" id="sec-personality">
             <div class="sec-head"><span class="sec-num">Ⅱ</span><span class="sec-title display">性格</span></div>
             <p class="body-text">
-              面談および行動観察に基づく所見は以下の通り記録される。第一印象は、独特の言い回しと
-              振る舞いにより、神秘的かつ捉えどころのない人物という評価に偏りやすい。しかしこれは
-              短時間の接触に限られた傾向であり、継続的な観察によれば対象の思考様式は直情的で、
-              判断における詰めの甘さも散見される。単独行動時には対応力の低下が認められ、
-              補助者の同行が実務上望ましいとされる。
+              面談記録及び行動観察記録によれば、対象の性格傾向は総じて陰鬱かつ湿性が強いと
+              評価される。一方で、同記録内には若干の茶目っ気を示す言動も複数確認されており、
+              性格傾向の記載にあたってはこの点も付記される。
             </p>
             <div class="note-box">
-              <div class="nb-label">留意事項</div>
-              後述の異能が生存の前提となっているため、現場において自らの死体を増加させ、
-              事案処理を複雑化させた事例が複数報告されている。
+              <div class="nb-label">面談記録より</div>
+              「………あれ？　私、DEATHの担当じゃないの？」
             </div>
           </div>
         </div>
       </div>
     </div>
   </section>
-
-  <div class="wrap">
-    <div class="clearance-gate" id="clearanceGate">
-      <div class="cg-icon">
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
-          <rect x="5" y="11" width="14" height="9" rx="1"/>
-          <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
-        </svg>
-      </div>
-      <div class="cg-title">CLEARANCE REQUIRED</div>
-      <p class="cg-desc">以下の文書は協会における準A級機密事項です。<br>改ざん・無断アクセス等の行為は規約第17条により重大な違反行為とみなされます。</p>
-      <div class="cg-level mono">REQUIRED LEVEL: <b>B</b></div>
-      <button class="cg-btn" id="cgBtn">権限を認証する</button>
-
-      <div class="cg-progress" id="cgProgress">
-        <div class="cg-bar"><div class="cg-bar-fill" id="cgBarFill"></div></div>
-        <div class="cg-progress-status mono" id="cgProgressStatus">アクセス権限を照合中...</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="restricted-content" id="restrictedContent">
-
-    <section>
-      <div class="wrap">
-        <div class="sec-head" id="sec-combat"><span class="sec-num">Ⅲ</span><span class="sec-title display">戦闘関連</span></div>
-
-      <div class="combat-split">
-        <div class="combat-left">
-          <p class="body-text">
-            事務所を抱える上位フィクサーだけあって、その戦闘能力は圧倒的。並外れた身体能力と
-            体術、高い戦闘IQを駆使して数多くの異能犯罪者や敵対エネミーを鎮圧してきた実績を持つ。
-          </p>
-          <div class="note-box">
-            <div class="nb-label">弱点</div>
-            <ruby>簡易結界<rt>スフィア</rt></ruby>などの異能中和策という分かりやすすぎる弱点も抱えており、
-            対策されると途端に無能と化す。良くも悪くも極端な人物。
-          </div>
-        </div>
-
-        <div class="equip-grid">
-          <div class="equip-card">
-            <button class="eq-toggle" type="button">
-              <h4><ruby>処刑人の剣<rt>エクスキューショナーズソード</rt></ruby></h4>
-              <span class="eq-indicator">+</span>
-            </button>
-            <div class="eq-body">
-              <p>戦闘時に愛用する儀礼用片手剣の異産。切っ先の潰れた幅広の刀身には自重感覚軽減
-              の効果があり、彼女は軽々と振り回してのける。</p>
-              <div class="origin mono">出自不明 ― 刀身には違和感だらけで不気味な文字のようなものが記されている</div>
-            </div>
-          </div>
-          <div class="equip-card">
-            <button class="eq-toggle" type="button">
-              <h4>血涙のタリスマン</h4>
-              <span class="eq-indicator">+</span>
-            </button>
-            <div class="eq-body">
-              <p>胸に付けている赤い宝石。<ruby>簡易結界<rt>スフィア</rt></ruby>を発動する為の装置であり、
-              グリムの第二の生命線。非使用時に少しずつ空気中の異能粒子を溜め込んで発動用の
-              エネルギーにする仕組みのため、粒子切れを起こすと中和策への対抗手段を一切失う。</p>
-              <div class="origin mono">出自不明 ― 本人曰く「拾い物」</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section style="border-bottom:none;">
-    <div class="wrap">
-      <div class="sec-head" id="sec-ability"><span class="sec-num">Ⅳ</span><span class="sec-title display">異能</span></div>
-
-      <div class="ability-wrap">
-        <div class="sigil-bg"><img src="grimm-sigil-glow.png" alt=""></div>
-        <div class="ability-box" id="abilityBox">
-          <svg class="ab-trace" viewBox="0 0 100 100" preserveAspectRatio="none"><rect x="0.5" y="0.5" width="99" height="99" vector-effect="non-scaling-stroke"/></svg>
-        <div class="a-name"><ruby>骸は死を以て死せず<rt>アンコラプス・コープス</rt></ruby></div>
-        <div class="a-body">
-          <b>死と生の摂理を越える異能。</b>この異能の力によって、グリムの身体は常に生命活動を
-          停止した状態を維持しながらも生き物のように振る舞い、活動する事が可能となっている。
-          グリムの死体がいくら損壊しようとも強制的に生命を維持する副次的効果があり、加えて
-          常人のような疑似代謝による損壊体組織の低速修復能力をも備えているため、致命傷の
-          大半が彼女にとって致命傷になり得ない。ただしグリム自身は普通に気絶もするし、
-          その身体を跡形もなく消し去ってしまえば<b>意識を持続する事が出来ずに本当に死ぬ</b>
-          とされている。
-        </div>
-      </div>
-      </div>
-    </div>
-  </section>
-
-  </div>
 
   <div class="gate" id="finalGate">
     <div class="wrap">
@@ -643,7 +556,7 @@
       </div>
       <div class="prompt display">文書を閲覧しますか？</div>
       <div class="choices">
-        <a class="yes" href="shinigami.html">YES</a>
+        <a class="yes" href="akuma.html">YES</a>
         <a class="no" href="access-denied.html">NO</a>
       </div>
     </div>
@@ -670,26 +583,19 @@
   (function(){
     document.body.style.overflow = 'hidden';
     var gate = document.getElementById('gate');
+    var vine = document.getElementById('vinePath');
     var statusEl = document.getElementById('gateStatus');
-    var topSand = document.getElementById('topSand');
-    var bottomSand = document.getElementById('bottomSand');
-    var topH = 37;
-    var bottomH = 43;
-
-    function setSand(pct){
-      var frac = pct / 100;
-      topSand.setAttribute('y', 5 + topH * frac);
-      topSand.setAttribute('height', Math.max(0, topH * (1 - frac)));
-      bottomSand.setAttribute('y', 85 - bottomH * frac);
-      bottomSand.setAttribute('height', Math.max(0, bottomH * frac));
-    }
+    var thorns = [1,2,3,4].map(function(n){ return document.getElementById('thorn' + n); });
+    var vineLength = vine.getTotalLength();
+    vine.style.strokeDasharray = vineLength;
+    vine.style.strokeDashoffset = vineLength;
 
     var steps = [
-      { pct: 12,  msg: '接続を確立しています...',           delay: 350 },
-      { pct: 38,  msg: 'フィクサーライセンスを照合中...',     delay: 650 },
-      { pct: 64,  msg: '生体データを確認しています...',       delay: 650 },
-      { pct: 87,  msg: '協会データベースへ接続中...',         delay: 600 },
-      { pct: 100, msg: '認証完了 ― ACCESS GRANTED',          delay: 550 }
+      { pct: 12,  thorns: 0, msg: '接続を確立しています...',           delay: 350 },
+      { pct: 38,  thorns: 1, msg: 'フィクサーライセンスを照合中...',     delay: 650 },
+      { pct: 64,  thorns: 2, msg: '生体データを確認しています...',       delay: 650 },
+      { pct: 87,  thorns: 4, msg: '協会データベースへ接続中...',         delay: 600 },
+      { pct: 100, thorns: 4, msg: '認証完了 ― ACCESS GRANTED',          delay: 550 }
     ];
 
     var elapsed = 0;
@@ -697,7 +603,10 @@
       elapsed += step.delay;
       setTimeout(function(){
         if (introSkipped) return;
-        setSand(step.pct);
+        vine.style.strokeDashoffset = vineLength * (1 - step.pct / 100);
+        for (var i = 0; i < thorns.length; i++){
+          if (i < step.thorns) thorns[i].classList.add('show');
+        }
         statusEl.textContent = step.msg;
         if (step.pct === 100){
           gate.classList.add('granted');
@@ -852,7 +761,7 @@
     var el = document.getElementById('phCodename');
     if (!el || el.dataset.typed) return;
     el.dataset.typed = '1';
-    var text = 'THE NAMELESS UNDERTAKER';
+    var text = 'THE DEVIL';
     var cursor = document.createElement('span');
     cursor.className = 'tw-cursor';
     var i = 0;
