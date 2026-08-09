@@ -148,6 +148,58 @@
   .note-box{ margin-top:22px; padding:15px 20px; border-left:3px solid var(--danger); background:var(--paper-2); font-size:0.85rem; color:var(--ink-soft); }
   .note-box .nb-label{ font-family:'JetBrains Mono', monospace; font-size:0.6rem; color:var(--danger); margin-bottom:6px; letter-spacing:0.05em; }
 
+  /* ===== thorn-pod toggle cards ===== */
+  .fiend-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:24px; }
+  .fiend-card{
+    background:var(--paper-2); position:relative;
+    -webkit-mask-image:url('fiend-shape.png');
+    mask-image:url('fiend-shape.png');
+    -webkit-mask-size:100% 100%;
+    mask-size:100% 100%;
+    -webkit-mask-repeat:no-repeat;
+    mask-repeat:no-repeat;
+    -webkit-mask-position:center;
+    mask-position:center;
+    transition:background 0.2s ease;
+  }
+  .fiend-card.open{
+    -webkit-mask-image:none;
+    mask-image:none;
+  }
+  .fiend-card:hover{ background:var(--paper-3); }
+  .fiend-card.primary{ background:var(--accent-pale); }
+  .fiend-card.primary:hover{ background:var(--paper-3); }
+  .fiend-badge{ position:absolute; top:40px; right:18px; z-index:2; font-family:'JetBrains Mono', monospace; font-size:0.56rem; color:var(--accent-deep); border:1px solid var(--accent); padding:2px 7px; }
+
+  .fiend-toggle{
+    display:flex; align-items:center; justify-content:space-between; width:100%;
+    background:none; border:none; padding:40px 22px 30px; margin:0; cursor:pointer; text-align:left;
+    font:inherit; color:inherit;
+    transition:padding 0.4s ease;
+  }
+  .fiend-card.open .fiend-toggle{ padding:26px 22px 14px; }
+  .fiend-heading{ padding-right:20px; }
+  .fiend-no{ font-size:0.6rem; color:var(--accent-deep); letter-spacing:0.08em; margin-bottom:6px; }
+  .fiend-name{ font-family:'Shippori Mincho B1', serif; font-weight:800; font-size:0.96rem; color:var(--ink); }
+  .fiend-indicator{
+    font-family:'JetBrains Mono', monospace; font-size:1rem; color:var(--accent-deep);
+    flex-shrink:0; transition:transform 0.3s ease;
+  }
+  .fiend-card.open .fiend-indicator{ transform:rotate(45deg); }
+
+  .fiend-body{
+    max-height:0; opacity:0; overflow:hidden;
+    padding:0 22px 0; margin-top:0;
+    transition:max-height 0.5s ease 0.15s, opacity 0.4s ease 0.2s, padding 0.5s ease 0.15s;
+  }
+  .fiend-card.open .fiend-body{ max-height:320px; opacity:1; padding:0 22px 32px; }
+  .fiend-epigraph{ font-family:'Shippori Mincho B1', serif; font-style:italic; font-size:0.74rem; color:var(--accent-deep); opacity:0.9; }
+  .fiend-desc{ margin-top:10px; font-size:0.8rem; color:var(--ink-soft); }
+  @media (max-width:720px){ .fiend-grid{ grid-template-columns:1fr; } }
+  .fiend-split{ display:grid; grid-template-columns:0.85fr 1.3fr; gap:48px; align-items:start; margin-top:30px; }
+  .fiend-left .body-text{ max-width:none; }
+  @media (max-width:720px){ .fiend-split{ grid-template-columns:1fr; gap:30px; } }
+
   /* ===== dossier — open list, not a bureaucratic grid ===== */
   .dossier{ border-top:1px solid var(--ink); }
   .d-row{ display:grid; grid-template-columns:120px 1fr; gap:16px; padding:8px 0; border-bottom:1px solid var(--line); font-size:0.76rem; transition:background 0.2s ease; }
@@ -171,6 +223,14 @@
 
   /* ===== profile split: dossier left, narrative right ===== */
   .profile-split{ display:grid; grid-template-columns:300px 1fr; gap:56px; align-items:start; }
+  .dossier-col{ display:flex; flex-direction:column; }
+  .deep-link{
+    display:block; margin-top:18px; text-align:center;
+    font-family:'Cinzel', serif; font-size:0.66rem; letter-spacing:0.1em;
+    color:var(--accent-deep); border:1px solid var(--accent); padding:12px 14px;
+    transition:background 0.2s ease, color 0.2s ease;
+  }
+  .deep-link:hover{ background:var(--accent-deep); color:var(--paper); }
   .narrative-col .sec-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:18px; }
   .narrative-col .sec-head + .body-text{ margin-bottom:6px; }
   .narrative-block + .narrative-block{ margin-top:44px; }
@@ -414,6 +474,10 @@
     <div class="rp-dot" data-target="sec-dossier"><span class="rp-label">基本情報</span></div>
     <div class="rp-dot" data-target="sec-overview"><span class="rp-label">概要</span></div>
     <div class="rp-dot" data-target="sec-personality"><span class="rp-label">性格</span></div>
+    <div class="rp-dot" data-target="sec-ability"><span class="rp-label">異能</span></div>
+    <div class="rp-dot" data-target="sec-alps"><span class="rp-label">アルプスパワー</span></div>
+    <div class="rp-dot" data-target="sec-artifact"><span class="rp-label">異産</span></div>
+    <div class="rp-dot" data-target="sec-mask"><span class="rp-label">仮面</span></div>
   </div>
 
   <div class="lgate" id="gate">
@@ -482,6 +546,7 @@
   <section>
     <div class="wrap">
       <div class="profile-split">
+        <div class="dossier-col">
         <div class="dossier" id="sec-dossier">
           <div class="d-row scroll-stagger"><span class="k">名前</span><span class="v">ローレライ・ナハトヴェルト</span></div>
           <div class="d-row scroll-stagger"><span class="k">性別</span><span class="v">女</span></div>
@@ -491,8 +556,10 @@
           <div class="d-row scroll-stagger"><span class="k">職業</span><span class="v"><ruby>便利屋<rt>フィクサー</rt></ruby></span></div>
           <div class="d-row scroll-stagger"><span class="k">階級</span><span class="v">S級</span></div>
           <div class="d-row scroll-stagger"><span class="k">所属組織</span><span class="v"><a class="plain" href="index.html">フィクサー協会</a></span></div>
-          <div class="d-row scroll-stagger"><span class="k">所属事務所</span><span class="v">経営不可（異能の特性上、単独行動のみ）</span></div>
+          <div class="d-row scroll-stagger"><span class="k">所属事務所</span><span class="v">個人フィクサー</span></div>
           <div class="d-row scroll-stagger"><span class="k">称号</span><span class="v">THE DEVIL <span class="joke-strike">（旧：自称THE DEATH）</span></span></div>
+        </div>
+        <a class="deep-link" href="akuma.html">機密記録を見る →</a>
         </div>
 
         <div class="narrative-col">
@@ -515,7 +582,7 @@
             </p>
             <div class="note-box">
               <div class="nb-label">留意事項</div>
-              後述の異能の性質上、周囲を巻き込む危険性が高いため、事務所の経営及び
+              異能の性質上、周囲を巻き込む危険性が高いため、事務所の経営及び
               仲間・部下を持つことは認められていない。
             </div>
           </div>
@@ -536,6 +603,185 @@
       </div>
     </div>
   </section>
+
+  <section class="scroll-in">
+    <div class="wrap">
+      <div class="sec-head" id="sec-ability"><span class="sec-num">Ⅲ</span><span class="sec-title display">異能</span></div>
+      <p class="body-text">
+        <b>「禁断の園で悪魔は嗤う」</b>――自身の顔を見た、あるいは対象に触れた・傷付けた・
+        傷付けられた相手が持つ『怒り』『恐怖』『憎悪』『嫉妬』『恨み』などの、本人が認めたくない
+        醜い側面を、植物と害虫、そして対象自身を写した異形のエネミーとして具現化し使役する異能。
+        使役体は1人につき1体までだが、破壊されれば再度召喚可能となる。
+      </p>
+      <p class="body-text">
+        具現化されたエネミーは優先的に感情の持ち主を攻撃し、近くにいるだけで持ち主の負の感情を
+        刺激する。強さは相手の負の感情に比例するが、これはあくまで副次的な要素に過ぎない。
+      </p>
+      <div class="note-box">
+        <div class="nb-label">本質</div>
+        この異能の本質は、破壊された際に発生する以下三つの効果にある。どの効果が発生するかは
+        対象本人が選択できる。自身の認めたくない負の側面と、相手を強制的に向き合わせることに
+        こそ、この異能の核がある。
+      </div>
+
+      <div class="fiend-grid">
+        <div class="fiend-card primary scroll-stagger" id="fiend-1">
+          <div class="fiend-badge">反射</div>
+          <button class="fiend-toggle" type="button">
+            <div class="fiend-heading">
+              <div class="fiend-no mono">効果・一</div>
+              <div class="fiend-name">因果</div>
+            </div>
+            <span class="fiend-indicator">+</span>
+          </button>
+          <div class="fiend-body">
+            <div class="fiend-epigraph">〜受けたダメージの反射〜</div>
+            <div class="fiend-desc">撃破時に与えた攻撃のダメージが、感情の持ち主へとそのまま
+            反射される。</div>
+          </div>
+        </div>
+
+        <div class="fiend-card scroll-stagger" id="fiend-2">
+          <button class="fiend-toggle" type="button">
+            <div class="fiend-heading">
+              <div class="fiend-no mono">効果・二</div>
+              <div class="fiend-name">醜念</div>
+            </div>
+            <span class="fiend-indicator">+</span>
+          </button>
+          <div class="fiend-body">
+            <div class="fiend-epigraph">〜感情の暴走〜</div>
+            <div class="fiend-desc">破壊された時、持ち主の負の感情が肥大化する。小さな不満で
+            さえ殺意に達する水準まで増大し、持ち主の意志を超えて自分自身か対象者の仲間へと
+            矛先を向けさせ、暴走と自滅を促す。自分がどうしようもなく醜い感情を持つ人間であると
+            受け入れられる場合に限り、これに耐えることができる。逆に感情を否定するほど状態は
+            悪化する。</div>
+          </div>
+        </div>
+
+        <div class="fiend-card scroll-stagger" id="fiend-3">
+          <button class="fiend-toggle" type="button">
+            <div class="fiend-heading">
+              <div class="fiend-no mono">効果・三</div>
+              <div class="fiend-name">離間</div>
+            </div>
+            <span class="fiend-indicator">+</span>
+          </button>
+          <div class="fiend-body">
+            <div class="fiend-epigraph">〜同士討ちの種〜</div>
+            <div class="fiend-desc">破壊されると種子となって対象の影に寄生し、次にその対象が
+            攻撃を放つ際、攻撃方向を捻じ曲げて本人あるいはその仲間に向けて放たせる。同士討ちと
+            仲間割れを誘発する効果であり、信頼関係が薄い集団ほど崩壊の危険性が増す。種子は一度
+            攻撃が放たれるか、対象が自省することで消滅する。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="scroll-in">
+    <div class="wrap">
+      <div class="sec-head" id="sec-alps"><span class="sec-num">Ⅳ</span><span class="sec-title display">アルプスパワー・ヨルムンガルド</span></div>
+      <p class="body-text">
+        アルプス地下世界を形成するエイドロンの影響を受けた、アルプスパワーの亜種。地下世界での
+        戦闘に特化しており、通常のアルプスパワーと比較して回復性能が高く、視覚・聴覚・嗅覚及び
+        アルプスセンサーなどの索敵能力が著しく優れている。暗闇でも問題なく行動でき、僅かな
+        物音も聞き逃さない。習熟すれば予知に等しい動きも可能とされる。反面、攻撃及び防御に
+        関する強化性能は劣る。
+      </p>
+      <div class="note-box">
+        対象は視覚を持たないため、本来視覚に振り分けられる分の強化を他の感覚に転用しており、
+        結果としてその探知能力は同系統の中でも際立って高いと記録されている。
+      </div>
+    </div>
+  </section>
+
+  <section class="scroll-in">
+    <div class="wrap">
+      <div class="sec-head" id="sec-artifact"><span class="sec-num">Ⅴ</span><span class="sec-title display"><ruby>異産「死の収穫」<rt>デル・トーデスシュニット</rt></ruby></span></div>
+
+      <div class="fiend-split">
+        <div class="fiend-left">
+          <p class="body-text">
+            植物の絡みついた異形の大鎌。命名の際「死神担当だから死に関する名前にしよう」という
+            安直な理由で名付けられており、対象は現在この名称を改めるべきか悩んでいる。
+          </p>
+          <div class="note-box">
+            斬り裂いた生命体から生命力を吸引し、持ち主に分配する能力を持つ。生命力を抜かれた
+            相手は全ての能力にデバフを受ける。反対に、奪った生命力を流し込むことで対象を
+            強化することも可能。<b>経口摂取が出来ない対象にとって、この武器を通じて得る生命力は
+            文字通りの生命線となっている。</b>元来効果を持つ異産を改造する形でTTT技術が一基分
+            組み込まれており、以下の3形態を切り替えることでそれぞれ異なるバフを得ることができる。
+          </div>
+        </div>
+
+        <div class="fiend-grid">
+          <div class="fiend-card primary scroll-stagger" id="fiend-4">
+            <button class="fiend-toggle" type="button">
+              <div class="fiend-heading">
+                <div class="fiend-no mono">形態・一</div>
+                <div class="fiend-name">ライフルモード</div>
+              </div>
+              <span class="fiend-indicator">+</span>
+            </button>
+            <div class="fiend-body">
+              <div class="fiend-epigraph">〜選択バフ：敏捷上昇〜</div>
+              <div class="fiend-desc">射撃武器としての形態。機動性を重視した立ち回りに適する。</div>
+            </div>
+          </div>
+
+          <div class="fiend-card scroll-stagger" id="fiend-5">
+            <button class="fiend-toggle" type="button">
+              <div class="fiend-heading">
+                <div class="fiend-no mono">形態・二</div>
+                <div class="fiend-name">大鎌モード</div>
+              </div>
+              <span class="fiend-indicator">+</span>
+            </button>
+            <div class="fiend-body">
+              <div class="fiend-epigraph">〜選択バフ：力増強〜</div>
+              <div class="fiend-desc">本来の大鎌としての形態。生命力の吸引・分配効率が最も高い。</div>
+            </div>
+          </div>
+
+          <div class="fiend-card scroll-stagger" id="fiend-6">
+            <button class="fiend-toggle" type="button">
+              <div class="fiend-heading">
+                <div class="fiend-no mono">形態・三</div>
+                <div class="fiend-name">短剣モード</div>
+              </div>
+              <span class="fiend-indicator">+</span>
+            </button>
+            <div class="fiend-body">
+              <div class="fiend-epigraph">〜選択バフ：防御上昇〜</div>
+              <div class="fiend-desc">近接防御を重視した形態。視覚を持たない対象の護身用途を兼ねる。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="scroll-in" style="border-bottom:none;">
+    <div class="wrap">
+      <div class="sec-head" id="sec-mask"><span class="sec-num">Ⅵ</span><span class="sec-title display">TTT技術使用仮面「シン・バインド」</span></div>
+      <p class="body-text">
+        対象の異能の暴発を防ぐため、協会から支給された仮面。単に着用しただけでは、強すぎる
+        異能の効果が仮面を透過して勝手に発動してしまうため、対象自身の異能を弱体化させる
+        デバフを常時発動する設定がなされている。
+      </p>
+      <div class="note-box">
+        これはTTTに使用される異界陣技術を流用したものであり、能力の切り替え等はできないため
+        厳密な意味でのTTTには該当しない。
+      </div>
+      <p class="body-text">
+        仮面には思考を読み取り、音声として出力する機能も搭載されている。若い女性から老年の
+        男性まで多様な音声が用意されているとされる。最近のお気に入りは、ずんぐりとした緑色の
+        何かをモチーフにしたような合成音声だという。
+      </p>
+    </div>
+  </section>
+
 
   <div class="gate" id="finalGate">
     <div class="wrap">
@@ -679,6 +925,14 @@
     document.querySelectorAll('.eq-toggle').forEach(function(btn){
       btn.addEventListener('click', function(){
         btn.closest('.equip-card').classList.toggle('open');
+      });
+    });
+  })();
+
+  (function(){
+    document.querySelectorAll('.fiend-toggle').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        btn.closest('.fiend-card').classList.toggle('open');
       });
     });
   })();
