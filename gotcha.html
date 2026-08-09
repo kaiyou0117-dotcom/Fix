@@ -15,9 +15,12 @@
   }
   .wrap{ padding:8vh 6vw; }
 
-  .gotcha-img{
-    max-width:min(90vw, 420px); width:100%; height:auto;
-    display:block; margin:0 auto;
+  .gotcha-title{
+    font-weight:900; font-size:clamp(2.4rem, 10vw, 4.6rem);
+    letter-spacing:0.02em; line-height:1.25; color:#111;
+  }
+  .gotcha-note{
+    margin-top:18px; font-size:0.8rem; color:#555;
   }
 
   .buttons{ margin-top:48px; display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
@@ -32,8 +35,8 @@
 <body>
 
   <div class="wrap">
-    <div class="bar"></div>
-    <img class="gotcha-img" src="gotcha-image.png" alt="釣られたな？">
+    <div class="gotcha-title">釣られたな？罠だよポッター。</div>
+    <p class="gotcha-note">……というのは冗談で、この先は未完成です。</p>
 
     <div class="buttons">
       <a class="btn" href="index.html">トップに戻る</a>
@@ -44,7 +47,7 @@
   <script>
     document.getElementById('prevBtn').addEventListener('click', function(e){
       e.preventDefault();
-      history.back();
+      history.go(-2);
     });
   </script>
 
