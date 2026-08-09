@@ -153,8 +153,9 @@
   .fiend-grid-2col{ grid-template-columns:1fr 1fr; gap:10px; }
   .fiend-card{
     background:var(--paper-2); position:relative; z-index:0;
-    -webkit-mask-image:url('fiend-shape.png');
-    mask-image:url('fiend-shape.png');
+    aspect-ratio:1/1;
+    -webkit-mask-image:url('fiend-emblem.png');
+    mask-image:url('fiend-emblem.png');
     -webkit-mask-size:100% 100%;
     mask-size:100% 100%;
     -webkit-mask-repeat:no-repeat;
@@ -163,9 +164,10 @@
     mask-position:center;
     transition:background 0.2s ease;
   }
+  .fiend-card.open{ aspect-ratio:auto; }
   .fiend-card::after{
     content:""; position:absolute; inset:0; z-index:5; pointer-events:none;
-    background-image:url('fiend-outline.png');
+    background-image:url('fiend-emblem-outline.png');
     background-size:100% 100%;
     background-repeat:no-repeat;
     background-position:center;
@@ -179,15 +181,15 @@
   .fiend-card:hover{ background:var(--paper-3); }
   .fiend-card.primary{ background:var(--accent-pale); }
   .fiend-card.primary:hover{ background:var(--paper-3); }
-  .fiend-badge{ position:absolute; top:40px; right:24%; z-index:2; font-family:'JetBrains Mono', monospace; font-size:0.56rem; color:var(--accent-deep); border:1px solid var(--accent); padding:2px 7px; white-space:nowrap; }
+  .fiend-badge{ position:absolute; top:20%; right:16%; z-index:2; font-family:'JetBrains Mono', monospace; font-size:0.56rem; color:var(--accent-deep); border:1px solid var(--accent); padding:2px 7px; white-space:nowrap; }
 
   .fiend-toggle{
-    display:flex; align-items:center; justify-content:space-between; width:100%;
-    background:none; border:none; padding:46px 25% 30px; margin:0; cursor:pointer; text-align:left;
+    display:flex; flex-direction:column; align-items:flex-start; gap:10px; width:100%;
+    background:none; border:none; padding:30% 26%; margin:0; cursor:pointer; text-align:left;
     font:inherit; color:inherit;
     transition:padding 0.4s ease;
   }
-  .fiend-card.open .fiend-toggle{ padding:26px 22px 14px; }
+  .fiend-card.open .fiend-toggle{ flex-direction:row; align-items:center; justify-content:space-between; padding:26px 22px 14px; }
   .fiend-heading{ padding-right:14px; }
   .fiend-no{ font-size:0.6rem; color:var(--accent-deep); letter-spacing:0.08em; margin-bottom:6px; }
   .fiend-name{ font-family:'Shippori Mincho B1', serif; font-weight:800; font-size:0.9rem; color:var(--ink); }
@@ -199,7 +201,7 @@
 
   .fiend-body{
     max-height:0; opacity:0; overflow:hidden;
-    padding:0 25% 0; margin-top:0;
+    padding:0 22px 0; margin-top:0;
     transition:max-height 0.5s ease 0.15s, opacity 0.4s ease 0.2s, padding 0.5s ease 0.15s;
   }
   .fiend-card.open .fiend-body{ max-height:320px; opacity:1; padding:0 22px 32px; }
