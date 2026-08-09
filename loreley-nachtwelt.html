@@ -152,8 +152,13 @@
   .fiend-grid{ display:grid; grid-template-columns:1fr; gap:14px; margin-top:24px; }
   .fiend-grid-2col{ grid-template-columns:1fr 1fr; gap:10px; }
   .fiend-card{
-    background:var(--paper-2); position:relative; z-index:0;
-    aspect-ratio:1/1;
+    position:relative; z-index:0;
+    max-width:190px; margin:0 auto; aspect-ratio:1/1;
+  }
+  .fiend-card.open{ max-width:none; aspect-ratio:auto; margin:0; }
+  .fiend-card::before{
+    content:""; position:absolute; inset:0; z-index:-1;
+    background:var(--paper-2);
     -webkit-mask-image:url('fiend-emblem.png');
     mask-image:url('fiend-emblem.png');
     -webkit-mask-size:100% 100%;
@@ -164,7 +169,6 @@
     mask-position:center;
     transition:background 0.2s ease;
   }
-  .fiend-card.open{ aspect-ratio:auto; }
   .fiend-card::after{
     content:""; position:absolute; inset:0; z-index:5; pointer-events:none;
     background-image:url('fiend-emblem-outline.png');
@@ -173,14 +177,14 @@
     background-position:center;
   }
   .fiend-card.open::after{ display:none; }
-  .fiend-card.open{
+  .fiend-card.open::before{
     -webkit-mask-image:none;
     mask-image:none;
     border:1.5px solid #fff;
   }
-  .fiend-card:hover{ background:var(--paper-3); }
-  .fiend-card.primary{ background:var(--accent-pale); }
-  .fiend-card.primary:hover{ background:var(--paper-3); }
+  .fiend-card:hover::before{ background:var(--paper-3); }
+  .fiend-card.primary::before{ background:var(--accent-pale); }
+  .fiend-card.primary:hover::before{ background:var(--paper-3); }
   .fiend-badge{ position:absolute; top:20%; right:16%; z-index:2; font-family:'JetBrains Mono', monospace; font-size:0.56rem; color:var(--accent-deep); border:1px solid var(--accent); padding:2px 7px; white-space:nowrap; }
 
   .fiend-toggle{
@@ -444,9 +448,9 @@
   .restricted-content .ability-box .a-name{ color:var(--accent); }
   .restricted-content .ability-box .a-body{ color:var(--paper-3); }
   .restricted-content .ability-box .a-body b{ color:var(--paper); }
-  .restricted-content .fiend-card{ background:rgba(242,236,219,0.1); }
-  .restricted-content .fiend-card.primary{ background:rgba(242,236,219,0.16); }
-  .restricted-content .fiend-card:hover{ background:rgba(242,236,219,0.18); }
+  .restricted-content .fiend-card::before{ background:rgba(242,236,219,0.1); }
+  .restricted-content .fiend-card.primary::before{ background:rgba(242,236,219,0.16); }
+  .restricted-content .fiend-card:hover::before{ background:rgba(242,236,219,0.18); }
   .restricted-content .fiend-name{ color:var(--paper); }
   .restricted-content .fiend-desc{ color:var(--paper-3); }
   .restricted-content .fiend-no{ color:var(--accent); }
