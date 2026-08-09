@@ -155,7 +155,7 @@
     position:relative; z-index:0;
     max-width:190px; margin:0 auto; aspect-ratio:1/1;
   }
-  .fiend-card.open{ max-width:none; aspect-ratio:auto; margin:0; }
+  .fiend-card.rect{ max-width:none; aspect-ratio:auto; margin:0; }
   .fiend-card::before{
     content:""; position:absolute; inset:0; z-index:-1;
     background:var(--paper-2);
@@ -170,8 +170,8 @@
     transition:background 0.2s ease;
   }
   .fiend-outline-img{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
-  .fiend-card.open .fiend-outline-img{ display:none; }
-  .fiend-card.open::before{
+  .fiend-card.rect .fiend-outline-img{ display:none; }
+  .fiend-card.rect::before{
     -webkit-mask-image:none;
     mask-image:none;
     border:1.5px solid #fff;
@@ -982,7 +982,20 @@
   (function(){
     document.querySelectorAll('.fiend-toggle').forEach(function(btn){
       btn.addEventListener('click', function(){
-        btn.closest('.fiend-card').classList.toggle('open');
+        var card = btn.closest('.fiend-card');
+        if (!card.classList.contains('open')){
+          // opening: switch to rectangle immediately, then reveal content
+          card.classList.add('rect');
+          requestAnimationFrame(function(){
+            card.classList.add('open');
+          });
+        } else {
+          // closing: shrink content first, only revert to the emblem shape once it's done
+          card.classList.remove('open');
+          setTimeout(function(){
+            card.classList.remove('rect');
+          }, 680);
+        }
       });
     });
   })();
