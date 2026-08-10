@@ -75,7 +75,8 @@
 
   .wrap{ position:relative; z-index:2; text-align:center; padding:6vh 6vw; max-width:640px; }
 
-  .icon{ margin:0 auto 26px; width:64px; height:64px; }
+  .icon{ margin:0 auto 26px; width:64px; height:64px; transition:transform 0.1s ease; }
+  body.shake .icon{ transform:rotate(-4deg); }
   .icon svg{ width:100%; height:100%; }
   .icon path, .icon line{ stroke:var(--red); }
 
@@ -150,15 +151,54 @@
 
   .main-content{ opacity:0; transition:opacity 0.4s ease; }
   .main-content.show{ opacity:1; }
+
+  .hazard-frame{
+    position:fixed; inset:0; z-index:15; pointer-events:none;
+    border:10px solid transparent;
+    border-image:repeating-linear-gradient(45deg, var(--red) 0 14px, #0a0808 14px 28px) 12;
+    opacity:0; animation:hazardPulse 1.4s ease-in-out infinite;
+  }
+  .hazard-frame.show{ opacity:1; }
+  @keyframes hazardPulse{ 0%,100%{ opacity:0.35; } 50%{ opacity:0.7; } }
+
+  .static-burst{
+    position:fixed; inset:0; z-index:16; pointer-events:none; opacity:0;
+    background:
+      radial-gradient(circle at 30% 40%, rgba(200,30,46,0.5), transparent 25%),
+      radial-gradient(circle at 70% 60%, rgba(255,61,61,0.5), transparent 22%),
+      radial-gradient(circle at 50% 18%, rgba(200,30,46,0.4), transparent 20%);
+    mix-blend-mode:screen;
+  }
+  .static-burst.go{ animation:staticGo 0.35s steps(3,end) 1; }
+  @keyframes staticGo{ 0%{opacity:0;} 40%{opacity:0.85;} 100%{opacity:0;} }
+
+  .detect-pct{
+    margin-top:16px; font-family:'JetBrains Mono', monospace; font-size:0.85rem;
+    color:var(--red-glow); letter-spacing:0.08em;
+  }
+  .detect-bar{ width:220px; height:2px; background:rgba(220,213,202,0.15); margin:14px auto 0; overflow:hidden; }
+  .detect-bar-fill{ height:100%; width:0%; background:var(--red); transition:width 0.4s ease; }
+
+  .cursor-blink{
+    display:inline-block; width:6px; height:0.9em; background:var(--red);
+    vertical-align:text-bottom; margin-left:2px;
+    animation:blink 0.8s step-end infinite;
+  }
 </style>
 </head>
 <body>
 
   <div class="detect" id="detect">
-    <div class="detect-text mono" id="detectText">検出中<span class="cd-dots">...</span></div>
+    <div style="text-align:center;">
+      <div class="detect-text mono" id="detectText">検出中<span class="cd-dots">...</span></div>
+      <div class="detect-bar"><div class="detect-bar-fill" id="detectFill"></div></div>
+      <div class="detect-pct mono" id="detectPct">00%</div>
+    </div>
   </div>
 
   <div class="flash" id="postFlash"></div>
+  <div class="static-burst" id="staticBurst"></div>
+  <div class="hazard-frame" id="hazardFrame"></div>
   <div class="beacon"></div>
   <div class="scanlines"></div>
   <div class="vignette"></div>
@@ -167,7 +207,7 @@
     <div class="rec"><span class="dot"></span>REC ● SESSION MONITORED</div>
 
     <div class="wrap">
-      <div class="icon">
+      <div class="icon" id="icon">
         <svg viewBox="0 0 64 64" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M32 6 L58 20 V38 C58 50 46 58 32 60 C18 58 6 50 6 38 V20 Z"/>
         <line x1="32" y1="24" x2="32" y2="38"/>
@@ -188,13 +228,14 @@
 
       <p class="footer-note">この一連の記録は保全され、必要に応じて関係部署へ照会されます。</p>
 
-      <a class="back-link" href="gotcha.html">戻る</a>
+      <a class="back-link" href="index.html">協会公式サイトへ戻る</a>
     </div>
   </div>
 
   <script>
     function startMainSequence(){
       document.getElementById('mainContent').classList.add('show');
+      document.getElementById('hazardFrame').classList.add('show');
 
       var now = new Date();
       var pad = function(n){ return n.toString().padStart(2,'0'); };
@@ -205,7 +246,7 @@
 
       var lines = document.querySelectorAll('#logBox .line');
       var delay = 400;
-      lines.forEach(function(line){
+      lines.forEach(function(line, idx){
         var full = line.getAttribute('data-text');
         var tag = full.match(/^\[ (\w+) \]/)[1];
         var rest = full.slice(full.indexOf(']') + 1);
@@ -214,14 +255,22 @@
           line.innerHTML = '[ <span class="ok">' + tag + '</span> ]';
           var span = document.createElement('span');
           line.appendChild(span);
+          var cursor = document.createElement('span');
+          cursor.className = 'cursor-blink';
+          line.appendChild(cursor);
           var typer = setInterval(function(){
             span.textContent = rest.slice(0, i);
             i++;
             if (i > rest.length){
               clearInterval(typer);
+              cursor.remove();
+              if (idx === lines.length - 1){
+                var finalCursor = document.createElement('span');
+                finalCursor.className = 'cursor-blink';
+                line.appendChild(finalCursor);
+              }
               if (line.getAttribute('data-shake')){
-                document.body.classList.add('shake');
-                setTimeout(function(){ document.body.classList.remove('shake'); }, 400);
+                triggerJolt();
               }
             }
           }, 18);
@@ -235,29 +284,49 @@
       setTimeout(function(){
         document.querySelector('.back-link').classList.add('show');
       }, delay + 400);
+
+      scheduleAmbientFlicker();
+    }
+
+    function triggerJolt(){
+      document.body.classList.remove('shake');
+      document.getElementById('staticBurst').classList.remove('go');
+      void document.body.offsetWidth;
+      document.body.classList.add('shake');
+      document.getElementById('staticBurst').classList.add('go');
+      setTimeout(function(){ document.body.classList.remove('shake'); }, 400);
+    }
+
+    function scheduleAmbientFlicker(){
+      var delay = 6000 + Math.random() * 8000;
+      setTimeout(function(){
+        triggerJolt();
+        scheduleAmbientFlicker();
+      }, delay);
     }
 
     (function(){
       var detect = document.getElementById('detect');
       var detectText = document.getElementById('detectText');
       var postFlash = document.getElementById('postFlash');
+      var fill = document.getElementById('detectFill');
+      var pct = document.getElementById('detectPct');
 
       var steps = [
-        { msg: '検出中<span class="cd-dots">...</span>', delay: 0,    shake: false },
-        { msg: '異常なパターンを確認',                    delay: 550,  shake: true  },
-        { msg: 'SYSTEM ERROR',                            delay: 500,  shake: true  },
-        { msg: '回線を切断します',                          delay: 480,  shake: false }
+        { msg: '検出中<span class="cd-dots">...</span>', pct: 18, delay: 0,   shake: false },
+        { msg: '異常なパターンを確認',                    pct: 46, delay: 550, shake: true  },
+        { msg: 'SYSTEM ERROR',                            pct: 74, delay: 500, shake: true  },
+        { msg: '回線を切断します',                          pct: 100, delay: 480, shake: false }
       ];
 
       var elapsed = 0;
-      steps.forEach(function(step, idx){
+      steps.forEach(function(step){
         elapsed += step.delay;
         setTimeout(function(){
           detectText.innerHTML = step.msg;
-          if (step.shake){
-            document.body.classList.add('shake');
-            setTimeout(function(){ document.body.classList.remove('shake'); }, 400);
-          }
+          fill.style.width = step.pct + '%';
+          pct.textContent = String(step.pct).padStart(2,'0') + '%';
+          if (step.shake) triggerJolt();
         }, elapsed);
       });
 
