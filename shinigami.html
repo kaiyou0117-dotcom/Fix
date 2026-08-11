@@ -171,6 +171,25 @@
   }
   .sec-num{ font-family:'Cinzel', serif; font-size:1.05rem; color:var(--blood); }
   .sec-title{ font-family:'Shippori Mincho B1', serif; font-size:1.25rem; font-weight:800; letter-spacing:0.04em; color:var(--bone); }
+
+  /* external record link — 裏ロンドン */
+  .archive-link{
+    position:relative; display:flex; align-items:center; justify-content:space-between; gap:20px;
+    margin-top:6px; padding:22px 26px; background:var(--void-2); border:1px solid var(--line);
+    overflow:hidden; transition:border-color 0.3s ease, background 0.3s ease;
+  }
+  .archive-link::before{
+    content:""; position:absolute; inset:0; opacity:0;
+    background:radial-gradient(circle at 0% 50%, rgba(200,30,46,0.12), transparent 60%);
+    transition:opacity 0.3s ease;
+  }
+  .archive-link:hover{ border-color:var(--blood-deep); background:#1a1212; }
+  .archive-link:hover::before{ opacity:1; }
+  .al-tag{ font-family:'JetBrains Mono', monospace; font-size:0.58rem; color:var(--blood); letter-spacing:0.14em; position:relative; z-index:1; }
+  .al-title{ margin-top:8px; font-family:'Shippori Mincho B1', serif; font-weight:800; font-size:1rem; color:var(--bone); position:relative; z-index:1; }
+  .al-desc{ margin-top:6px; font-family:'Noto Serif JP', serif; font-size:0.78rem; color:var(--bone-dim); max-width:440px; position:relative; z-index:1; }
+  .al-arrow{ font-family:'Cinzel', serif; font-size:1.3rem; color:var(--blood-glow); flex-shrink:0; position:relative; z-index:1; transition:transform 0.3s ease; }
+  .archive-link:hover .al-arrow{ transform:translateX(6px); }
   .body-text{ max-width:660px; font-size:0.9rem; color:var(--bone-dim); }
   .body-text + .body-text{ margin-top:16px; }
   .body-text b{ color:var(--bone); }
@@ -484,6 +503,14 @@
         推定されており、当該個体は禁忌の落胤として記録されている。これが<b>【DEATH】</b>のアルカナを
         冠するS級フィクサー、グリム・ネームレス――正確には<b>グリム・タナトフィリア</b>の正体である。
       </p>
+      <a class="archive-link" href="ura-london.html">
+        <div>
+          <p class="al-tag mono">RELATED FILE — LOCATION</p>
+          <p class="al-title">「裏ロンドン」― 地誌記録を参照</p>
+          <p class="al-desc">本個体の出生地に関する機密文書。常時濃霧に閉ざされた完全封鎖都市の記録。</p>
+        </div>
+        <span class="al-arrow">→</span>
+      </a>
     </div>
   </section>
 
