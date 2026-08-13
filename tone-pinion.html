@@ -253,7 +253,7 @@
   .lgate.hide{ opacity:0; visibility:hidden; pointer-events:none; }
   .lgate-inner{ text-align:center; }
   .lgate-tower{
-    width:76px; margin:0 auto 26px; position:relative;
+    width:54px; margin:0 auto 22px; position:relative;
     display:flex; flex-direction:column-reverse; align-items:center;
   }
   .tier{
@@ -265,9 +265,9 @@
     -webkit-mask-position:center; mask-position:center;
   }
   .tier.show{ opacity:1; transform:translateY(0) scale(1); }
-  .tier-base{ height:72px; -webkit-mask-image:url('tower-base.png'); mask-image:url('tower-base.png'); }
-  .tier-mid{ height:38px; -webkit-mask-image:url('tower-mid.png'); mask-image:url('tower-mid.png'); }
-  .tier-top{ height:56px; -webkit-mask-image:url('tower-top.png'); mask-image:url('tower-top.png'); }
+  .tier-base{ height:51px; -webkit-mask-image:url('tower-base.png'); mask-image:url('tower-base.png'); }
+  .tier-mid{ height:27px; -webkit-mask-image:url('tower-mid.png'); mask-image:url('tower-mid.png'); }
+  .tier-top{ height:40px; -webkit-mask-image:url('tower-top.png'); mask-image:url('tower-top.png'); }
   .lgate.granted .tier{ background-color:var(--volt); }
   .lgate.granted .lgate-tower{ filter:drop-shadow(0 0 8px rgba(124,79,214,0.7)); }
   .tower-spark{
@@ -874,11 +874,10 @@
     var tiers = document.querySelectorAll('.lgate-tower .tier');
 
     var steps = [
-      { msg: '接続を確立しています...',           tiers: 0, delay: 350 },
-      { msg: '土台を組んでいます...',               tiers: 1, delay: 550 },
-      { msg: '塔を組み上げています...',             tiers: 2, delay: 650 },
-      { msg: '協会データベースへ接続中...',         tiers: 2, delay: 500 },
-      { msg: '認証完了 ― ACCESS GRANTED', granted:true, tiers: 3, delay: 550 }
+      { msg: '土台を組んでいます...',               tiers: 1, delay: 500 },
+      { msg: '塔を組み上げています...',             tiers: 2, delay: 750 },
+      { msg: '最上部を据えています...',             tiers: 3, delay: 750 },
+      { msg: '認証完了 ― ACCESS GRANTED', granted:true, tiers: 3, delay: 650 }
     ];
 
     var elapsed = 0;
