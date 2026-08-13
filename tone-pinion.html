@@ -406,7 +406,7 @@
   .restricted-content.unlocked{ max-height:4000px; opacity:1; }
 
   /* darker zone for the clearance-gated content */
-  .restricted-content{ background:var(--dark-zone); }
+  .restricted-content{ background:rgba(28,24,16,0.9); }
   .dust-field{ position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
   .dust{
     position:absolute; bottom:-10px; border-radius:50%;
@@ -708,9 +708,9 @@
         </svg>
       </div>
       <div class="cg-title">CLEARANCE REQUIRED</div>
-      <p class="cg-desc">以下の文書の閲覧には、フィクサーライセンス認証に加えた<b>二重認証</b>が必要です。<br>改ざん・無断アクセス等の行為は規約第17条により重大な違反行為とみなされます。</p>
-      <div class="cg-level mono">SECOND FACTOR ― LEVEL: <b>B</b></div>
-      <button class="cg-btn" id="cgBtn">歯車を回す</button>
+      <p class="cg-desc">以下の文書は協会における準A級機密事項です。<br>改ざん・無断アクセス等の行為は規約第17条により重大な違反行為とみなされます。</p>
+      <div class="cg-level mono">REQUIRED LEVEL: <b>B</b></div>
+      <button class="cg-btn" id="cgBtn">権限を認証する</button>
 
       <div class="cg-progress" id="cgProgress">
         <div class="cg-gear-wrap">
@@ -880,7 +880,7 @@
     </div>
   </section>
 
-  <section class="scroll-in" style="background:var(--dark-zone); border-top:1px solid rgba(242,236,219,0.1);">
+  <section class="scroll-in" style="border-top:1px solid rgba(242,236,219,0.1);">
     <div class="wrap">
       <div class="sec-head" id="sec-ttt"><span class="sec-num" style="color:var(--accent);">Ⅴ</span><span class="sec-title display" style="color:var(--paper);">TTT技術「リトル・ベン」</span></div>
       <p class="body-text" style="color:var(--paper-3); max-width:660px;">
@@ -1060,10 +1060,10 @@
     if (!btn) return;
 
     var steps = [
-      { speed: 1, msg: '第二認証を開始します...',           delay: 500 },
-      { speed: 2, msg: '端末との同期を確認中...',           delay: 650 },
-      { speed: 3, msg: '二要素認証プロトコルを照合中...',   delay: 650 },
-      { speed: 4, msg: '雷紋の一致を確認中...',             delay: 650 },
+      { speed: 1, msg: 'ゼンマイを巻いています...',       delay: 500 },
+      { speed: 2, msg: '歯車の噛み合わせを照合中...',      delay: 650 },
+      { speed: 3, msg: '規定回転数まで加速中...',          delay: 650 },
+      { speed: 4, msg: '雷を充填しています...',            delay: 650 },
       { speed: 4, msg: '認証完了 ― 稲妻疾る',  granted:true, delay: 550 }
     ];
 
