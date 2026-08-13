@@ -234,10 +234,12 @@
   .combat-left .body-text{ max-width:none; }
 
   .equip-grid{ display:grid; grid-template-columns:1fr; gap:1px; background:var(--line); border:1px solid var(--line); }
+  .equip-grid.cols-2{ grid-template-columns:1fr 1fr; }
   .equip-card{
     background:var(--paper); padding:24px 24px; position:relative; z-index:0;
     transition:background 0.2s ease, transform 0.25s ease, box-shadow 0.25s ease;
   }
+  .equip-grid.cols-2 .equip-card{ padding:18px 18px; }
   .equip-card:hover{ background:var(--paper-2); transform:translateY(-4px); box-shadow:0 14px 28px rgba(28,26,22,0.16); z-index:1; }
   .eq-toggle{
     display:flex; align-items:center; justify-content:space-between; width:100%;
@@ -256,8 +258,12 @@
   }
   .equip-card.open .eq-body{ max-height:400px; opacity:1; margin-top:14px; }
   .equip-card h4{ font-family:'Shippori Mincho B1', serif; font-size:1rem; font-weight:800; margin-bottom:12px; color:var(--accent-deep); }
+  .equip-grid.cols-2 .equip-card h4{ font-size:0.82rem; margin-bottom:8px; line-height:1.4; }
+  .equip-grid.cols-2 .eq-indicator{ font-size:0.85rem; margin-left:10px; }
   .equip-card p{ font-size:0.85rem; color:var(--ink-soft); }
+  .equip-grid.cols-2 .equip-card p{ font-size:0.74rem; line-height:1.7; }
   .equip-card .origin{ margin-top:14px; font-family:'JetBrains Mono', monospace; font-size:0.68rem; color:var(--danger); opacity:0.9; }
+  @media (max-width:600px){ .equip-grid.cols-2{ grid-template-columns:1fr; } }
 
   /* ===== ability box — atmospheric again ===== */
   .ability-box{ margin-top:14px; border:1px solid var(--accent); padding:34px 30px; background:linear-gradient(180deg, var(--accent-pale), transparent 65%); position:relative; }
@@ -479,15 +485,22 @@
     padding:14px 16px; cursor:pointer; transition:background 0.2s ease, border-color 0.2s ease;
   }
   .ttt-btn-name{ display:block; font-family:'Shippori Mincho B1', serif; font-weight:800; font-size:0.9rem; color:var(--paper); }
-  .ttt-btn-desc{ display:block; margin-top:6px; font-size:0.72rem; color:var(--paper-3); line-height:1.6; }
+  .ttt-btn-desc{
+    display:block; margin-top:0; font-size:0.72rem; color:var(--paper-3); line-height:1.6;
+    max-height:0; opacity:0; overflow:hidden;
+    transition:max-height 0.4s ease, opacity 0.3s ease, margin-top 0.4s ease;
+  }
+  .ttt-btn.active .ttt-btn-desc{ max-height:80px; opacity:1; margin-top:6px; }
   .ttt-btn.active{ background:rgba(124,79,214,0.22); border-color:var(--volt); }
   .ttt-btn.active .ttt-btn-name{ color:var(--volt-glow); }
   .ttt-status{ margin-top:22px; font-size:0.76rem; letter-spacing:0.04em; }
   @media (max-width:700px){ .ttt-dial-wrap{ grid-template-columns:1fr; justify-items:center; } .ttt-labels{ grid-template-columns:1fr; width:100%; } }
 
   /* ===== guardian portrait ===== */
-  .guardian-portrait{ border:1px solid var(--line); background:var(--paper-2); overflow:hidden; }
-  .guardian-portrait img{ width:100%; display:block; }
+  .guardian-portrait{ max-width:220px; margin:0 auto; }
+  .guardian-portrait img{ width:100%; display:block; border:1px solid var(--line); background:var(--paper-2); }
+  .guardian-caption{ margin-top:12px; font-size:0.74rem; color:var(--ink-faint); line-height:1.85; }
+  .guardian-caption .gc-num{ display:block; font-size:0.66rem; color:var(--accent-deep); letter-spacing:0.04em; margin-bottom:6px; }
 
   /* ===== stat bars ===== */
   .stat-bars{ margin-top:26px; display:flex; flex-direction:column; gap:11px; max-width:640px; }
@@ -616,7 +629,7 @@
           <p class="ph-quote script" id="phQuote">「ああ、またしても。またしてもです。ワタシはエスプレッソにハチミツをブチ込んでしまいました……ですが、仕方のないことです。万有引力には逆らえず、また、人としての衝動───」</p>
         </div>
         <div class="ph-portrait" id="phPortrait">
-          <img src="https://img.atwiki.jp/inoutoenemy/attach/545/1291/markup_1000000198.png" alt="トーン・ピニオン＝ジリアン 肖像" id="phPortraitImg">
+          <img src="tone-portrait.png" alt="トーン・ピニオン＝ジリアン 肖像" id="phPortraitImg">
           <span class="tag mono">FILE PHOTO — UNVERIFIED</span>
         </div>
       </div>
@@ -645,36 +658,39 @@
           <div class="narrative-block scroll-in" id="sec-overview">
             <div class="sec-head"><span class="sec-num">Ⅰ</span><span class="sec-title display">概要</span></div>
             <p class="body-text">
-              対象はフィクサー協会に所属するS級フィクサー。会話が極めて独特であり、その理解の
-              難しさと塔のような長身を実力になぞらえて<b>「TOWER OF BABEL」</b>の名を持つ。
+              対象はフィクサー協会に所属するS級フィクサーの一人として登録されている。会話が
+              極めて特異であり、その理解の困難さと塔のような長身を実力になぞらえ<b>「TOWER OF BABEL」</b>
+              の名で呼称されている。
             </p>
             <p class="body-text">
-              優秀な技師であり、組織への所属歴よりも技師としての経験の方が長い。事務所「<b>既望</b>」を
-              経営しており、言語の壁さえ越えれば取っつきやすい人物であるため、それなりに依頼を
-              こなしている実績のある事務所として知られる。
+              優秀な技師であると評価されており、協会への所属歴よりも技師としての経験年数の方が
+              長いことが確認されている。事務所「<b>既望</b>」の経営者でもあり、言語の壁さえ越えれば
+              取っつきやすい人物であるため、依頼をそれなりにこなしている実績のある事務所として
+              記録されている。
             </p>
             <div class="note-box">
               <div class="nb-label">留意事項</div>
-              年齢と外見に大きな乖離が見られるが、そこに特別なからくりは無いとされる。これも
-              「時計塔の魔人」と呼ばれる所以の一つである。
+              年齢と外見に大きな乖離が確認されているが、特別なからくりは存在しないとされる。
+              これも「時計塔の魔人」と呼称される所以の一つである。
             </div>
           </div>
 
           <div class="narrative-block scroll-in" id="sec-personality">
             <div class="sec-head"><span class="sec-num">Ⅱ</span><span class="sec-title display">性格</span></div>
             <p class="body-text">
-              技術者的な偏屈さは持ち合わせているものの、一癖も二癖もある同僚と比較すれば、対象は
-              比較的常識人であると評価される。しかしその上で、意味不明な発言や奇行と目される行動を
-              度々起こすため、結局のところアクの強い人物であることに変わりはない。
+              技術者的な偏屈さは認められるものの、一癖も二癖もある同僚と比較した場合、対象は
+              比較的常識人であると評価される。しかしその一方で、意味不明な発言や奇行と目される
+              行動が度々確認されており、結局のところアクの強い人物であることに変わりはないと
+              記録される。
             </p>
             <p class="body-text">
-              親切かつ温厚な性質のため、長く付き合った人間ほどその人柄を理解しやすい傾向にある。
-              一方、面識の浅い者にとっては、対象の言動は違法な薬物への関与すら疑わせかねない
-              ものであり、注意を要する。
+              親切かつ温厚な性質であることが確認されており、長期の接触歴を持つ人間ほどその人柄を
+              理解しやすい傾向にあるとされる。一方、面識の浅い者に対しては、対象の言動が違法な
+              薬物への関与すら疑わせかねないものであるため、注意を要する旨が付記される。
             </p>
             <div class="note-box">
               <div class="nb-label">未解明事項</div>
-              なぜこのような難儀な人物と化したのかは、現時点で判明していない。
+              なぜこのような難儀な人物と化したのかについては、現時点で判明していない。
             </div>
           </div>
         </div>
@@ -692,8 +708,8 @@
         </svg>
       </div>
       <div class="cg-title">CLEARANCE REQUIRED</div>
-      <p class="cg-desc">以下の文書は協会における準A級機密事項です。<br>改ざん・無断アクセス等の行為は規約第17条により重大な違反行為とみなされます。</p>
-      <div class="cg-level mono">REQUIRED LEVEL: <b>B</b></div>
+      <p class="cg-desc">以下の文書の閲覧には、フィクサーライセンス認証に加えた<b>二重認証</b>が必要です。<br>改ざん・無断アクセス等の行為は規約第17条により重大な違反行為とみなされます。</p>
+      <div class="cg-level mono">SECOND FACTOR ― LEVEL: <b>B</b></div>
       <button class="cg-btn" id="cgBtn">歯車を回す</button>
 
       <div class="cg-progress" id="cgProgress">
@@ -718,26 +734,27 @@
       <div class="combat-split">
         <div class="combat-left">
           <p class="body-text">
-            他のS級フィクサーと比較して、対象には突出した一芸は見られない。強いて言えば、
-            異能による高速移動及び高い自由度の動きが挙げられる程度である。
+            他のS級フィクサーと比較して、対象に突出した一芸は確認されていない。強いて挙げるならば、
+            異能による高速移動及び高い自由度の動きがそれに該当するとされる。
           </p>
           <p class="body-text" style="margin-top:16px;">
-            対象がS級たる所以は、その極めて高い<b>総合力</b>にある。巨躯を活かした多彩な武装を
-            的確に使い分けることにより、よほど極端に相性が悪いか、異常に強力な相手でない限り、
-            対象が戦闘不能に陥る事例は確認されていない。
+            対象がS級に位置づけられる所以は、その極めて高い<b>総合力</b>にあるとされる。巨躯を
+            活かした多彩な武装を的確に使い分けることにより、よほど極端に相性が悪いか、異常に
+            強力な相手でない限り、対象が戦闘不能に陥った事例は確認されていない。
           </p>
         </div>
 
-        <div class="equip-grid">
+        <div class="equip-grid cols-2">
           <div class="equip-card">
             <button class="eq-toggle" type="button">
               <h4>螺旋短槍『ブレイクピラー』</h4>
               <span class="eq-indicator">+</span>
             </button>
             <div class="eq-body">
-              <p>回転機構を持つ短槍。ドリルのように喰い破り、敵を貫く。対象の主武装。炸薬を
-              炸裂させることで槍を瞬時に伸ばす、パイルバンカーのような機能も備える。手動での
-              引き戻しを要するが、これもまた必殺の威力を誇る。</p>
+              <p>回転機構を備えた短槍。ドリルのように喰い破り、敵を貫く。対象の主武装として
+              運用されている。炸薬を炸裂させることで槍を瞬時に伸ばす、パイルバンカーに類似した
+              機能も備えている。手動での引き戻しを要するが、これもまた必殺の威力を有すると
+              記録される。</p>
             </div>
           </div>
           <div class="equip-card">
@@ -746,9 +763,9 @@
               <span class="eq-indicator">+</span>
             </button>
             <div class="eq-body">
-              <p>軽量かつ古めかしい銃。反動が小さく片手でも正確に狙えるため、対象の技量を
-              以てすれば疾走しながら100m先の対象を正確に撃ち抜くことが可能。古めかしい外見に
-              反し、実際は技術の粋を集めた一挺である。火力自体は控えめ。</p>
+              <p>軽量かつ旧式の銃。反動が小さく片手でも正確に狙えるため、対象の技量を以てすれば
+              疾走しながら100m先の対象を正確に撃ち抜くことが可能とされる。旧式の外見に反し、
+              実際は技術の粋を集めた一挺であることが確認されている。火力自体は控えめ。</p>
             </div>
           </div>
           <div class="equip-card">
@@ -757,8 +774,8 @@
               <span class="eq-indicator">+</span>
             </button>
             <div class="eq-body">
-              <p>サイドアーム。取り回しを最優先する状況で使用される。『ハインド』と同一の弾丸を
-              使用する。</p>
+              <p>サイドアーム。取り回しを最優先する状況下で使用される。『ハインド』と同一の
+              弾丸を使用する。</p>
             </div>
           </div>
           <div class="equip-card">
@@ -768,8 +785,8 @@
             </button>
             <div class="eq-body">
               <p>ひまわりパン工房製。TTT等の特別な技術は使用されていないが、頑丈かつ整備性に
-              優れる一丁。射程は短いが、単純火力は『ハインド』を上回る。元来、後述の操弾を
-              最大限運用するための武装として運用されている。</p>
+              優れた一丁であるとされる。射程は短いが、単純火力は『ハインド』を上回ることが
+              確認されている。後述の操弾を最大限運用するための武装として位置づけられている。</p>
             </div>
           </div>
           <div class="equip-card">
@@ -778,9 +795,9 @@
               <span class="eq-indicator">+</span>
             </button>
             <div class="eq-body">
-              <p>利き腕である右腕に装着する盾。敵の攻撃を逸らす用途が主だが、対象の体格に
-              合わせているため意外に大きく重量もあり、正面からの攻撃を受け止めることも可能。
-              下手な合金盾より重いため、操弾の運用は不可。</p>
+              <p>利き腕である右腕に装着する盾。敵の攻撃を逸らす用途を主目的とするが、対象の
+              体格に合わせて製作されているため大型かつ重量があり、正面からの攻撃を受け止める
+              運用も可能とされる。重量の都合上、操弾の運用は不可とされている。</p>
             </div>
           </div>
           <div class="equip-card">
@@ -789,8 +806,8 @@
               <span class="eq-indicator">+</span>
             </button>
             <div class="eq-body">
-              <p>ナイフや手榴弾等のサブウェポンも充実しており、対象は高い技巧でこれらを扱う。
-              操弾（タスラム）を活用できる装備群である。</p>
+              <p>ナイフや手榴弾等のサブウェポンも充実しており、対象は高い技巧でこれらを運用する
+              ことが確認されている。操弾（タスラム）を活用可能な装備群である。</p>
             </div>
           </div>
         </div>
@@ -802,25 +819,27 @@
     <div class="wrap">
       <div class="sec-head" id="sec-ability"><span class="sec-num">Ⅳ</span><span class="sec-title display">異能</span></div>
 
-      <div class="ability-wrap">
-        <div class="ability-box" id="abilityBox">
-          <svg class="ab-trace" viewBox="0 0 100 100" preserveAspectRatio="none"><rect x="0.5" y="0.5" width="99" height="99" vector-effect="non-scaling-stroke"/></svg>
-          <div class="a-name">サンダーボルト</div>
-          <div class="a-body">
-            <b>雷の如き激しい電撃を操る異能。</b>雷光のように素早く駆けることも可能であり、また
-            電気に対して凄まじい耐性を得る。対象の機動力と瞬発力の根源となっている異能である。
+      <div class="combat-split">
+        <div class="ability-wrap">
+          <div class="ability-box" id="abilityBox">
+            <svg class="ab-trace" viewBox="0 0 100 100" preserveAspectRatio="none"><rect x="0.5" y="0.5" width="99" height="99" vector-effect="non-scaling-stroke"/></svg>
+            <div class="a-name">サンダーボルト</div>
+            <div class="a-body">
+              <b>雷の如き激しい電撃を操る異能。</b>雷光のように素早く駆けることも可能であるとされ、
+              また電気に対して著しい耐性を有することが確認されている。対象の機動力及び瞬発力の
+              根源となっている異能であると記録される。
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="equip-grid" style="margin-top:28px;">
+        <div class="equip-grid cols-2">
         <div class="equip-card">
           <button class="eq-toggle" type="button">
             <h4>ブリッツラッシュ</h4>
             <span class="eq-indicator">+</span>
           </button>
           <div class="eq-body">
-            <p>電撃を纏う突進。単純ながら、その速度と電圧は非常に脅威である。</p>
+            <p>電撃を纏った突進技。単純な技であるが、その速度及び電圧は脅威であると評価される。</p>
           </div>
         </div>
         <div class="equip-card">
@@ -829,8 +848,8 @@
             <span class="eq-indicator">+</span>
           </button>
           <div class="eq-body">
-            <p>武器を地面に突き刺して大放電する。周囲を焼き切らんばかりの電圧を浴びせる、
-            大変危険な技。</p>
+            <p>武器を地面に突き刺して大放電する技。周囲一帯に高圧電流を浴びせる、危険度の高い
+            技として記録される。</p>
           </div>
         </div>
         <div class="equip-card">
@@ -839,9 +858,9 @@
             <span class="eq-indicator">+</span>
           </button>
           <div class="eq-body">
-            <p>雷光を纏った腕で天を突き、離れた位置に雷を落とす。暗雲も鳴動も無く突如降り
-            注ぐ雷は回避が困難であり、対象も不意打ち気味に多用する。長い射程を持つが、
-            天井の低い場所では使用不可。動作自体は分かりやすいのが弱点。</p>
+            <p>雷光を纏った腕で天を突き、離れた位置に雷を落とす技。前兆なく突如降り注ぐ雷は
+            回避が困難であり、対象も不意打ち気味に多用する傾向が確認されている。長い射程を持つが、
+            天井の低い場所では使用不可。動作自体が単純明快である点が弱点とされる。</p>
           </div>
         </div>
         <div class="equip-card">
@@ -850,10 +869,12 @@
             <span class="eq-indicator">+</span>
           </button>
           <div class="eq-body">
-            <p>雷光を全身に纏い、武器に集中して放つ技。『ブレイクピラー』なら嵐のように激しい
-            突きを、『ハインド』なら大砲のような破壊力の弾丸を放てる。かなりの溜めを要し武装への
-            負担も大きく多用できないが、それに見合う必殺の一撃である。</p>
+            <p>雷光を全身に纏い、武器に集中させて放つ技。『ブレイクピラー』使用時は嵐のように
+            激しい突きを、『ハインド』使用時は大砲に匹敵する破壊力の弾丸を放つことが可能とされる。
+            相応の溜めを要し武装への負担も大きいため多用は不可能だが、それに見合う一撃であると
+            評価されている。</p>
           </div>
+        </div>
         </div>
       </div>
     </div>
@@ -863,14 +884,15 @@
     <div class="wrap">
       <div class="sec-head" id="sec-ttt"><span class="sec-num" style="color:var(--accent);">Ⅴ</span><span class="sec-title display" style="color:var(--paper);">TTT技術「リトル・ベン」</span></div>
       <p class="body-text" style="color:var(--paper-3); max-width:660px;">
-        特別な技法によって作られた、小さな時計塔のような特殊武装。左腕に装着し、『ブレイクピラー』
-        または『ハインド』と連動して効果を発動する。起動には時計のような装飾の長針をレバーで
-        回す必要があり、ダイヤル錠のように特定の手順を踏まねばならない。そのため、たとえ装備を
-        奪われてもトーン以外にこれを起動するのは至難とされる。
+        特殊な技法によって製作された、小さな時計塔を模した特殊武装であるとされる。左腕に装着し、
+        『ブレイクピラー』または『ハインド』と連動して効果を発動する仕組みを持つ。起動には時計状の
+        装飾の長針をレバーで回す必要があり、ダイヤル錠に類似した特定の手順を踏む必要がある。
+        そのため、たとえ装備を奪取されたとしても、対象以外がこれを起動することは至難であると
+        記録される。
       </p>
       <div class="note-box" style="background:rgba(242,236,219,0.06); color:var(--paper-3); border-left-color:var(--volt);">
         <div class="nb-label" style="color:var(--volt-glow);">仕様</div>
-        同時発動数 2　／　発動種類数 4。以下のダイヤルをクリックして、実際に長針を動かしてみてください（最大2つまで同時発動可能）。
+        発動種類数 4。長針の向きを変えるか、ボタン／ダイヤルの点をクリックしてください。針が指す方向の効果が発動します。
       </div>
 
       <div class="ttt-dial-wrap">
@@ -916,13 +938,14 @@
     <div class="wrap">
       <div class="sec-head" id="sec-tasuramu"><span class="sec-num">Ⅵ</span><span class="sec-title display">操弾（タスラム）／結界術</span></div>
       <p class="body-text">
-        <b>操弾（タスラム）</b>――ある程度の重さまでの発射物・投射物の機動を制御できる技術。
-        対象は『サンライトスプレッド』やナイフ、手榴弾にてこれを使用し、より柔軟な戦闘を
-        繰り広げる。ただし、その性質上「塔の番人（タワーシールド）」が展開されている間は
-        発動できなくなる。
+        <b>操弾（タスラム）</b>――ある程度の重量までの発射物・投射物の機動を制御可能な技術。
+        対象は『サンライトスプレッド』やナイフ、手榴弾等でこれを使用し、より柔軟な戦闘を
+        展開すると記録される。ただし、その性質上「塔の番人（タワーシールド）」の展開中は
+        発動不可となる。
       </p>
       <p class="body-text" style="margin-top:16px;">
-        <b>簡易結界</b>――対象は「音無」と呼ばれる人物から教わり、自らのものとして体得した。
+        <b>簡易結界</b>――対象は「音無」と呼ばれる人物から教授を受け、自らのものとして体得した
+        旨が確認されている。
       </p>
     </div>
   </section>
@@ -934,26 +957,32 @@
       <div class="combat-split">
         <div class="combat-left">
           <p class="body-text">
-            両手剣を片手で振るう剛腕の騎士。見た目からは守護霊体と分からぬ程に精巧な人間を
-            模しており、本来不必要な「人間らしい仕草」等も再現している。対象と比較しフィジカル面に
-            特に優れ、渾身の一撃は『ブレイクピラー』をも凌駕する。
+            両手剣を片手で振るう剛腕の騎士。見た目からは守護霊体と判別できない程に精巧な人間を
+            模しており、本来不要な「人間らしい仕草」等の再現も確認されている。対象と比較して
+            フィジカル面に優れており、渾身の一撃は『ブレイクピラー』の威力を凌駕すると記録される。
           </p>
           <p class="body-text" style="margin-top:16px;">
-            速度こそ対象に及ばないが、対象が苦戦する要因である「一点突破の火力不足」を
-            十全に補う存在であり、TTTが使用できない弊害を加味してもなお、対象にとって
-            最大の武器の一つである。
+            速度面では対象に及ばないものの、対象が苦戦する要因である「一点突破の火力不足」を
+            十全に補う存在であるとされ、TTTが使用不可となる弊害を加味してもなお、対象にとって
+            最大の武器の一つに位置づけられる。
           </p>
           <div class="note-box">
             <div class="nb-label">異能『ガラティーン』</div>
-            雷を創り出し操る異能。剣に纏わせてリーチを延長する、雷撃を剣の一閃で飛ばす、
-            雷雲を呼び起こし多数の雷を落とす等が可能。『サンダーボルト』に類似するが、
-            高速移動等はできない代わりに「電撃を用いた高威力・広範囲攻撃」に特化している。
-            周辺被害が甚大となるため、全力での使用は基本的にトーンにより制限されている。
+            雷を創出し操作する異能。剣に纏わせてリーチを延長する、雷撃を剣の一閃に乗せて放つ、
+            雷雲を呼び起こし多数の雷を落とす等の運用が確認されている。『サンダーボルト』に類似
+            するが、高速移動等は不可能な代わりに「電撃を用いた高威力・広範囲攻撃」に特化して
+            いるとされる。周辺被害が甚大となるため、全力での使用は基本的にトーンにより制限
+            されている。
           </div>
         </div>
 
         <div class="guardian-portrait">
           <img src="https://img.atwiki.jp/inoutoenemy/attach/545/1292/pixai-artwork_1870592496511250247.webp" alt="守護霊体「塔の番人」">
+          <p class="guardian-caption">
+            <span class="gc-num mono">資料番号：VIS-01179</span>
+            実戦投入時に撮影された記録の一葉。甲冑越しにもかかわらず、僅かに佇まいへ
+            人間味が滲んでいるとの所感が報告書に付記されている。
+          </p>
         </div>
       </div>
     </div>
@@ -986,9 +1015,9 @@
     var tiers = document.querySelectorAll('.lgate-tower .tier');
 
     var steps = [
-      { msg: '土台を組んでいます...',               tiers: 1, delay: 500 },
-      { msg: '塔を組み上げています...',             tiers: 2, delay: 750 },
-      { msg: '最上部を据えています...',             tiers: 3, delay: 750 },
+      { msg: 'フィクサーライセンスを照合中...',       tiers: 1, delay: 500 },
+      { msg: '生体認証を実行中...',                   tiers: 2, delay: 750 },
+      { msg: '協会データベースと同期中...',           tiers: 3, delay: 750 },
       { msg: '認証完了 ― ACCESS GRANTED', granted:true, tiers: 3, delay: 650 }
     ];
 
@@ -1031,10 +1060,10 @@
     if (!btn) return;
 
     var steps = [
-      { speed: 1, msg: 'ゼンマイを巻いています...',       delay: 500 },
-      { speed: 2, msg: '歯車の噛み合わせを照合中...',      delay: 650 },
-      { speed: 3, msg: '規定回転数まで加速中...',          delay: 650 },
-      { speed: 4, msg: '雷を充填しています...',            delay: 650 },
+      { speed: 1, msg: '第二認証を開始します...',           delay: 500 },
+      { speed: 2, msg: '端末との同期を確認中...',           delay: 650 },
+      { speed: 3, msg: '二要素認証プロトコルを照合中...',   delay: 650 },
+      { speed: 4, msg: '雷紋の一致を確認中...',             delay: 650 },
       { speed: 4, msg: '認証完了 ― 稲妻疾る',  granted:true, delay: 550 }
     ];
 
@@ -1206,53 +1235,37 @@
     if (!buttons.length) return;
 
     var angles = { light: 0, power: 90, resist: 180, sharp: 270 };
-    var active = [];
+    var names = { light:'軽量強化', power:'出力強化', resist:'異能耐性', sharp:'先鋭化' };
+    var current = null;
 
-    function render(){
+    function applySelection(effect, deg){
+      current = effect;
       buttons.forEach(function(b){
-        b.classList.toggle('active', active.indexOf(b.getAttribute('data-effect')) !== -1);
+        b.classList.toggle('active', b.getAttribute('data-effect') === effect);
       });
       ticks.forEach(function(t){
-        t.classList.toggle('active', active.indexOf(t.getAttribute('data-effect')) !== -1);
+        t.classList.toggle('active', t.getAttribute('data-effect') === effect);
       });
-
-      if (active.length === 0){
-        hand.style.transform = 'rotate(0deg)';
-        status.textContent = '発動中：なし';
-      } else if (active.length === 1){
-        hand.style.transform = 'rotate(' + angles[active[0]] + 'deg)';
-        status.textContent = '発動中：' + label(active[0]);
-      } else {
-        var a1 = angles[active[0]], a2 = angles[active[1]];
-        var diff = ((a2 - a1 + 540) % 360) - 180;
-        var mid = a1 + diff / 2;
-        hand.style.transform = 'rotate(' + mid + 'deg)';
-        status.textContent = '発動中：' + label(active[0]) + ' ＋ ' + label(active[1]);
-      }
+      hand.style.transform = 'rotate(' + (deg !== undefined ? deg : angles[effect]) + 'deg)';
+      status.textContent = effect ? ('発動中：' + names[effect]) : '発動中：なし';
     }
 
-    function label(effect){
-      var names = { light:'軽量強化', power:'出力強化', resist:'異能耐性', sharp:'先鋭化' };
-      return names[effect];
-    }
-
-    function toggle(effect){
-      var idx = active.indexOf(effect);
-      if (idx !== -1){
-        active.splice(idx, 1);
-      } else {
-        if (active.length >= 2) active.shift();
-        active.push(effect);
-      }
-      render();
+    function selectByAngle(deg){
+      applySelection(nearestEffect(deg), angles[nearestEffect(deg)]);
     }
 
     buttons.forEach(function(b){
-      b.addEventListener('click', function(){ toggle(b.getAttribute('data-effect')); });
+      b.addEventListener('click', function(){
+        var eff = b.getAttribute('data-effect');
+        applySelection(current === eff ? null : eff);
+      });
     });
     ticks.forEach(function(t){
       t.style.cursor = 'pointer';
-      t.addEventListener('click', function(){ toggle(t.getAttribute('data-effect')); });
+      t.addEventListener('click', function(){
+        var eff = t.getAttribute('data-effect');
+        applySelection(current === eff ? null : eff);
+      });
     });
 
     var svg = document.querySelector('.ttt-dial');
@@ -1285,20 +1298,27 @@
     function moveDrag(e){
       if (!dragging) return;
       var deg = angleFromPoint(toSVGPoint(e));
+      var eff = nearestEffect(deg);
       hand.style.transform = 'rotate(' + deg + 'deg)';
+      current = eff;
+      buttons.forEach(function(b){ b.classList.toggle('active', b.getAttribute('data-effect') === eff); });
+      ticks.forEach(function(t){ t.classList.toggle('active', t.getAttribute('data-effect') === eff); });
+      status.textContent = '発動中：' + names[eff];
     }
     function endDrag(e){
       if (!dragging) return;
       dragging = false;
       hand.classList.remove('dragging');
       var deg = angleFromPoint(toSVGPoint(e));
-      toggle(nearestEffect(deg));
+      selectByAngle(deg);
     }
 
     hand.addEventListener('pointerdown', startDrag);
     hand.addEventListener('pointermove', moveDrag);
     hand.addEventListener('pointerup', endDrag);
-    hand.addEventListener('pointercancel', function(){ dragging = false; hand.classList.remove('dragging'); render(); });
+    hand.addEventListener('pointercancel', function(){ dragging = false; hand.classList.remove('dragging'); });
+
+    applySelection(null);
   })();
 
   (function(){
