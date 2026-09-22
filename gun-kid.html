@@ -301,20 +301,29 @@
   .core-detect.show{ display:block; animation:coreDetectPulse 0.5s ease-in-out infinite; }
   @keyframes coreDetectPulse{ 0%,100%{ opacity:0.6; } 50%{ opacity:1; } }
 
-  html.core-invert{ filter:invert(1); will-change:filter; }
-
-  body.core-shake{
-    will-change:transform; backface-visibility:hidden;
-  }
+  body{ will-change:auto; }
+  body.impact-active{ will-change:transform; }
 
   .core-flash{
     position:fixed; inset:0; z-index:20000; background:#fff;
     opacity:0; pointer-events:none;
   }
-  .core-flash.go{ animation:coreFlashPop 0.6s ease-out 1; }
+  .core-flash.go{ animation:coreFlashPop 0.35s ease-out 1; }
   @keyframes coreFlashPop{
     0%{ opacity:1; }
-    35%{ opacity:1; }
+    30%{ opacity:1; }
+    100%{ opacity:0; }
+  }
+
+  .core-vignette{
+    position:fixed; inset:0; z-index:19998; pointer-events:none;
+    background:radial-gradient(ellipse at center, transparent 38%, rgba(138,20,15,0.85) 115%);
+    opacity:0;
+  }
+  .core-vignette.go{ animation:coreVignettePop 0.9s ease-out 1; }
+  @keyframes coreVignettePop{
+    0%{ opacity:0; }
+    18%{ opacity:1; }
     100%{ opacity:0; }
   }
 
@@ -323,9 +332,26 @@
     background-image:url('shatter-crack-2.png');
     background-size:80% auto; background-repeat:no-repeat; background-position:center;
     opacity:0;
-    filter:invert(1);
   }
   .core-shatter.go{ opacity:1; }
+
+  .core-punch{
+    position:fixed; inset:0; z-index:20001; pointer-events:none;
+    background:var(--paper);
+    -webkit-mask-image:url('shatter-crack-2.png');
+    mask-image:url('shatter-crack-2.png');
+    -webkit-mask-size:80% auto; mask-size:80% auto;
+    -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
+    -webkit-mask-position:center; mask-position:center;
+    opacity:0;
+  }
+  .core-punch.go{ animation:corePunchPop 0.4s steps(2,end) 1; }
+  @keyframes corePunchPop{
+    0%{ opacity:0; }
+    25%{ opacity:1; }
+    60%{ opacity:1; }
+    100%{ opacity:0; }
+  }
 
   /* ===== license verification gate (loading overlay) ===== */
   .lgate{
@@ -510,7 +536,9 @@
   <div class="grain-overlay"></div>
   <div class="page-bg-fixed"></div>
   <div class="core-flash" id="coreFlash"></div>
+  <div class="core-vignette" id="coreVignette"></div>
   <div class="core-shatter" id="coreShatter"></div>
+  <div class="core-punch" id="corePunch"></div>
   <div class="smoke-field" id="smokeField"></div>
 
   <div class="read-progress" id="readProgress">
@@ -1014,33 +1042,15 @@
       field.appendChild(s);
     }
   })();
-  function runShake(el, duration){
-    var start = performance.now();
-    var points = [
-      [-58,36,-3.4],[54,-44,3],[-50,34,-2.6],[44,-30,2.2],[-37,25,-1.8],
-      [29,-20,1.4],[-22,15,-1],[16,-11,0.65],[-10,7,-0.4],[6,-4,0.25],
-      [-3,2,-0.1],[0,0,0]
-    ];
-    var stops = [0,7,11,16,22,29,37,46,56,67,80,100];
-
-    function frame(now){
-      var t = Math.min(100, ((now - start) / duration) * 100);
-      var i = 0;
-      while (i < stops.length - 1 && t > stops[i+1]) i++;
-      var a = points[i], b = points[i+1] || a;
-      var segStart = stops[i], segEnd = stops[i+1] || 100;
-      var segT = segEnd > segStart ? (t - segStart) / (segEnd - segStart) : 1;
-      var x = a[0] + (b[0]-a[0]) * segT;
-      var y = a[1] + (b[1]-a[1]) * segT;
-      var r = a[2] + (b[2]-a[2]) * segT;
-      el.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) rotate(' + r.toFixed(2) + 'deg)';
-      if (t < 100){
-        requestAnimationFrame(frame);
-      } else {
-        el.style.transform = '';
-      }
-    }
-    requestAnimationFrame(frame);
+  function runImpact(el){
+    el.style.transition = 'none';
+    el.style.transform = 'translate(-34px,22px) rotate(-2.2deg) scale(1.045)';
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        el.style.transition = 'transform 0.32s cubic-bezier(.2,.9,.3,1)';
+        el.style.transform = 'translate(0,0) rotate(0deg) scale(1)';
+      });
+    });
   }
 
   (function(){
@@ -1060,15 +1070,18 @@
       setTimeout(function(){
         detect.classList.remove('show');
 
-        var html = document.documentElement;
         var body = document.body;
         var flash = document.getElementById('coreFlash');
+        var vignette = document.getElementById('coreVignette');
         var shatter = document.getElementById('coreShatter');
+        var punch = document.getElementById('corePunch');
 
-        html.classList.add('core-invert');
+        body.classList.add('impact-active');
         flash.classList.add('go');
+        vignette.classList.add('go');
         shatter.classList.add('go');
-        runShake(body, 1100);
+        punch.classList.add('go');
+        runImpact(body);
       }, 1700);
 
       setTimeout(function(){
