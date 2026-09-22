@@ -109,50 +109,6 @@
     100%{ transform:translate(0,0) rotate(0deg); }
   }
 
-  .shot-flash{
-    position:fixed; inset:0; z-index:20000; background:#fff;
-    opacity:0; pointer-events:none;
-  }
-  .shot-flash.go{ animation:shotFlashPop 0.45s ease-out 1; }
-  @keyframes shotFlashPop{
-    0%{ opacity:0; }
-    8%{ opacity:1; }
-    22%{ opacity:0.9; }
-    100%{ opacity:0; }
-  }
-
-  .shatter-overlay{
-    position:fixed; z-index:19999; pointer-events:none;
-    width:58vw; max-width:640px; aspect-ratio:1447/1087;
-    background-image:url('shatter-crack.png');
-    background-size:contain; background-repeat:no-repeat;
-    opacity:0; transform:scale(0.7);
-    transition:opacity 0.06s linear, transform 0.18s cubic-bezier(.2,1.9,.5,1);
-  }
-  .shatter-overlay.go{ opacity:0.92; transform:scale(1); }
-  .shatter-a{ left:0; bottom:0; background-position:bottom left; transform-origin:bottom left; }
-  .shatter-b{
-    right:0; top:0; background-position:top right; transform-origin:top right;
-    transform:scale(0.7) rotate(180deg);
-  }
-  .shatter-b.go{ opacity:0.85; transform:scale(1) rotate(180deg); }
-
-  .cordite-field{
-    position:fixed; left:0; bottom:0; z-index:19998; pointer-events:none;
-    width:58vw; max-width:640px; aspect-ratio:1447/1087;
-  }
-  .cordite-wisp{
-    position:absolute; left:26%; bottom:44%; border-radius:50%;
-    background:radial-gradient(circle, rgba(180,175,165,0.5), transparent 70%);
-    opacity:0;
-    animation:corditeRise linear forwards;
-  }
-  @keyframes corditeRise{
-    0%{ transform:translate(0,0) scale(0.4); opacity:0; }
-    10%{ opacity:0.75; }
-    100%{ transform:translate(var(--cdx,10px), -220px) scale(2.2); opacity:0; }
-  }
-
   header.site{
     display:flex; justify-content:space-between; align-items:center;
     padding:20px 6vw; background:var(--ink); position:sticky; top:0; z-index:20;
@@ -420,42 +376,53 @@
     max-height:0; opacity:0; overflow:hidden; position:relative;
     transition:opacity 0.7s ease 0.1s, max-height 0.9s ease;
   }
-  .restricted-content.unlocked{ max-height:4000px; opacity:1; }
+  .restricted-content.unlocked{ max-height:5000px; opacity:1; }
 
-  /* darker zone for the clearance-gated content */
-  .restricted-content{ background:var(--dark-zone); }
-  .dust-field{ position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
-  .dust{
-    position:absolute; bottom:-10px; border-radius:50%;
-    background:rgba(143,124,158,0.4);
-    animation:dustRise linear infinite;
+  /* ===== old frontier newspaper zone ===== */
+  .restricted-content{
+    background:var(--paper-3);
+    background-image:
+      repeating-linear-gradient(0deg, rgba(43,33,22,0.03) 0px, transparent 1px, transparent 3px),
+      radial-gradient(ellipse at 20% 10%, rgba(43,33,22,0.06), transparent 55%),
+      radial-gradient(ellipse at 85% 80%, rgba(43,33,22,0.07), transparent 55%);
   }
-  @keyframes dustRise{
-    0%{ transform:translate(0,0); opacity:0; }
-    10%{ opacity:0.55; }
-    85%{ opacity:0.25; }
-    100%{ transform:translate(var(--dx,15px), -640px); opacity:0; }
+  .news-masthead{ padding:38px 0 14px; text-align:center; }
+  .news-top-rule, .news-bottom-rule{ border-top:3px double var(--ink); margin:6px 0; }
+  .news-top-row, .news-bottom-row{
+    display:flex; justify-content:space-between; font-size:0.62rem;
+    letter-spacing:0.06em; color:var(--ink-soft); padding:4px 2px;
   }
+  .news-title{
+    font-size:clamp(2rem,6vw,3.2rem); font-weight:800; letter-spacing:0.02em;
+    color:var(--ink); margin:8px 0 4px; text-shadow:1px 1px 0 rgba(43,33,22,0.15);
+  }
+  .news-sub{ font-size:0.8rem; color:var(--ink-soft); font-style:italic; margin-bottom:6px; }
+
   .restricted-content section{
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='12' viewBox='0 0 36 12'%3E%3Cline x1='0' y1='6' x2='36' y2='6' stroke='%23a3762f' stroke-width='0.7' opacity='0.35'/%3E%3Crect x='4' y='3' width='3' height='6' rx='1' fill='%23a3762f' opacity='0.5'/%3E%3Crect x='16.5' y='3' width='3' height='6' rx='1' fill='%23a3762f' opacity='0.5'/%3E%3Crect x='29' y='3' width='3' height='6' rx='1' fill='%23a3762f' opacity='0.5'/%3E%3C/svg%3E");
+    background-image:none; border-top:1px solid rgba(43,33,22,0.25);
   }
-  .restricted-content .sec-num{ color:var(--accent); }
-  .restricted-content .sec-title{ color:var(--paper); }
-  .restricted-content .body-text{ color:var(--paper-3); }
-  .restricted-content ruby rt{ color:var(--paper-3); opacity:0.65; }
-  .restricted-content .note-box{ background:rgba(242,236,219,0.06); color:var(--paper-3); }
+  .restricted-content .sec-head{ border-bottom:2px solid var(--ink); padding-bottom:14px; }
+  .restricted-content .sec-num{ color:var(--accent-deep); }
+  .restricted-content .sec-title{ color:var(--ink); }
+  .restricted-content .body-text{ color:var(--ink-soft); }
+  .restricted-content ruby rt{ color:var(--ink-faint); opacity:0.8; }
+  .restricted-content .combat-left .body-text{ column-count:1; }
+  @media (min-width:640px){
+    .restricted-content .combat-left .body-text{ column-count:1; }
+  }
+  .restricted-content .note-box{ background:rgba(43,33,22,0.05); color:var(--ink-soft); border-left-color:var(--accent-deep); }
   .restricted-content .note-box .nb-label{ color:var(--danger); }
-  .restricted-content .equip-grid{ background:rgba(242,236,219,0.12); border-color:rgba(242,236,219,0.12); }
-  .restricted-content .equip-card{ background:var(--ink); }
-  .restricted-content .equip-card:hover{ background:#26211b; }
-  .restricted-content .equip-card h4{ color:var(--accent); }
-  .restricted-content .equip-card p{ color:var(--paper-3); }
+  .restricted-content .equip-grid{ background:var(--ink); border-color:var(--ink); }
+  .restricted-content .equip-card{ background:var(--paper); }
+  .restricted-content .equip-card:hover{ background:var(--paper-2); }
+  .restricted-content .equip-card h4{ color:var(--accent-deep); font-family:'Cinzel', serif; letter-spacing:0.02em; }
+  .restricted-content .equip-card p{ color:var(--ink-soft); }
   .restricted-content .equip-card .origin{ color:var(--danger); opacity:0.85; }
-  .restricted-content .eq-indicator{ color:var(--accent); }
-  .restricted-content .ability-box{ border-color:var(--accent); background:rgba(33,28,40,0.9); }
-  .restricted-content .ability-box .a-name{ color:var(--accent); }
-  .restricted-content .ability-box .a-body{ color:var(--paper-3); }
-  .restricted-content .ability-box .a-body b{ color:var(--paper); }
+  .restricted-content .eq-indicator{ color:var(--accent-deep); }
+  .restricted-content .ability-box{ border-color:var(--accent-deep); background:var(--paper); }
+  .restricted-content .ability-box .a-name{ color:var(--accent-deep); font-family:'Cinzel', serif; }
+  .restricted-content .ability-box .a-body{ color:var(--ink-soft); }
+  .restricted-content .ability-box .a-body b{ color:var(--ink); }
 
   /* ===== scroll-triggered entrance ===== */
   .scroll-in{
@@ -493,10 +460,6 @@
 <body>
 
   <div class="grain-overlay"></div>
-  <div class="shot-flash" id="shotFlash"></div>
-  <div class="shatter-overlay shatter-a" id="shatterOverlayA"></div>
-  <div class="shatter-overlay shatter-b" id="shatterOverlayB"></div>
-  <div class="cordite-field" id="corditeField"></div>
   <div class="smoke-field" id="smokeField"></div>
 
   <div class="read-progress" id="readProgress">
@@ -643,6 +606,24 @@
   </div>
 
   <div class="restricted-content" id="restrictedContent">
+
+    <div class="news-masthead">
+      <div class="wrap">
+        <div class="news-top-rule"></div>
+        <div class="news-top-row mono">
+          <span>VOL. XIII, NO. 0</span>
+          <span>PRICE ３セント</span>
+          <span>FRONTIER EDITION</span>
+        </div>
+        <div class="news-title display">THE FRONTIER LEDGER</div>
+        <div class="news-sub">――ロンドン辺境通信・不定期刊――</div>
+        <div class="news-bottom-row mono">
+          <span>マフィアハント記事 特別掲載</span>
+          <span>訂正・削除は一切受け付けません</span>
+        </div>
+        <div class="news-bottom-rule"></div>
+      </div>
+    </div>
 
     <section>
       <div class="wrap">
@@ -848,10 +829,6 @@
               gateBox.classList.add('cg-hide');
               content.classList.add('unlocked');
               document.body.classList.add('gate-shake');
-              document.getElementById('shotFlash').classList.add('go');
-              document.getElementById('shatterOverlayA').classList.add('go');
-              document.getElementById('shatterOverlayB').classList.add('go');
-              spawnCordite();
               setTimeout(function(){ document.body.classList.remove('gate-shake'); }, 500);
             }, 650);
           }
@@ -883,26 +860,6 @@
       });
     }, { threshold:0.12, rootMargin:'0px 0px -60px 0px' });
     targets.forEach(function(el){ obs.observe(el); });
-  })();
-
-  (function(){
-    var content = document.getElementById('restrictedContent');
-    if (!content) return;
-    var field = document.createElement('div');
-    field.className = 'dust-field';
-    content.insertBefore(field, content.firstChild);
-    for (var i = 0; i < 22; i++){
-      var d = document.createElement('span');
-      d.className = 'dust';
-      var size = 2 + Math.random() * 2;
-      d.style.width = size + 'px';
-      d.style.height = size + 'px';
-      d.style.left = (Math.random() * 100) + '%';
-      d.style.setProperty('--dx', (Math.random() * 40 - 20) + 'px');
-      d.style.animationDuration = (10 + Math.random() * 10) + 's';
-      d.style.animationDelay = (Math.random() * 12) + 's';
-      field.appendChild(d);
-    }
   })();
 
   (function(){
@@ -993,25 +950,6 @@
       field.appendChild(s);
     }
   })();
-  function spawnCordite(){
-    var field = document.getElementById('corditeField');
-    if (!field) return;
-    for (var i = 0; i < 10; i++){
-      (function(delayIdx){
-        setTimeout(function(){
-          var s = document.createElement('span');
-          s.className = 'cordite-wisp';
-          var size = 18 + Math.random() * 22;
-          s.style.width = size + 'px';
-          s.style.height = size + 'px';
-          s.style.setProperty('--cdx', (Math.random() * 50 - 25) + 'px');
-          s.style.animationDuration = (2.2 + Math.random() * 1.6) + 's';
-          field.appendChild(s);
-          setTimeout(function(){ s.remove(); }, 4200);
-        }, delayIdx * 220);
-      })(i);
-    }
-  }
   </script>
 
 </body>
