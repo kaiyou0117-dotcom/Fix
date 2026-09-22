@@ -93,18 +93,19 @@
   }
   @media (max-width:900px){ .read-progress{ display:none; } }
 
-  body.gate-shake{ animation:gateShake 0.7s linear; }
+  body.gate-shake{ animation:gateShake 0.85s linear; }
   @keyframes gateShake{
     0%{ transform:translate(0,0) rotate(0deg); }
-    6%{ transform:translate(-26px,16px) rotate(-1.4deg); }
-    12%{ transform:translate(24px,-20px) rotate(1.2deg); }
-    18%{ transform:translate(-22px,15px) rotate(-1deg); }
-    26%{ transform:translate(19px,-13px) rotate(0.8deg); }
-    35%{ transform:translate(-15px,11px) rotate(-0.6deg); }
-    45%{ transform:translate(11px,-8px) rotate(0.4deg); }
-    56%{ transform:translate(-8px,6px) rotate(-0.3deg); }
-    68%{ transform:translate(5px,-4px) rotate(0.2deg); }
-    80%{ transform:translate(-3px,2px) rotate(-0.1deg); }
+    4%{ transform:translate(-38px,24px) rotate(-2.2deg); }
+    9%{ transform:translate(36px,-30px) rotate(2deg); }
+    14%{ transform:translate(-33px,23px) rotate(-1.8deg); }
+    20%{ transform:translate(29px,-20px) rotate(1.5deg); }
+    27%{ transform:translate(-24px,17px) rotate(-1.2deg); }
+    35%{ transform:translate(19px,-13px) rotate(0.9deg); }
+    44%{ transform:translate(-14px,10px) rotate(-0.6deg); }
+    54%{ transform:translate(10px,-7px) rotate(0.4deg); }
+    65%{ transform:translate(-6px,4px) rotate(-0.25deg); }
+    78%{ transform:translate(3px,-2px) rotate(0.1deg); }
     100%{ transform:translate(0,0) rotate(0deg); }
   }
 
@@ -112,22 +113,29 @@
     position:fixed; inset:0; z-index:20000; background:#fff;
     opacity:0; pointer-events:none;
   }
-  .shot-flash.go{ animation:shotFlashPop 0.35s ease-out 1; }
+  .shot-flash.go{ animation:shotFlashPop 0.45s ease-out 1; }
   @keyframes shotFlashPop{
     0%{ opacity:0; }
-    12%{ opacity:1; }
+    8%{ opacity:1; }
+    22%{ opacity:0.9; }
     100%{ opacity:0; }
   }
 
   .shatter-overlay{
-    position:fixed; left:0; bottom:0; z-index:19999; pointer-events:none;
+    position:fixed; z-index:19999; pointer-events:none;
     width:58vw; max-width:640px; aspect-ratio:1447/1087;
     background-image:url('shatter-crack.png');
-    background-size:contain; background-repeat:no-repeat; background-position:bottom left;
-    opacity:0; transform:scale(0.85); transform-origin:bottom left;
-    transition:opacity 0.25s ease, transform 0.35s cubic-bezier(.3,1.4,.4,1);
+    background-size:contain; background-repeat:no-repeat;
+    opacity:0; transform:scale(0.7);
+    transition:opacity 0.06s linear, transform 0.18s cubic-bezier(.2,1.9,.5,1);
   }
   .shatter-overlay.go{ opacity:0.92; transform:scale(1); }
+  .shatter-a{ left:0; bottom:0; background-position:bottom left; transform-origin:bottom left; }
+  .shatter-b{
+    right:0; top:0; background-position:top right; transform-origin:top right;
+    transform:scale(0.7) rotate(180deg);
+  }
+  .shatter-b.go{ opacity:0.85; transform:scale(1) rotate(180deg); }
 
   .cordite-field{
     position:fixed; left:0; bottom:0; z-index:19998; pointer-events:none;
@@ -486,7 +494,8 @@
 
   <div class="grain-overlay"></div>
   <div class="shot-flash" id="shotFlash"></div>
-  <div class="shatter-overlay" id="shatterOverlay"></div>
+  <div class="shatter-overlay shatter-a" id="shatterOverlayA"></div>
+  <div class="shatter-overlay shatter-b" id="shatterOverlayB"></div>
   <div class="cordite-field" id="corditeField"></div>
   <div class="smoke-field" id="smokeField"></div>
 
@@ -840,7 +849,8 @@
               content.classList.add('unlocked');
               document.body.classList.add('gate-shake');
               document.getElementById('shotFlash').classList.add('go');
-              document.getElementById('shatterOverlay').classList.add('go');
+              document.getElementById('shatterOverlayA').classList.add('go');
+              document.getElementById('shatterOverlayB').classList.add('go');
               spawnCordite();
               setTimeout(function(){ document.body.classList.remove('gate-shake'); }, 500);
             }, 650);
