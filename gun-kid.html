@@ -93,16 +93,18 @@
   }
   @media (max-width:900px){ .read-progress{ display:none; } }
 
-  body.gate-shake{ animation:gateShake 0.5s linear; }
+  body.gate-shake{ animation:gateShake 0.7s linear; }
   @keyframes gateShake{
     0%{ transform:translate(0,0) rotate(0deg); }
-    8%{ transform:translate(-14px,9px) rotate(-0.6deg); }
-    16%{ transform:translate(12px,-10px) rotate(0.5deg); }
-    24%{ transform:translate(-10px,7px) rotate(-0.4deg); }
-    34%{ transform:translate(9px,-6px) rotate(0.3deg); }
-    46%{ transform:translate(-6px,5px) rotate(-0.2deg); }
-    60%{ transform:translate(4px,-3px) rotate(0.15deg); }
-    75%{ transform:translate(-2px,2px) rotate(0deg); }
+    6%{ transform:translate(-26px,16px) rotate(-1.4deg); }
+    12%{ transform:translate(24px,-20px) rotate(1.2deg); }
+    18%{ transform:translate(-22px,15px) rotate(-1deg); }
+    26%{ transform:translate(19px,-13px) rotate(0.8deg); }
+    35%{ transform:translate(-15px,11px) rotate(-0.6deg); }
+    45%{ transform:translate(11px,-8px) rotate(0.4deg); }
+    56%{ transform:translate(-8px,6px) rotate(-0.3deg); }
+    68%{ transform:translate(5px,-4px) rotate(0.2deg); }
+    80%{ transform:translate(-3px,2px) rotate(-0.1deg); }
     100%{ transform:translate(0,0) rotate(0deg); }
   }
 
@@ -119,13 +121,29 @@
 
   .shatter-overlay{
     position:fixed; left:0; bottom:0; z-index:19999; pointer-events:none;
-    width:40vw; max-width:440px; aspect-ratio:1447/1087;
+    width:58vw; max-width:640px; aspect-ratio:1447/1087;
     background-image:url('shatter-crack.png');
     background-size:contain; background-repeat:no-repeat; background-position:bottom left;
     opacity:0; transform:scale(0.85); transform-origin:bottom left;
     transition:opacity 0.25s ease, transform 0.35s cubic-bezier(.3,1.4,.4,1);
   }
   .shatter-overlay.go{ opacity:0.92; transform:scale(1); }
+
+  .cordite-field{
+    position:fixed; left:0; bottom:0; z-index:19998; pointer-events:none;
+    width:58vw; max-width:640px; aspect-ratio:1447/1087;
+  }
+  .cordite-wisp{
+    position:absolute; left:26%; bottom:44%; border-radius:50%;
+    background:radial-gradient(circle, rgba(180,175,165,0.5), transparent 70%);
+    opacity:0;
+    animation:corditeRise linear forwards;
+  }
+  @keyframes corditeRise{
+    0%{ transform:translate(0,0) scale(0.4); opacity:0; }
+    10%{ opacity:0.75; }
+    100%{ transform:translate(var(--cdx,10px), -220px) scale(2.2); opacity:0; }
+  }
 
   header.site{
     display:flex; justify-content:space-between; align-items:center;
@@ -469,6 +487,7 @@
   <div class="grain-overlay"></div>
   <div class="shot-flash" id="shotFlash"></div>
   <div class="shatter-overlay" id="shatterOverlay"></div>
+  <div class="cordite-field" id="corditeField"></div>
   <div class="smoke-field" id="smokeField"></div>
 
   <div class="read-progress" id="readProgress">
@@ -822,6 +841,7 @@
               document.body.classList.add('gate-shake');
               document.getElementById('shotFlash').classList.add('go');
               document.getElementById('shatterOverlay').classList.add('go');
+              spawnCordite();
               setTimeout(function(){ document.body.classList.remove('gate-shake'); }, 500);
             }, 650);
           }
@@ -963,6 +983,25 @@
       field.appendChild(s);
     }
   })();
+  function spawnCordite(){
+    var field = document.getElementById('corditeField');
+    if (!field) return;
+    for (var i = 0; i < 10; i++){
+      (function(delayIdx){
+        setTimeout(function(){
+          var s = document.createElement('span');
+          s.className = 'cordite-wisp';
+          var size = 18 + Math.random() * 22;
+          s.style.width = size + 'px';
+          s.style.height = size + 'px';
+          s.style.setProperty('--cdx', (Math.random() * 50 - 25) + 'px');
+          s.style.animationDuration = (2.2 + Math.random() * 1.6) + 's';
+          field.appendChild(s);
+          setTimeout(function(){ s.remove(); }, 4200);
+        }, delayIdx * 220);
+      })(i);
+    }
+  }
   </script>
 
 </body>
