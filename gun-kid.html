@@ -127,16 +127,13 @@
 
   /* ===== profile hero ===== */
   .profile-hero{ padding:8vh 0 6vh; position:relative; z-index:2; overflow:hidden; }
-  .hero-gun-bg{
-    position:absolute; right:-2%; top:50%; transform:translateY(-50%);
-    width:46vw; max-width:460px; height:auto; aspect-ratio:1920/1008;
-    background-color:var(--accent);
-    -webkit-mask-image:url('revolver-silhouette.png');
-    mask-image:url('revolver-silhouette.png');
-    -webkit-mask-size:contain; mask-size:contain;
-    -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
-    -webkit-mask-position:center; mask-position:center;
-    opacity:0.1; pointer-events:none; z-index:0;
+
+  .page-bg-fixed{
+    position:fixed; left:0; right:0; bottom:0; z-index:0; pointer-events:none;
+    height:38vh; min-height:260px;
+    background-image:url('gun-kid-bg.png');
+    background-repeat:no-repeat; background-position:bottom center; background-size:contain;
+    opacity:0.16;
   }
   .ph-grid{ position:relative; z-index:1; }
   .ph-grid{ display:grid; grid-template-columns:1.35fr 0.9fr; gap:56px; align-items:start; }
@@ -460,6 +457,7 @@
 <body>
 
   <div class="grain-overlay"></div>
+  <div class="page-bg-fixed"></div>
   <div class="smoke-field" id="smokeField"></div>
 
   <div class="read-progress" id="readProgress">
@@ -520,7 +518,6 @@
 
   <div class="wrap">
     <div class="profile-hero scroll-in">
-      <div class="hero-gun-bg"></div>
       <div class="ph-grid">
         <div>
           <div class="ph-eyebrow"><span class="card-no">0</span>MAJOR ARCANA — THE FOOL</div>
