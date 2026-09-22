@@ -93,15 +93,39 @@
   }
   @media (max-width:900px){ .read-progress{ display:none; } }
 
-  body.gate-shake{ animation:gateShake 0.18s linear; }
+  body.gate-shake{ animation:gateShake 0.5s linear; }
   @keyframes gateShake{
-    0%{ transform:translate(0,0); }
-    20%{ transform:translate(-4px,3px); }
-    40%{ transform:translate(4px,-3px); }
-    60%{ transform:translate(-3px,2px); }
-    80%{ transform:translate(3px,-2px); }
-    100%{ transform:translate(0,0); }
+    0%{ transform:translate(0,0) rotate(0deg); }
+    8%{ transform:translate(-14px,9px) rotate(-0.6deg); }
+    16%{ transform:translate(12px,-10px) rotate(0.5deg); }
+    24%{ transform:translate(-10px,7px) rotate(-0.4deg); }
+    34%{ transform:translate(9px,-6px) rotate(0.3deg); }
+    46%{ transform:translate(-6px,5px) rotate(-0.2deg); }
+    60%{ transform:translate(4px,-3px) rotate(0.15deg); }
+    75%{ transform:translate(-2px,2px) rotate(0deg); }
+    100%{ transform:translate(0,0) rotate(0deg); }
   }
+
+  .shot-flash{
+    position:fixed; inset:0; z-index:20000; background:#fff;
+    opacity:0; pointer-events:none;
+  }
+  .shot-flash.go{ animation:shotFlashPop 0.35s ease-out 1; }
+  @keyframes shotFlashPop{
+    0%{ opacity:0; }
+    12%{ opacity:1; }
+    100%{ opacity:0; }
+  }
+
+  .shatter-overlay{
+    position:fixed; left:0; bottom:0; z-index:19999; pointer-events:none;
+    width:40vw; max-width:440px; aspect-ratio:1447/1087;
+    background-image:url('shatter-crack.png');
+    background-size:contain; background-repeat:no-repeat; background-position:bottom left;
+    opacity:0; transform:scale(0.85); transform-origin:bottom left;
+    transition:opacity 0.25s ease, transform 0.35s cubic-bezier(.3,1.4,.4,1);
+  }
+  .shatter-overlay.go{ opacity:0.92; transform:scale(1); }
 
   header.site{
     display:flex; justify-content:space-between; align-items:center;
@@ -443,6 +467,8 @@
 <body>
 
   <div class="grain-overlay"></div>
+  <div class="shot-flash" id="shotFlash"></div>
+  <div class="shatter-overlay" id="shatterOverlay"></div>
   <div class="smoke-field" id="smokeField"></div>
 
   <div class="read-progress" id="readProgress">
@@ -794,7 +820,9 @@
               gateBox.classList.add('cg-hide');
               content.classList.add('unlocked');
               document.body.classList.add('gate-shake');
-              setTimeout(function(){ document.body.classList.remove('gate-shake'); }, 180);
+              document.getElementById('shotFlash').classList.add('go');
+              document.getElementById('shatterOverlay').classList.add('go');
+              setTimeout(function(){ document.body.classList.remove('gate-shake'); }, 500);
             }, 650);
           }
         }, elapsed);
