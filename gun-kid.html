@@ -301,9 +301,12 @@
   .core-detect.show{ display:block; animation:coreDetectPulse 0.5s ease-in-out infinite; }
   @keyframes coreDetectPulse{ 0%,100%{ opacity:0.6; } 50%{ opacity:1; } }
 
-  html.core-invert{ filter:invert(1); }
+  html.core-invert{ filter:invert(1); will-change:filter; }
 
-  body.core-shake{ animation:coreShake 1.1s linear; }
+  body.core-shake{
+    animation:coreShake 1.1s linear;
+    will-change:transform; backface-visibility:hidden;
+  }
   @keyframes coreShake{
     0%{ transform:translate(-58px,36px) rotate(-3.4deg); }
     7%{ transform:translate(54px,-44px) rotate(3deg); }
