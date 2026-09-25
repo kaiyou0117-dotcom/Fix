@@ -305,7 +305,7 @@
   #pageShake.impact-active{ will-change:transform; }
 
   .core-flash{
-    position:fixed; inset:0; z-index:20000; background:#fff;
+    position:fixed; inset:0; z-index:20003; background:#fff;
     opacity:0; pointer-events:none;
   }
   .core-flash.go{ animation:coreFlashPop 0.35s ease-out 1; }
@@ -607,7 +607,7 @@
       <div class="ph-grid">
         <div>
           <div class="ph-eyebrow"><span class="card-no">0</span>MAJOR ARCANA — THE FOOL</div>
-          <div class="ph-epithet">――無垢と流転</div>
+          <div class="ph-epithet">――始まりと無限の可能性</div>
           <div class="ph-codename" id="phCodename"></div>
           <div class="ph-quote-label mono">SUBJECT STATEMENT — VERBATIM</div>
           <p class="ph-quote script">「いくぜソード、マフィアハントの始まりだ」</p>
@@ -1002,7 +1002,7 @@
     var el = document.getElementById('phCodename');
     if (!el || el.dataset.typed) return;
     el.dataset.typed = '1';
-    var text = 'GUN OF NEO GUNSWORD';
+    var text = 'THE FOOL GUN';
     var cursor = document.createElement('span');
     cursor.className = 'tw-cursor';
     var i = 0;
@@ -1126,35 +1126,34 @@
       setTimeout(function(){
         detect.classList.remove('show');
 
-        var body = document.body;
         var pageShake = document.getElementById('pageShake');
         var flash = document.getElementById('coreFlash');
         var shatter = document.getElementById('coreShatter');
         var blackout = document.getElementById('coreBlackout');
 
-        // the violent moment: flash + hard impact kick + glass shards
-        pageShake.classList.add('impact-active');
-        flash.classList.add('go');
-        runImpact(pageShake);
-        spawnGlassShards();
+        // 1. blackout — the screen cuts to black first
+        blackout.style.transition = 'none';
+        blackout.style.opacity = '1';
+        void blackout.offsetWidth;
 
-        // the bullet hole is already "there" the instant it happens,
-        // it's just hidden behind the blackout until the reveal
-        shatter.classList.add('go');
-
-        // snap to black almost immediately after the hit
+        // 2. shake & flash (and shards) happen inside the darkness —
+        //    flash/shards sit above the blackout in z-index, so they're
+        //    visible even while the screen is black
         setTimeout(function(){
-          blackout.style.transition = 'none';
-          blackout.style.opacity = '1';
-          void blackout.offsetWidth;
+          pageShake.classList.add('impact-active');
+          flash.classList.add('go');
+          runImpact(pageShake);
+          spawnGlassShards();
+        }, 200);
 
-          // hold on black for a beat, then fade slowly back up,
-          // revealing the crack that was waiting underneath
-          setTimeout(function(){
-            blackout.style.transition = 'opacity 1.0s ease';
-            blackout.style.opacity = '0';
-          }, 260);
-        }, 260);
+        // 3. the bullet hole appears — set it up, then start lifting
+        //    the blackout so it's revealed as the screen brightens
+        setTimeout(function(){
+          shatter.classList.add('go');
+          blackout.style.transition = 'opacity 1.0s ease';
+          blackout.style.opacity = '0';
+          // 4. blackout ends once this transition finishes
+        }, 700);
       }, 1700);
 
       setTimeout(function(){
