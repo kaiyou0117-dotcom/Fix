@@ -315,18 +315,6 @@
     100%{ opacity:0; }
   }
 
-  .core-vignette{
-    position:fixed; inset:0; z-index:19998; pointer-events:none;
-    background:radial-gradient(ellipse at center, transparent 38%, rgba(138,20,15,0.85) 115%);
-    opacity:0;
-  }
-  .core-vignette.go{ animation:coreVignettePop 0.9s ease-out 1; }
-  @keyframes coreVignettePop{
-    0%{ opacity:0; }
-    18%{ opacity:1; }
-    100%{ opacity:0; }
-  }
-
   .core-shatter{
     position:fixed; inset:0; z-index:19999; pointer-events:none;
     background-image:url('shatter-crack-2.png');
@@ -335,22 +323,21 @@
   }
   .core-shatter.go{ opacity:1; }
 
-  .core-punch{
-    position:fixed; inset:0; z-index:20001; pointer-events:none;
-    background:var(--paper);
-    -webkit-mask-image:url('shatter-crack-2.png');
-    mask-image:url('shatter-crack-2.png');
-    -webkit-mask-size:80% auto; mask-size:80% auto;
-    -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
-    -webkit-mask-position:center; mask-position:center;
+  .glass-shard{
+    position:fixed; z-index:20002; pointer-events:none;
+    background:linear-gradient(135deg, rgba(255,255,255,0.95), rgba(190,200,215,0.55));
+    clip-path:polygon(50% 0%, 100% 38%, 63% 100%, 0% 58%);
     opacity:0;
   }
-  .core-punch.go{ animation:corePunchPop 0.4s steps(2,end) 1; }
-  @keyframes corePunchPop{
-    0%{ opacity:0; }
-    25%{ opacity:1; }
-    60%{ opacity:1; }
-    100%{ opacity:0; }
+  .glass-shard.fly{ animation:shardFly 0.55s cubic-bezier(.15,.7,.3,1) forwards; }
+  @keyframes shardFly{
+    0%{ opacity:1; transform:translate(0,0) rotate(0deg) scale(1); }
+    100%{ opacity:0; transform:translate(var(--sx), var(--sy)) rotate(var(--sr)) scale(0.4); }
+  }
+
+  .core-blackout{
+    position:fixed; inset:0; z-index:20001; background:#000;
+    opacity:0; pointer-events:none;
   }
 
   /* ===== license verification gate (loading overlay) ===== */
@@ -536,9 +523,8 @@
   <div class="grain-overlay"></div>
   <div class="page-bg-fixed"></div>
   <div class="core-flash" id="coreFlash"></div>
-  <div class="core-vignette" id="coreVignette"></div>
   <div class="core-shatter" id="coreShatter"></div>
-  <div class="core-punch" id="corePunch"></div>
+  <div class="core-blackout" id="coreBlackout"></div>
   <div class="smoke-field" id="smokeField"></div>
 
   <div class="read-progress" id="readProgress">
@@ -1053,6 +1039,29 @@
     });
   }
 
+  function spawnGlassShards(){
+    var cx = window.innerWidth / 2;
+    var cy = window.innerHeight / 2;
+    for (var i = 0; i < 16; i++){
+      var el = document.createElement('div');
+      el.className = 'glass-shard';
+      var size = 14 + Math.random() * 26;
+      var angle = Math.random() * Math.PI * 2;
+      var dist = 120 + Math.random() * 320;
+      el.style.width = size + 'px';
+      el.style.height = (size * (0.7 + Math.random() * 0.6)) + 'px';
+      el.style.left = (cx + (Math.random() * 160 - 80)) + 'px';
+      el.style.top = (cy + (Math.random() * 160 - 80)) + 'px';
+      el.style.setProperty('--sx', Math.cos(angle) * dist + 'px');
+      el.style.setProperty('--sy', Math.sin(angle) * dist + 'px');
+      el.style.setProperty('--sr', (Math.random() * 720 - 360) + 'deg');
+      document.body.appendChild(el);
+      void el.offsetWidth;
+      el.classList.add('fly');
+      (function(node){ setTimeout(function(){ node.remove(); }, 650); })(el);
+    }
+  }
+
   (function(){
     var btn = document.getElementById('coreBtn');
     var scan = document.getElementById('coreScan');
@@ -1072,16 +1081,32 @@
 
         var body = document.body;
         var flash = document.getElementById('coreFlash');
-        var vignette = document.getElementById('coreVignette');
         var shatter = document.getElementById('coreShatter');
-        var punch = document.getElementById('corePunch');
+        var blackout = document.getElementById('coreBlackout');
 
+        // the violent moment: flash + hard impact kick + glass shards
         body.classList.add('impact-active');
         flash.classList.add('go');
-        vignette.classList.add('go');
-        shatter.classList.add('go');
-        punch.classList.add('go');
         runImpact(body);
+        spawnGlassShards();
+
+        // the bullet hole is already "there" the instant it happens,
+        // it's just hidden behind the blackout until the reveal
+        shatter.classList.add('go');
+
+        // snap to black almost immediately after the hit
+        setTimeout(function(){
+          blackout.style.transition = 'none';
+          blackout.style.opacity = '1';
+          void blackout.offsetWidth;
+
+          // hold on black for a beat, then fade slowly back up,
+          // revealing the crack that was waiting underneath
+          setTimeout(function(){
+            blackout.style.transition = 'opacity 1.6s ease';
+            blackout.style.opacity = '0';
+          }, 260);
+        }, 260);
       }, 1700);
 
       setTimeout(function(){
