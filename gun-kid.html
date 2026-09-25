@@ -302,7 +302,7 @@
   @keyframes coreDetectPulse{ 0%,100%{ opacity:0.6; } 50%{ opacity:1; } }
 
   body{ will-change:auto; }
-  body.impact-active{ will-change:transform; }
+  #pageShake.impact-active{ will-change:transform; }
 
   .core-flash{
     position:fixed; inset:0; z-index:20000; background:#fff;
@@ -526,6 +526,8 @@
   <div class="core-shatter" id="coreShatter"></div>
   <div class="core-blackout" id="coreBlackout"></div>
   <div class="smoke-field" id="smokeField"></div>
+
+  <div id="pageShake">
 
   <div class="read-progress" id="readProgress">
     <div class="rp-dot" data-target="sec-dossier"><span class="rp-label">基本情報</span></div>
@@ -813,6 +815,8 @@
 
   <footer>最終更新：[REDACTED] ／ 文書番号：XXX-XXX-XXXX</footer>
 
+  </div>
+
   <script>
   var introSkipped = false;
 
@@ -1080,14 +1084,15 @@
         detect.classList.remove('show');
 
         var body = document.body;
+        var pageShake = document.getElementById('pageShake');
         var flash = document.getElementById('coreFlash');
         var shatter = document.getElementById('coreShatter');
         var blackout = document.getElementById('coreBlackout');
 
         // the violent moment: flash + hard impact kick + glass shards
-        body.classList.add('impact-active');
+        pageShake.classList.add('impact-active');
         flash.classList.add('go');
-        runImpact(body);
+        runImpact(pageShake);
         spawnGlassShards();
 
         // the bullet hole is already "there" the instant it happens,
